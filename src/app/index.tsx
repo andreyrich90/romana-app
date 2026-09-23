@@ -7,6 +7,7 @@ import { Button } from '../components/ui';
 import { COURSE, isUnlocked } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
 import { usePalette } from '../lib/theme';
+import { useAuth } from '../state/auth';
 import { useProgress } from '../state/progress';
 
 /** Nodes of the lesson path zig-zag like a trail, one offset per position in the unit. */
@@ -16,6 +17,8 @@ export default function Home() {
   const c = usePalette();
   const insets = useSafeAreaInsets();
   const { progress, t, setLang } = useProgress();
+  const auth = useAuth();
+  const initial = auth.session?.user.email?.[0]?.toUpperCase();
   const lang = progress.lang;
   const [open, setOpen] = useState<string | null>(null);
 
@@ -49,6 +52,20 @@ export default function Home() {
             </Pressable>
           ))}
         </View>
+        {auth.enabled && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t.account}
+            onPress={() => router.push('/account')}
+            style={({ pressed }) => [
+              s.avatar,
+              initial ? { backgroundColor: c.blue, borderColor: c.blueEdge } : { backgroundColor: c.sunk, borderColor: c.line },
+              pressed && { opacity: 0.7 },
+            ]}
+          >
+            <Text style={[s.avatarText, { color: initial ? c.onBlue : c.muted }]}>{initial ?? '👤'}</Text>
+          </Pressable>
+        )}
       </View>
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
@@ -129,6 +146,8 @@ const s = StyleSheet.create({
   seg: { flexDirection: 'row', borderRadius: 12, padding: 3 },
   segBtn: { paddingVertical: 6, paddingHorizontal: 11, borderRadius: 9 },
   segText: { fontWeight: '700', fontSize: 14 },
+  avatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  avatarText: { fontSize: 16, fontWeight: '800' },
   scroll: { paddingHorizontal: 16, paddingTop: 20, gap: 28 },
   unitBlock: { gap: 18 },
   unit: { borderRadius: 20, borderWidth: 2, borderBottomWidth: 5, padding: 18, gap: 2 },
