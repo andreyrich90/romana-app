@@ -71,7 +71,8 @@ export function check(ex: Exercise, answer: Answer, lang: Lang): Verdict {
       return { ok: answer === ex.ro, answer: ex.ro, meaning: ex.tr[lang] };
     case 'tiles': {
       const said = Array.isArray(answer) ? answer.join(' ') : answer;
-      return { ok: normalize(said) === normalize(ex.words.join(' ')), answer: ex.shown, say: ex.shown };
+      const accepted = [ex.words.join(' '), ...(ex.also ?? [])].map(normalize);
+      return { ok: accepted.includes(normalize(said)), answer: ex.shown, say: ex.shown };
     }
     case 'type':
       return { ...checkTyped(String(answer), ex.answers), answer: ex.shown, say: ex.shown };

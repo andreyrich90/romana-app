@@ -53,14 +53,10 @@ export const u1l5: Lesson = {
       wrong: ['El este din România.', 'Ea sunt din România.', 'Ea este în România.'],
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Я не румын, я украинец.', ua: 'Я не румун, я українець.' },
-      answers: [
-        'Nu sunt român, sunt ucrainean',
-        'Eu nu sunt român, sunt ucrainean',
-        'Nu sunt român, eu sunt ucrainean',
-        'Eu nu sunt român, eu sunt ucrainean',
-      ],
+      words: ['Nu', 'sunt', 'român', 'sunt', 'ucrainean'],
+      extra: ['ești', 'româncă', 'din'],
       shown: 'Nu sunt român, sunt ucrainean.',
     },
     {
@@ -76,9 +72,10 @@ export const u1l5: Lesson = {
       wrong: ['Bună, mulțumesc', 'Bine, te rog', 'Nu, mulțumesc'],
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Как дела?', ua: 'Як справи?' },
-      answers: ['Ce faci', 'Ce mai faci'],
+      words: ['Ce', 'faci'],
+      extra: ['Bine', 'ești', 'unde'],
       shown: 'Ce faci?',
     },
     {
@@ -99,15 +96,18 @@ export const u1l5: Lesson = {
       ],
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Он из Италии.', ua: 'Він з Італії.' },
-      answers: ['El este din Italia', 'Este din Italia', 'El e din Italia', 'E din Italia'],
+      words: ['El', 'este', 'din', 'Italia'],
+      extra: ['sunt', 'în', 'Ucraina'],
       shown: 'El este din Italia.',
+      also: ['Este din Italia'],
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Спасибо, до свидания!', ua: 'Дякую, до побачення!' },
-      answers: ['Mulțumesc, la revedere'],
+      words: ['Mulțumesc', 'la', 'revedere'],
+      extra: ['Bună', 'ziua', 'rog'],
       shown: 'Mulțumesc, la revedere!',
     },
   ],

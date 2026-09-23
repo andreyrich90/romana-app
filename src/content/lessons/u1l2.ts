@@ -120,10 +120,12 @@ export const u1l2: Lesson = {
       },
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Ты студентка?', ua: 'Ти студентка?' },
-      answers: ['Ești studentă', 'Tu ești studentă'],
+      words: ['Ești', 'studentă'],
+      extra: ['student', 'sunt', 'este', 'Tu'],
       shown: 'Ești studentă?',
+      also: ['Tu ești studentă'],
     },
     {
       kind: 'tiles',
@@ -133,10 +135,12 @@ export const u1l2: Lesson = {
       shown: 'Noi nu suntem studenți.',
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Я не студентка.', ua: 'Я не студентка.' },
-      answers: ['Nu sunt studentă', 'Eu nu sunt studentă'],
+      words: ['Nu', 'sunt', 'studentă'],
+      extra: ['ești', 'student', 'Eu'],
       shown: 'Nu sunt studentă.',
+      also: ['Eu nu sunt studentă'],
     },
   ],
 };

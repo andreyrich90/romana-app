@@ -93,10 +93,12 @@ export const u1l1: Lesson = {
       ],
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Меня зовут Анна.', ua: 'Мене звати Анна.' },
-      answers: ['Mă numesc Ana', 'Numele meu este Ana', 'Eu sunt Ana', 'Sunt Ana'],
+      words: ['Mă', 'numesc', 'Ana'],
+      extra: ['Sunt', 'seara', 'rog'],
       shown: 'Mă numesc Ana.',
+      also: ['Sunt Ana'],
     },
     {
       kind: 'tiles',
@@ -106,9 +108,10 @@ export const u1l1: Lesson = {
       shown: 'Bine, mulțumesc.',
     },
     {
-      kind: 'type',
+      kind: 'tiles',
       q: { ru: 'Доброе утро!', ua: 'Доброго ранку!' },
-      answers: ['Bună dimineața'],
+      words: ['Bună', 'dimineața'],
+      extra: ['ziua', 'seara', 'Salut'],
       shown: 'Bună dimineața!',
     },
   ],

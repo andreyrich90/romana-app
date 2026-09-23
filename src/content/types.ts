@@ -17,8 +17,11 @@ export type Exercise =
   | { kind: 'pickRo'; q: Bi; correct: string; wrong: string[] }
   /** Hear a Romanian phrase, pick what was said. */
   | { kind: 'listen'; ro: string; tr: Bi; wrong: string[] }
-  /** Build the Romanian sentence from word tiles. `words` is the answer in order. */
-  | { kind: 'tiles'; q: Bi; words: string[]; extra: string[]; shown: string }
+  /**
+   * Build the Romanian sentence from word tiles. `words` is the answer in order;
+   * `also` lists other sentences the same tiles can correctly make (e.g. without the pronoun).
+   */
+  | { kind: 'tiles'; q: Bi; words: string[]; extra: string[]; shown: string; also?: string[] }
   /** Match Romanian words with their translations. */
   | { kind: 'match'; pairs: Word[] }
   /** Type the Romanian translation. Any of `answers` is accepted. */
