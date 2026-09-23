@@ -13,6 +13,11 @@ import { u3l2 } from './lessons/u3l2';
 import { u3l3 } from './lessons/u3l3';
 import { u3l4 } from './lessons/u3l4';
 import { u3l5 } from './lessons/u3l5';
+import { u4l1 } from './lessons/u4l1';
+import { u4l2 } from './lessons/u4l2';
+import { u4l3 } from './lessons/u4l3';
+import { u4l4 } from './lessons/u4l4';
+import { u4l5 } from './lessons/u4l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -65,11 +70,11 @@ export const COURSE: Unit[] = [
     ro: 'În oraș',
     title: { ru: 'В городе', ua: 'У місті' },
     lessons: [
-      { id: 'u4l1', title: { ru: 'Где это?', ua: 'Де це?' } },
-      { id: 'u4l2', title: { ru: 'Транспорт', ua: 'Транспорт' } },
-      { id: 'u4l3', title: { ru: 'Направо, налево', ua: 'Праворуч, ліворуч' } },
-      { id: 'u4l4', title: { ru: 'Магазины', ua: 'Магазини' } },
-      { id: 'u4l5', title: { ru: 'Повторение', ua: 'Повторення' } },
+      { id: 'u4l1', title: u4l1.title, lesson: u4l1 },
+      { id: 'u4l2', title: u4l2.title, lesson: u4l2 },
+      { id: 'u4l3', title: u4l3.title, lesson: u4l3 },
+      { id: 'u4l4', title: u4l4.title, lesson: u4l4 },
+      { id: 'u4l5', title: u4l5.title, lesson: u4l5 },
     ],
   },
   {
