@@ -21,7 +21,13 @@
       "package": "pro.romana.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "Română — румынский язык",
+      "shortName": "Română",
+      "lang": "ru",
+      "themeColor": "#2446A8",
+      "backgroundColor": "#EEF2FB",
+      "output": "single"
     },
     "plugins": [
       "expo-router",
