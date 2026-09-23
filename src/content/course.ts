@@ -3,6 +3,11 @@ import { u1l2 } from './lessons/u1l2';
 import { u1l3 } from './lessons/u1l3';
 import { u1l4 } from './lessons/u1l4';
 import { u1l5 } from './lessons/u1l5';
+import { u2l1 } from './lessons/u2l1';
+import { u2l2 } from './lessons/u2l2';
+import { u2l3 } from './lessons/u2l3';
+import { u2l4 } from './lessons/u2l4';
+import { u2l5 } from './lessons/u2l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -29,11 +34,11 @@ export const COURSE: Unit[] = [
     ro: 'Familia',
     title: { ru: 'Семья', ua: 'Родина' },
     lessons: [
-      { id: 'u2l1', title: { ru: 'Моя семья', ua: 'Моя родина' } },
-      { id: 'u2l2', title: { ru: 'Он и она', ua: 'Він і вона' } },
-      { id: 'u2l3', title: { ru: 'У меня есть', ua: 'У мене є' } },
-      { id: 'u2l4', title: { ru: 'Возраст', ua: 'Вік' } },
-      { id: 'u2l5', title: { ru: 'Повторение', ua: 'Повторення' } },
+      { id: 'u2l1', title: u2l1.title, lesson: u2l1 },
+      { id: 'u2l2', title: u2l2.title, lesson: u2l2 },
+      { id: 'u2l3', title: u2l3.title, lesson: u2l3 },
+      { id: 'u2l4', title: u2l4.title, lesson: u2l4 },
+      { id: 'u2l5', title: u2l5.title, lesson: u2l5 },
     ],
   },
   {
