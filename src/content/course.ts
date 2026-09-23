@@ -18,6 +18,11 @@ import { u4l2 } from './lessons/u4l2';
 import { u4l3 } from './lessons/u4l3';
 import { u4l4 } from './lessons/u4l4';
 import { u4l5 } from './lessons/u4l5';
+import { u6l1 } from './lessons/u6l1';
+import { u6l2 } from './lessons/u6l2';
+import { u6l3 } from './lessons/u6l3';
+import { u6l4 } from './lessons/u6l4';
+import { u6l5 } from './lessons/u6l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -96,11 +101,11 @@ export const COURSE: Unit[] = [
     ro: 'Acasă',
     title: { ru: 'Дом', ua: 'Дім' },
     lessons: [
-      { id: 'u6l1', title: { ru: 'Комнаты', ua: 'Кімнати' } },
-      { id: 'u6l2', title: { ru: 'Много вещей', ua: 'Багато речей' } },
-      { id: 'u6l3', title: { ru: 'Какой? Какая?', ua: 'Який? Яка?' } },
-      { id: 'u6l4', title: { ru: 'Мне нравится', ua: 'Мені подобається' } },
-      { id: 'u6l5', title: { ru: 'Итог A1', ua: 'Підсумок A1' } },
+      { id: 'u6l1', title: u6l1.title, lesson: u6l1 },
+      { id: 'u6l2', title: u6l2.title, lesson: u6l2 },
+      { id: 'u6l3', title: u6l3.title, lesson: u6l3 },
+      { id: 'u6l4', title: u6l4.title, lesson: u6l4 },
+      { id: 'u6l5', title: u6l5.title, lesson: u6l5 },
     ],
   },
 ];
@@ -111,8 +116,16 @@ export function findLesson(id: string): Lesson | undefined {
   return ORDER.find((l) => l.id === id)?.lesson;
 }
 
-/** A lesson opens once the one before it is completed. */
+/**
+ * A lesson opens once the nearest written lesson before it is completed. Lessons that
+ * are only planned are skipped over, so a gap in the course (a unit not yet written)
+ * does not lock everything after it.
+ */
 export function isUnlocked(id: string, completed: Record<string, unknown>): boolean {
   const i = ORDER.findIndex((l) => l.id === id);
-  return i === 0 || (i > 0 && ORDER[i - 1].id in completed);
+  if (i < 0) return false;
+  for (let j = i - 1; j >= 0; j--) {
+    if (ORDER[j].lesson) return ORDER[j].id in completed;
+  }
+  return true;
 }
