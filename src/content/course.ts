@@ -18,6 +18,11 @@ import { u4l2 } from './lessons/u4l2';
 import { u4l3 } from './lessons/u4l3';
 import { u4l4 } from './lessons/u4l4';
 import { u4l5 } from './lessons/u4l5';
+import { u5l1 } from './lessons/u5l1';
+import { u5l2 } from './lessons/u5l2';
+import { u5l3 } from './lessons/u5l3';
+import { u5l4 } from './lessons/u5l4';
+import { u5l5 } from './lessons/u5l5';
 import { u6l1 } from './lessons/u6l1';
 import { u6l2 } from './lessons/u6l2';
 import { u6l3 } from './lessons/u6l3';
@@ -88,11 +93,11 @@ export const COURSE: Unit[] = [
     ro: 'Timpul',
     title: { ru: 'Время и дни', ua: 'Час і дні' },
     lessons: [
-      { id: 'u5l1', title: { ru: 'Дни недели', ua: 'Дні тижня' } },
-      { id: 'u5l2', title: { ru: 'Который час?', ua: 'Котра година?' } },
-      { id: 'u5l3', title: { ru: 'Мой день', ua: 'Мій день' } },
-      { id: 'u5l4', title: { ru: 'Месяцы и погода', ua: 'Місяці й погода' } },
-      { id: 'u5l5', title: { ru: 'Повторение', ua: 'Повторення' } },
+      { id: 'u5l1', title: u5l1.title, lesson: u5l1 },
+      { id: 'u5l2', title: u5l2.title, lesson: u5l2 },
+      { id: 'u5l3', title: u5l3.title, lesson: u5l3 },
+      { id: 'u5l4', title: u5l4.title, lesson: u5l4 },
+      { id: 'u5l5', title: u5l5.title, lesson: u5l5 },
     ],
   },
   {
