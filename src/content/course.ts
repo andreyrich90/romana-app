@@ -1,4 +1,8 @@
 import { u1l1 } from './lessons/u1l1';
+import { u1l2 } from './lessons/u1l2';
+import { u1l3 } from './lessons/u1l3';
+import { u1l4 } from './lessons/u1l4';
+import { u1l5 } from './lessons/u1l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -13,10 +17,10 @@ export const COURSE: Unit[] = [
     title: { ru: 'Первые шаги', ua: 'Перші кроки' },
     lessons: [
       { id: 'u1l1', title: u1l1.title, lesson: u1l1 },
-      { id: 'u1l2', title: { ru: 'Кто я', ua: 'Хто я' } },
-      { id: 'u1l3', title: { ru: 'Откуда вы', ua: 'Звідки ви' } },
-      { id: 'u1l4', title: { ru: 'Числа 0–10', ua: 'Числа 0–10' } },
-      { id: 'u1l5', title: { ru: 'Повторение', ua: 'Повторення' } },
+      { id: 'u1l2', title: u1l2.title, lesson: u1l2 },
+      { id: 'u1l3', title: u1l3.title, lesson: u1l3 },
+      { id: 'u1l4', title: u1l4.title, lesson: u1l4 },
+      { id: 'u1l5', title: u1l5.title, lesson: u1l5 },
     ],
   },
   {
