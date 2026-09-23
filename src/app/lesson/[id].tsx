@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,6 +10,7 @@ import { findLesson } from '../../content/course';
 import type { Lesson } from '../../content/types';
 import { check, isGraded, reveal, type Answer, type Verdict } from '../../engine/check';
 import { current, isFinished, isOut, reduce, result, startSession, type Session } from '../../engine/session';
+import { lessonPool } from '../../engine/wordBank';
 import { speak } from '../../lib/speech';
 import { usePalette } from '../../lib/theme';
 import { useProgress } from '../../state/progress';
@@ -35,8 +36,9 @@ export default function LessonScreen() {
 function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }) {
   const c = usePalette();
   const insets = useSafeAreaInsets();
-  const { progress, t, completeLesson } = useProgress();
+  const { progress, t, completeLesson, setWordBank } = useProgress();
   const lang = progress.lang;
+  const pool = useMemo(() => lessonPool(lesson), [lesson]);
 
   const [session, dispatch] = useReducer(reduce, lesson, startSession);
   const [answer, setAnswer] = useState<Answer | null>(null);
@@ -140,6 +142,9 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
             dispatch({ type: 'matched', missed });
           }}
           onSubmit={onMain}
+          pool={pool}
+          wordBank={progress.wordBank}
+          onWordBank={setWordBank}
         />
       </ScrollView>
 

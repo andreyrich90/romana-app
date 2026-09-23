@@ -15,9 +15,11 @@ type Progress = {
   /** Local date (YYYY-MM-DD) of the last completed lesson; drives the streak. */
   lastDay: string | null;
   completed: Record<string, LessonRecord>;
+  /** Build typed answers from word tiles instead of the keyboard. Remembered across lessons. */
+  wordBank: boolean;
 };
 
-const initial: Progress = { lang: 'ru', xp: 0, streak: 0, lastDay: null, completed: {} };
+const initial: Progress = { lang: 'ru', xp: 0, streak: 0, lastDay: null, completed: {}, wordBank: false };
 
 function day(d: Date): string {
   const p = (n: number) => String(n).padStart(2, '0');
@@ -37,6 +39,7 @@ type Ctx = {
   progress: Progress & { streak: number };
   t: (typeof UI)[Lang];
   setLang: (lang: Lang) => void;
+  setWordBank: (on: boolean) => void;
   completeLesson: (id: string, xp: number, accuracy: number) => void;
 };
 
@@ -64,6 +67,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setLang = useCallback((lang: Lang) => update((p) => ({ ...p, lang })), [update]);
+  const setWordBank = useCallback((wordBank: boolean) => update((p) => ({ ...p, wordBank })), [update]);
 
   const completeLesson = useCallback(
     (id: string, xp: number, accuracy: number) =>
@@ -91,9 +95,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       progress: { ...progress, streak: liveStreak(progress) },
       t: UI[progress.lang],
       setLang,
+      setWordBank,
       completeLesson,
     }),
-    [ready, progress, setLang, completeLesson],
+    [ready, progress, setLang, setWordBank, completeLesson],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

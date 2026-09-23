@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import type { Exercise, Lang } from '../../content/types';
 import type { Answer, Verdict } from '../../engine/check';
+import { bankFor } from '../../engine/wordBank';
 import type { UI } from '../../i18n/ui';
 import { speak } from '../../lib/speech';
 import { usePalette } from '../../lib/theme';
@@ -19,6 +20,11 @@ type Props = {
   onMatched: (missed: boolean) => void;
   /** Enter on the keyboard in the typing exercise. */
   onSubmit: () => void;
+  /** Romanian words from the whole lesson, for the typing exercise's word bank. */
+  pool: string[];
+  /** The learner prefers building typed answers from word tiles. */
+  wordBank: boolean;
+  onWordBank: (on: boolean) => void;
 };
 
 function shuffle<T>(a: T[]): T[] {
@@ -197,36 +203,42 @@ function Prompt({ text }: { text: string }) {
 }
 
 function Tiles({ ex, lang, t, verdict, onAnswer }: Props & { ex: Extract<Exercise, { kind: 'tiles' }> }) {
-  const c = usePalette();
-  const bank = useShuffled(() => [...ex.words, ...ex.extra].map((w, i) => ({ w, i })));
-  const [chosen, setChosen] = useState<number[]>([]);
-
-  const set = (next: number[]) => {
-    setChosen(next);
-    onAnswer(next.length ? next.map((i) => bank.find((b) => b.i === i)!.w) : null);
-  };
-
+  const bank = useShuffled(() => [...ex.words, ...ex.extra]);
   return (
     <View style={s.gap}>
       <Label>{t.tiles}</Label>
       <Prompt text={ex.q[lang]} />
+      <WordBank bank={bank} locked={!!verdict} onChange={(words) => onAnswer(words.length ? words : null)} />
+    </View>
+  );
+}
+
+/** An answer line above a bank of word tiles: tap a tile to move it up, tap it again to send it back. */
+function WordBank({ bank, locked, onChange }: { bank: string[]; locked: boolean; onChange: (words: string[]) => void }) {
+  const c = usePalette();
+  const [chosen, setChosen] = useState<number[]>([]);
+
+  const set = (next: number[]) => {
+    setChosen(next);
+    onChange(next.map((i) => bank[i]));
+  };
+
+  return (
+    <>
       <View style={[s.answerLine, { borderColor: c.line }]}>
-        {chosen.map((i) => {
-          const w = bank.find((b) => b.i === i)!.w;
-          return (
-            <Button key={i} disabled={!!verdict} style={s.tile} onPress={() => set(chosen.filter((x) => x !== i))}>
-              {w}
-            </Button>
-          );
-        })}
+        {chosen.map((i) => (
+          <Button key={i} disabled={locked} style={s.tile} onPress={() => set(chosen.filter((x) => x !== i))}>
+            {bank[i]}
+          </Button>
+        ))}
       </View>
       <View style={s.bank}>
-        {bank.map(({ w, i }) => {
+        {bank.map((w, i) => {
           const used = chosen.includes(i);
           return (
             <View key={i} style={{ opacity: used ? 0 : 1 }} pointerEvents={used ? 'none' : 'auto'}>
               <Button
-                disabled={!!verdict || used}
+                disabled={locked || used}
                 style={s.tile}
                 onPress={() => {
                   speak(w);
@@ -239,7 +251,7 @@ function Tiles({ ex, lang, t, verdict, onAnswer }: Props & { ex: Extract<Exercis
           );
         })}
       </View>
-    </View>
+    </>
   );
 }
 
@@ -298,10 +310,21 @@ function Match({ ex, lang, t, onMatched }: Props & { ex: Extract<Exercise, { kin
 
 const LETTERS = ['ă', 'â', 'î', 'ș', 'ț'];
 
-function Typed({ ex, lang, t, verdict, onAnswer, onSubmit }: Props & { ex: Extract<Exercise, { kind: 'type' }> }) {
+function Typed({
+  ex,
+  lang,
+  t,
+  verdict,
+  onAnswer,
+  onSubmit,
+  pool,
+  wordBank,
+  onWordBank,
+}: Props & { ex: Extract<Exercise, { kind: 'type' }> }) {
   const c = usePalette();
   const [value, setValue] = useState('');
   const [sel, setSel] = useState({ start: 0, end: 0 });
+  const bank = useShuffled(() => bankFor(ex.shown, pool));
 
   const change = (v: string) => {
     setValue(v);
@@ -313,35 +336,51 @@ function Typed({ ex, lang, t, verdict, onAnswer, onSubmit }: Props & { ex: Extra
     setSel({ start: at, end: at });
     change(next);
   };
+  const toggle = () => {
+    // Switching modes starts the answer over: half a typed sentence cannot become tiles.
+    setValue('');
+    onAnswer(null);
+    onWordBank(!wordBank);
+  };
 
   return (
     <View style={s.gap}>
       <Label>{t.type}</Label>
       <Prompt text={ex.q[lang]} />
-      <TextInput
-        value={value}
-        onChangeText={change}
-        onSelectionChange={(e) => setSel(e.nativeEvent.selection)}
-        editable={!verdict}
-        autoFocus
-        multiline
-        blurOnSubmit
-        submitBehavior="blurAndSubmit"
-        returnKeyType="done"
-        onSubmitEditing={onSubmit}
-        autoCorrect={false}
-        autoCapitalize="sentences"
-        placeholder={t.placeholder}
-        placeholderTextColor={c.muted}
-        style={[s.input, { color: c.ink, backgroundColor: c.surface, borderColor: c.line }]}
-      />
-      <View style={s.letters}>
-        {LETTERS.map((ch) => (
-          <Button key={ch} disabled={!!verdict} style={s.letter} onPress={() => insert(ch)}>
-            {ch}
-          </Button>
-        ))}
-      </View>
+      {wordBank ? (
+        <WordBank bank={bank} locked={!!verdict} onChange={(words) => onAnswer(words.length ? words.join(' ') : null)} />
+      ) : (
+        <>
+          <TextInput
+            value={value}
+            onChangeText={change}
+            onSelectionChange={(e) => setSel(e.nativeEvent.selection)}
+            editable={!verdict}
+            autoFocus
+            multiline
+            submitBehavior="blurAndSubmit"
+            returnKeyType="done"
+            onSubmitEditing={onSubmit}
+            autoCorrect={false}
+            autoCapitalize="sentences"
+            placeholder={t.placeholder}
+            placeholderTextColor={c.muted}
+            style={[s.input, { color: c.ink, backgroundColor: c.surface, borderColor: c.line }]}
+          />
+          <View style={s.letters}>
+            {LETTERS.map((ch) => (
+              <Button key={ch} disabled={!!verdict} style={s.letter} onPress={() => insert(ch)}>
+                {ch}
+              </Button>
+            ))}
+          </View>
+        </>
+      )}
+      {!verdict && (
+        <Pressable onPress={toggle} hitSlop={8} style={s.modeToggle} accessibilityRole="button">
+          <Text style={[s.ghost, { color: c.blue }]}>{wordBank ? t.useKeyboard : t.useBank}</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -375,4 +414,5 @@ const s = StyleSheet.create({
   input: { minHeight: 120, borderWidth: 2, borderRadius: 16, padding: 14, fontSize: 19, textAlignVertical: 'top' },
   letters: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   letter: { minWidth: 48, paddingVertical: 8, paddingHorizontal: 10 },
+  modeToggle: { alignSelf: 'flex-start', paddingVertical: 6 },
 });
