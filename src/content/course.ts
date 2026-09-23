@@ -8,6 +8,11 @@ import { u2l2 } from './lessons/u2l2';
 import { u2l3 } from './lessons/u2l3';
 import { u2l4 } from './lessons/u2l4';
 import { u2l5 } from './lessons/u2l5';
+import { u3l1 } from './lessons/u3l1';
+import { u3l2 } from './lessons/u3l2';
+import { u3l3 } from './lessons/u3l3';
+import { u3l4 } from './lessons/u3l4';
+import { u3l5 } from './lessons/u3l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -47,11 +52,11 @@ export const COURSE: Unit[] = [
     ro: 'La cafenea',
     title: { ru: 'Еда и кафе', ua: 'Їжа й кафе' },
     lessons: [
-      { id: 'u3l1', title: { ru: 'Напитки', ua: 'Напої' } },
-      { id: 'u3l2', title: { ru: 'Еда', ua: 'Їжа' } },
-      { id: 'u3l3', title: { ru: 'Я бы хотел…', ua: 'Я б хотів…' } },
-      { id: 'u3l4', title: { ru: 'Сколько стоит?', ua: 'Скільки коштує?' } },
-      { id: 'u3l5', title: { ru: 'Повторение', ua: 'Повторення' } },
+      { id: 'u3l1', title: u3l1.title, lesson: u3l1 },
+      { id: 'u3l2', title: u3l2.title, lesson: u3l2 },
+      { id: 'u3l3', title: u3l3.title, lesson: u3l3 },
+      { id: 'u3l4', title: u3l4.title, lesson: u3l4 },
+      { id: 'u3l5', title: u3l5.title, lesson: u3l5 },
     ],
   },
   {
