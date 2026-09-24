@@ -7,6 +7,9 @@ import type { Lang } from '../content/types';
  * Stress is not marked. Hand-written transcriptions in the lessons take precedence.
  */
 const VOWELS = 'aeiouăâî';
+/** A clitic i before a vowel, as in mi-ar: softens the consonant, is not a syllable. */
+const GLIDE = '\u0001';
+const IOTATED: Record<string, string> = { a: 'я', e: 'е', u: 'ю' };
 const isVowel = (ch: string | undefined) => !!ch && VOWELS.includes(ch);
 
 const CONS: Record<string, string> = {
@@ -26,6 +29,13 @@ function word(w: string, lang: Lang): string {
     const ch = w[i];
     const next = w[i + 1];
     const prev = w[i - 1];
+    if (ch === GLIDE) {
+      if (next && IOTATED[next]) {
+        out += (out ? 'ь' : '') + IOTATED[next];
+        i += 1;
+      }
+      continue;
+    }
     // c, g: hard before a, o, u, ă, â, î and consonants; soft (ч, дж) before e, i; ch/gh keep them hard.
     if (ch === 'c' || ch === 'g') {
       const soft = ch === 'c' ? 'ч' : 'дж';
@@ -122,15 +132,18 @@ function word(w: string, lang: Lang): string {
 
 /** Hyphenated clitics read as one word (n-am → «нам», văzut-o → «вэзуто»); compounds keep the hyphen. */
 function joinClitics(w: string): string {
-  return w.replace(/([a-zăâîșțşţ]+)-([a-zăâîșțşţ]+)/g, (m, left: string, right: string) =>
-    left.length <= 2 || (right === 'o' && left.length > 4) ? left + right : m,
-  );
+  return w.replace(/([a-zăâîșțşţ]+)-([a-zăâîșțşţ]+)/g, (m, left: string, right: string) => {
+    if (!(left.length <= 2 || (right === 'o' && left.length > 4))) return m;
+    // mi-ar, ți-ar, i-ar: the i only softens («мьяр», «цьяр», «яр»); GLIDE marks it for word().
+    if (left.endsWith('i') && isVowel(right[0])) return left.slice(0, -1) + GLIDE + right;
+    return left + right;
+  });
 }
 
 export function transcribe(ro: string, lang: Lang): string {
   return joinClitics(ro.toLowerCase())
     .replace(/\s—\s/g, ' — ')
-    .split(/[^a-zăâîșțşţ—-]+/)
+    .split(/[^a-zăâîșțşţ\u0001—-]+/)
     .filter(Boolean)
     .map((w) =>
       w

@@ -68,6 +68,11 @@ import { u13l2 } from './lessons/u13l2';
 import { u13l3 } from './lessons/u13l3';
 import { u13l4 } from './lessons/u13l4';
 import { u13l5 } from './lessons/u13l5';
+import { u14l1 } from './lessons/u14l1';
+import { u14l2 } from './lessons/u14l2';
+import { u14l3 } from './lessons/u14l3';
+import { u14l4 } from './lessons/u14l4';
+import { u14l5 } from './lessons/u14l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -256,6 +261,19 @@ export const COURSE: Unit[] = [
       { id: 'u13l3', title: u13l3.title, lesson: u13l3 },
       { id: 'u13l4', title: u13l4.title, lesson: u13l4 },
       { id: 'u13l5', title: u13l5.title, lesson: u13l5 },
+    ],
+  },
+  {
+    id: 'u14',
+    level: 'B1',
+    ro: 'Dacă…',
+    title: { ru: 'Если бы', ua: 'Якби' },
+    lessons: [
+      { id: 'u14l1', title: u14l1.title, lesson: u14l1 },
+      { id: 'u14l2', title: u14l2.title, lesson: u14l2 },
+      { id: 'u14l3', title: u14l3.title, lesson: u14l3 },
+      { id: 'u14l4', title: u14l4.title, lesson: u14l4 },
+      { id: 'u14l5', title: u14l5.title, lesson: u14l5 },
     ],
   },
 ];
