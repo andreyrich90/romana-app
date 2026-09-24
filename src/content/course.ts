@@ -118,6 +118,11 @@ import { u23l2 } from './lessons/u23l2';
 import { u23l3 } from './lessons/u23l3';
 import { u23l4 } from './lessons/u23l4';
 import { u23l5 } from './lessons/u23l5';
+import { u24l1 } from './lessons/u24l1';
+import { u24l2 } from './lessons/u24l2';
+import { u24l3 } from './lessons/u24l3';
+import { u24l4 } from './lessons/u24l4';
+import { u24l5 } from './lessons/u24l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -436,6 +441,19 @@ export const COURSE: Unit[] = [
       { id: 'u23l3', title: u23l3.title, lesson: u23l3 },
       { id: 'u23l4', title: u23l4.title, lesson: u23l4 },
       { id: 'u23l5', title: u23l5.title, lesson: u23l5 },
+    ],
+  },
+  {
+    id: 'u24',
+    level: 'B2',
+    ro: 'Cultură',
+    title: { ru: 'Культура', ua: 'Культура' },
+    lessons: [
+      { id: 'u24l1', title: u24l1.title, lesson: u24l1 },
+      { id: 'u24l2', title: u24l2.title, lesson: u24l2 },
+      { id: 'u24l3', title: u24l3.title, lesson: u24l3 },
+      { id: 'u24l4', title: u24l4.title, lesson: u24l4 },
+      { id: 'u24l5', title: u24l5.title, lesson: u24l5 },
     ],
   },
 ];
