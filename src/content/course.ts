@@ -43,6 +43,11 @@ import { u9l2 } from './lessons/u9l2';
 import { u9l3 } from './lessons/u9l3';
 import { u9l4 } from './lessons/u9l4';
 import { u9l5 } from './lessons/u9l5';
+import { u10l1 } from './lessons/u10l1';
+import { u10l2 } from './lessons/u10l2';
+import { u10l3 } from './lessons/u10l3';
+import { u10l4 } from './lessons/u10l4';
+import { u10l5 } from './lessons/u10l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -165,6 +170,19 @@ export const COURSE: Unit[] = [
       { id: 'u9l3', title: u9l3.title, lesson: u9l3 },
       { id: 'u9l4', title: u9l4.title, lesson: u9l4 },
       { id: 'u9l5', title: u9l5.title, lesson: u9l5 },
+    ],
+  },
+  {
+    id: 'u10',
+    level: 'A2',
+    ro: 'La doctor',
+    title: { ru: 'У врача', ua: 'У лікаря' },
+    lessons: [
+      { id: 'u10l1', title: u10l1.title, lesson: u10l1 },
+      { id: 'u10l2', title: u10l2.title, lesson: u10l2 },
+      { id: 'u10l3', title: u10l3.title, lesson: u10l3 },
+      { id: 'u10l4', title: u10l4.title, lesson: u10l4 },
+      { id: 'u10l5', title: u10l5.title, lesson: u10l5 },
     ],
   },
 ];
