@@ -8,6 +8,7 @@ import { bankFor } from '../../engine/wordBank';
 import type { UI } from '../../i18n/ui';
 import { speak } from '../../lib/speech';
 import { usePalette } from '../../lib/theme';
+import { TapText } from '../PhraseSheet';
 import { Button, Card, Label, RichText, SpeakButton, Title } from '../ui';
 
 type Props = {
@@ -72,7 +73,9 @@ function Intro({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'intro' 
       <Card>
         <View style={s.phrase}>
           <SpeakButton text={ex.ro} />
-          <Text style={[s.ro, { color: c.ink }]}>{ex.ro}</Text>
+          <TapText style={[s.ro, { color: c.ink }]} tr={ex.tr} note={ex.note}>
+            {ex.ro}
+          </TapText>
         </View>
         <Text style={[s.tr, { color: c.muted }]}>{ex.tr[lang]}</Text>
         <View style={[s.dash, { borderColor: c.line }]} />
@@ -95,7 +98,7 @@ function Tip({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'tip' }> }
         <View>
           {ex.rows.map((r) => (
             <Pressable key={r.ro} onPress={() => speak(r.ro)} style={[s.row, { borderColor: c.line }]}>
-              <Text style={[s.rowRo, { color: c.ink }]}>{r.ro}</Text>
+              <TapText style={[s.rowRo, { color: c.ink }]}>{r.ro}</TapText>
               <Text style={[s.rowTr, { color: c.muted }]}>{r.tr[lang]}</Text>
             </Pressable>
           ))}
@@ -133,7 +136,9 @@ function Choice({ ex, lang, t, verdict, onAnswer }: Props) {
       {ex.kind === 'pickNative' && (
         <View style={s.phrase}>
           <SpeakButton text={ex.q} />
-          <Text style={[s.ro, { color: c.ink }]}>{ex.q}</Text>
+          <TapText style={[s.ro, { color: c.ink }]} hint={!verdict}>
+            {ex.q}
+          </TapText>
         </View>
       )}
       {ex.kind === 'pickRo' && <Title>«{ex.q[lang]}»</Title>}

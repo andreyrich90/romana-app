@@ -5,6 +5,7 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DailyGoal } from '../../components/DailyGoal';
+import { TapText } from '../../components/PhraseSheet';
 import { ExerciseView } from '../../components/exercises/ExerciseView';
 import { Button, SpeakButton, Title } from '../../components/ui';
 import { findLesson } from '../../content/course';
@@ -194,7 +195,11 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
             {(!v.ok || v.note) && v.answer ? (
               <View style={s.fbAnswer}>
                 {v.say && <SpeakButton text={v.say} size={34} />}
-                <Text style={[s.fbText, { color: c.ink }]}>{v.answer}</Text>
+                {v.say || v.meaning ? (
+                  <TapText style={[s.fbText, { color: c.ink }]}>{v.answer}</TapText>
+                ) : (
+                  <Text style={[s.fbText, { color: c.ink }]}>{v.answer}</Text>
+                )}
               </View>
             ) : null}
             {v.meaning && (
