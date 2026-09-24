@@ -16,6 +16,11 @@ const WORDS: Record<string, [ru: string, ua: string]> = {
   mi: ['мь', 'мь'],
   ți: ['ць', 'ць'],
 };
+/**
+ * Native words where i-e inside the word is one syllable. Elsewhere, mostly in borrowed
+ * words (proprietar, experiență), i and e are two syllables: «проприетар».
+ */
+const SOFT_IE = /^(miercuri|pierd|piept|fier|vier|mier)/;
 /** Words whose first e is said «йе» (pronouns and forms of a fi); elsewhere a first e is plain «э». */
 const JE_WORDS = new Set(['e', 'el', 'ea', 'ei', 'ele', 'eu', 'este', 'ești', 'eram', 'erai', 'era', 'erați', 'erau']);
 const isVowel = (ch: string | undefined) => !!ch && VOWELS.includes(ch);
@@ -98,8 +103,8 @@ function word(w: string, lang: Lang): string {
         i += 1;
         continue;
       }
-      if (next === 'e' && i + 2 < w.length && !isVowel(w[i + 2])) {
-        // miercuri → «мьеркурь», pierdut → «пьердут»: one syllable inside the word.
+      if (next === 'e' && SOFT_IE.test(w)) {
+        // miercuri → «мьеркурь», pierdut → «пьердут»: one syllable in these native words.
         out += ua ? '’є' : 'ье';
         i += 1;
         continue;

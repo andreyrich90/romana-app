@@ -18,9 +18,11 @@ const written = COURSE.flatMap((u) => u.lessons).filter((l) => l.lesson);
 const levelLessons = (level: string) => COURSE.filter((u) => u.level === level).flatMap((u) => u.lessons);
 const writtenA1 = levelLessons('A1');
 const writtenA2 = levelLessons('A2');
+const writtenB1 = levelLessons('B1');
 const done = (p: Progress) => written.filter((l) => l.id in p.completed).length;
 const doneA1 = (p: Progress) => writtenA1.filter((l) => l.id in p.completed).length;
 const doneA2 = (p: Progress) => writtenA2.filter((l) => l.id in p.completed).length;
+const doneB1 = (p: Progress) => writtenB1.filter((l) => l.id in p.completed).length;
 const unitsDone = (p: Progress) =>
   COURSE.filter((u) => u.lessons.every((l) => l.lesson && l.id in p.completed)).length;
 const perfect = (p: Progress) => Object.values(p.completed).filter((r) => r.bestAccuracy >= 100).length;
@@ -84,6 +86,14 @@ const DEFS: Def[] = [
     desc: { ru: 'Пройти все уроки уровня A2', ua: 'Пройти всі уроки рівня A2' },
     target: writtenA2.length,
     measure: doneA2,
+  },
+  {
+    id: 'b1',
+    icon: '🏅',
+    title: { ru: 'Уровень B1', ua: 'Рівень B1' },
+    desc: { ru: 'Пройти все уроки уровня B1', ua: 'Пройти всі уроки рівня B1' },
+    target: writtenB1.length,
+    measure: doneB1,
   },
   {
     id: 'perfect',

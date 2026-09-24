@@ -14,6 +14,9 @@ export const STAGES: [string, string][] = [
   ['u7', 'u8'],
   ['u9', 'u10'],
   ['u11', 'u12'],
+  ['u13', 'u14'],
+  ['u15', 'u16'],
+  ['u17', 'u18'],
 ];
 export const PER_STAGE = 3;
 export const PASS = 2;
@@ -72,5 +75,5 @@ export function placement(results: Results): string {
     .filter((s) => results[s]);
   if (passed.length === 0) return unitStart('u1');
   const top = Math.max(...passed);
-  return unitStart(top < STAGES.length ? STAGES[top][0] : 'u12');
+  return unitStart(top < STAGES.length ? STAGES[top][0] : STAGES[STAGES.length - 1][1]);
 }

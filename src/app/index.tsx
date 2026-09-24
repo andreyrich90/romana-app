@@ -51,15 +51,23 @@ export default function Home() {
         isUnlocked(l.id, progress.completed, progress.startAt),
     ),
   )?.id;
-  const scrollToCurrent = (unitId: string, y: number) => {
-    unitY.current[unitId] = y;
-    if (scrolled.current || unitId !== current || COURSE[0].id === unitId) return;
+  // Units are measured once, usually before the saved progress has loaded, so the scroll is
+  // tried both when a unit is measured and when the progress (and so `current`) arrives.
+  const scrollToCurrent = () => {
+    if (!ready || scrolled.current || !current || current === COURSE[0].id) return;
+    const y = unitY.current[current];
+    if (y === undefined) return;
     scrolled.current = true;
     setTimeout(() => scroller.current?.scrollTo({ y: Math.max(0, y - 12), animated: false }), 0);
+  };
+  const measureUnit = (unitId: string, y: number) => {
+    unitY.current[unitId] = y;
+    scrollToCurrent();
   };
   useEffect(() => {
     scrolled.current = false;
   }, [progress.startAt]);
+  useEffect(scrollToCurrent);
 
   if (ready && !progress.onboarded) return <Redirect href="/welcome" />;
 
@@ -178,7 +186,7 @@ export default function Home() {
           // The first unit of each level gets the filled header, so A2 visibly starts somewhere.
           const lead = ui === 0 || COURSE[ui - 1].level !== unit.level;
           return (
-            <View key={unit.id} style={s.unitBlock} onLayout={(e) => scrollToCurrent(unit.id, e.nativeEvent.layout.y)}>
+            <View key={unit.id} style={s.unitBlock} onLayout={(e) => measureUnit(unit.id, e.nativeEvent.layout.y)}>
               <View
                 style={[
                   s.unit,
