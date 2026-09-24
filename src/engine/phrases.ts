@@ -86,5 +86,7 @@ export function wordsIn(ro: string): string[] {
 }
 
 export function gloss(word: string): GlossEntry | undefined {
-  return GLOSSARY[word.toLowerCase()];
+  const k = word.toLowerCase();
+  // Own entries only: «constructor» or «toString» must not find Object.prototype members.
+  return Object.prototype.hasOwnProperty.call(GLOSSARY, k) ? GLOSSARY[k] : undefined;
 }

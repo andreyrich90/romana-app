@@ -34,7 +34,7 @@ for (const unit of COURSE)
       for (const phrase of tappable(ex))
         for (const w of wordsIn(phrase)) {
           const k = w.toLowerCase();
-          if (!(k in GLOSSARY) && !/^\d+$/.test(k) && !missing.has(k)) missing.set(k, `${meta.id}: ${phrase}`);
+          if (!Object.prototype.hasOwnProperty.call(GLOSSARY, k) && !/^\d+$/.test(k) && !missing.has(k)) missing.set(k, `${meta.id}: ${phrase}`);
         }
 
 if (missing.size) {

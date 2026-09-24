@@ -10,6 +10,8 @@ const VOWELS = 'aeiouăâî';
 /** A clitic i before a vowel, as in mi-ar: softens the consonant, is not a syllable. */
 const GLIDE = '\u0001';
 const IOTATED: Record<string, string> = { a: 'я', e: 'е', u: 'ю' };
+/** Words whose first e is said «йе» (pronouns and forms of a fi); elsewhere a first e is plain «э». */
+const JE_WORDS = new Set(['e', 'el', 'ea', 'ei', 'ele', 'eu', 'este', 'ești', 'eram', 'erai', 'era', 'erați', 'erau']);
 const isVowel = (ch: string | undefined) => !!ch && VOWELS.includes(ch);
 
 const CONS: Record<string, string> = {
@@ -65,7 +67,7 @@ function word(w: string, lang: Lang): string {
         i += 1;
         continue;
       }
-      out += i === 0 ? JE : 'е';
+      out += i > 0 ? 'е' : JE_WORDS.has(w) ? JE : ua ? 'е' : 'э';
       continue;
     }
     if (ch === 'i') {
