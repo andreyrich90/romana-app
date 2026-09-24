@@ -93,6 +93,11 @@ import { u18l2 } from './lessons/u18l2';
 import { u18l3 } from './lessons/u18l3';
 import { u18l4 } from './lessons/u18l4';
 import { u18l5 } from './lessons/u18l5';
+import { u19l1 } from './lessons/u19l1';
+import { u19l2 } from './lessons/u19l2';
+import { u19l3 } from './lessons/u19l3';
+import { u19l4 } from './lessons/u19l4';
+import { u19l5 } from './lessons/u19l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -346,6 +351,19 @@ export const COURSE: Unit[] = [
       { id: 'u18l3', title: u18l3.title, lesson: u18l3 },
       { id: 'u18l4', title: u18l4.title, lesson: u18l4 },
       { id: 'u18l5', title: u18l5.title, lesson: u18l5 },
+    ],
+  },
+  {
+    id: 'u19',
+    level: 'B2',
+    ro: 'Plecase deja',
+    title: { ru: 'Прошлое в прошлом', ua: 'Минуле в минулому' },
+    lessons: [
+      { id: 'u19l1', title: u19l1.title, lesson: u19l1 },
+      { id: 'u19l2', title: u19l2.title, lesson: u19l2 },
+      { id: 'u19l3', title: u19l3.title, lesson: u19l3 },
+      { id: 'u19l4', title: u19l4.title, lesson: u19l4 },
+      { id: 'u19l5', title: u19l5.title, lesson: u19l5 },
     ],
   },
 ];

@@ -50,7 +50,7 @@ export type LessonMeta = {
 export type Unit = {
   id: string;
   /** A0 is the alphabet: before A1, shown without a unit number. */
-  level: 'A0' | 'A1' | 'A2' | 'B1';
+  level: 'A0' | 'A1' | 'A2' | 'B1' | 'B2';
   /** Replaces the "A1 · Unit 2" line above the title. */
   kicker?: Bi;
   title: Bi;
