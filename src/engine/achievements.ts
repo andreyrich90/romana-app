@@ -15,9 +15,12 @@ export type Achievement = {
 type Def = Omit<Achievement, 'value'> & { measure: (p: Progress) => number };
 
 const written = COURSE.flatMap((u) => u.lessons).filter((l) => l.lesson);
-const writtenA1 = COURSE.filter((u) => u.level === 'A1').flatMap((u) => u.lessons);
+const levelLessons = (level: string) => COURSE.filter((u) => u.level === level).flatMap((u) => u.lessons);
+const writtenA1 = levelLessons('A1');
+const writtenA2 = levelLessons('A2');
 const done = (p: Progress) => written.filter((l) => l.id in p.completed).length;
 const doneA1 = (p: Progress) => writtenA1.filter((l) => l.id in p.completed).length;
+const doneA2 = (p: Progress) => writtenA2.filter((l) => l.id in p.completed).length;
 const unitsDone = (p: Progress) =>
   COURSE.filter((u) => u.lessons.every((l) => l.lesson && l.id in p.completed)).length;
 const perfect = (p: Progress) => Object.values(p.completed).filter((r) => r.bestAccuracy >= 100).length;
@@ -73,6 +76,14 @@ const DEFS: Def[] = [
     desc: { ru: 'Пройти все уроки уровня A1', ua: 'Пройти всі уроки рівня A1' },
     target: writtenA1.length,
     measure: doneA1,
+  },
+  {
+    id: 'a2',
+    icon: '🎓',
+    title: { ru: 'Уровень A2', ua: 'Рівень A2' },
+    desc: { ru: 'Пройти все уроки уровня A2', ua: 'Пройти всі уроки рівня A2' },
+    target: writtenA2.length,
+    measure: doneA2,
   },
   {
     id: 'perfect',
