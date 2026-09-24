@@ -78,6 +78,31 @@ export function TapText({
   );
 }
 
+/** Save a word or phrase to the wallet, or take it back out. */
+export function WalletButton({ ro, compact }: { ro: string; compact?: boolean }) {
+  const c = usePalette();
+  const { progress, t, setInWallet } = useProgress();
+  const on = !!progress.wallet[ro]?.on;
+  return (
+    <Pressable
+      onPress={() => setInWallet(ro, !on)}
+      accessibilityRole="button"
+      accessibilityState={{ selected: on }}
+      accessibilityLabel={on ? t.inWallet : t.toWallet}
+      hitSlop={6}
+      style={({ pressed }) => [
+        s.wallet,
+        { backgroundColor: on ? c.goodBg : c.sunk, borderColor: on ? c.good : c.line },
+        pressed && { opacity: 0.7 },
+      ]}
+    >
+      <Text style={[s.walletText, { color: on ? c.good : c.ink }]}>
+        {compact ? (on ? '✓' : '👛') : on ? `✓ ${t.inWallet}` : `👛 ${t.toWallet}`}
+      </Text>
+    </Pressable>
+  );
+}
+
 function PhraseSheet({ open, onClose }: { open: Open | null; onClose: () => void }) {
   const c = usePalette();
   const insets = useSafeAreaInsets();
@@ -179,7 +204,10 @@ function PhraseSheet({ open, onClose }: { open: Open | null; onClose: () => void
                   <Text style={[s.meaning, { color: g ? c.ink : c.muted }]}>
                     {g ? (lang === 'ru' ? g[2] : g[3]) : t.notInGlossary}
                   </Text>
-                  <Text style={[s.meta, { color: c.muted }]}>≈ «{reading(w, lang)}»</Text>
+                  <View style={s.wordFoot}>
+                    <Text style={[s.meta, { color: c.muted, flex: 1 }]}>≈ «{reading(w, lang)}»</Text>
+                    <WalletButton ro={g ? w.toLowerCase() : w} />
+                  </View>
                 </View>
               );
             })}
@@ -231,6 +259,9 @@ const s = StyleSheet.create({
   wordHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   word: { fontSize: 20, fontWeight: '800' },
   meta: { fontSize: 13 },
+  wordFoot: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 2 },
+  wallet: { borderWidth: 2, borderRadius: 12, paddingVertical: 7, paddingHorizontal: 12 },
+  walletText: { fontSize: 14, fontWeight: '700' },
   meaning: { fontSize: 16, lineHeight: 22 },
   body: { fontSize: 15, lineHeight: 22 },
 });

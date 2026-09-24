@@ -43,7 +43,14 @@ export type Progress = {
   startAt: string | null;
   /** The first-run questions (level, test, goal) have been answered on this device. */
   onboarded: boolean;
+  /**
+   * Words and phrases the learner saved to their wallet, keyed by the Romanian text.
+   * A removal is kept as `on: false` with its time, so it wins over an older copy on sync.
+   */
+  wallet: Record<string, WalletMark>;
 };
+
+export type WalletMark = { on: boolean; t: number };
 
 /** What is stored in the account. Interface language, input mode and the goal stay per device. */
 export type Synced = Omit<Progress, 'lang' | 'wordBank' | 'dailyGoal' | 'onboarded'>;
@@ -69,6 +76,7 @@ export const initial: Progress = {
   wordBank: false,
   startAt: null,
   onboarded: false,
+  wallet: {},
 };
 
 /** The further of two start points; a test can move the learner forward, never back. */
@@ -182,6 +190,18 @@ export function applyAnswer(p: Progress, key: string, ok: boolean, now = new Dat
   };
 }
 
+export function applyWallet(p: Progress, ro: string, on: boolean, now = new Date()): Progress {
+  return { ...p, wallet: { ...p.wallet, [ro]: { on, t: now.getTime() } } };
+}
+
+/** Saved words, newest first. */
+export function walletWords(p: Pick<Progress, 'wallet'>): string[] {
+  return Object.entries(p.wallet)
+    .filter(([, m]) => m.on)
+    .sort((a, b) => b[1].t - a[1].t)
+    .map(([ro]) => ro);
+}
+
 export function synced(p: Progress): Synced {
   const { lang: _l, wordBank: _w, dailyGoal: _g, onboarded: _o, ...rest } = p;
   return rest;
@@ -219,7 +239,17 @@ export function sanitize(raw: unknown): Synced {
     recall,
     practiceCount: num(r.practiceCount),
     startAt: typeof r.startAt === 'string' && lessonIndex(r.startAt) >= 0 ? r.startAt : null,
+    wallet: cleanWallet(r.wallet),
   };
+}
+
+function cleanWallet(raw: unknown): Record<string, WalletMark> {
+  const out: Record<string, WalletMark> = {};
+  for (const [ro, v] of Object.entries(obj(raw))) {
+    const x = obj(v);
+    if (ro.length > 0 && ro.length <= 80 && typeof x.on === 'boolean') out[ro] = { on: x.on, t: num(x.t) };
+  }
+  return out;
 }
 
 /**
@@ -260,5 +290,16 @@ export function merge(a: Synced, b: Synced): Synced {
     recall,
     practiceCount: Math.max(a.practiceCount, b.practiceCount),
     startAt: furtherStart(a.startAt, b.startAt),
+    wallet: mergeWallet(a.wallet, b.wallet),
   };
+}
+
+/** Per word, the later change wins; an add and a removal at the same moment keep the word. */
+function mergeWallet(a: Record<string, WalletMark>, b: Record<string, WalletMark>): Record<string, WalletMark> {
+  const out = { ...a };
+  for (const [ro, m] of Object.entries(b)) {
+    const mine = out[ro];
+    out[ro] = !mine || m.t > mine.t || (m.t === mine.t && m.on) ? m : mine;
+  }
+  return out;
 }

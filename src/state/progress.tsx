@@ -8,6 +8,7 @@ import { useAuth } from './auth';
 import {
   applyAnswer,
   applyLessonDone,
+  applyWallet,
   applyXp,
   furtherStart,
   initial,
@@ -54,6 +55,8 @@ type Ctx = {
   completeOnboarding: (startAt: string | null, dailyGoal: number) => void;
   /** A retaken test: moves the start point forward only. */
   placeAt: (startAt: string | null) => void;
+  /** Save a word or phrase to the wallet, or take it out. */
+  setInWallet: (ro: string, on: boolean) => void;
 };
 
 const ProgressContext = createContext<Ctx | null>(null);
@@ -148,6 +151,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     progress.xpByDay,
     progress.practiceCount,
     progress.startAt,
+    progress.wallet,
     userId,
   ]);
 
@@ -175,6 +179,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [update],
   );
 
+  const setInWallet = useCallback(
+    (ro: string, on: boolean) => update((p) => applyWallet(p, ro, on)),
+    [update],
+  );
+
   const placeAt = useCallback(
     (startAt: string | null) => update((p) => ({ ...p, startAt: furtherStart(p.startAt, startAt) })),
     [update],
@@ -193,8 +202,21 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       recordAnswer,
       completeOnboarding,
       placeAt,
+      setInWallet,
     }),
-    [ready, progress, sync, setLang, setWordBank, setDailyGoal, finishSession, recordAnswer, completeOnboarding, placeAt],
+    [
+      ready,
+      progress,
+      sync,
+      setLang,
+      setWordBank,
+      setDailyGoal,
+      finishSession,
+      recordAnswer,
+      completeOnboarding,
+      placeAt,
+      setInWallet,
+    ],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
