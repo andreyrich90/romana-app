@@ -103,6 +103,11 @@ import { u20l2 } from './lessons/u20l2';
 import { u20l3 } from './lessons/u20l3';
 import { u20l4 } from './lessons/u20l4';
 import { u20l5 } from './lessons/u20l5';
+import { u21l1 } from './lessons/u21l1';
+import { u21l2 } from './lessons/u21l2';
+import { u21l3 } from './lessons/u21l3';
+import { u21l4 } from './lessons/u21l4';
+import { u21l5 } from './lessons/u21l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -382,6 +387,19 @@ export const COURSE: Unit[] = [
       { id: 'u20l3', title: u20l3.title, lesson: u20l3 },
       { id: 'u20l4', title: u20l4.title, lesson: u20l4 },
       { id: 'u20l5', title: u20l5.title, lesson: u20l5 },
+    ],
+  },
+  {
+    id: 'u21',
+    level: 'B2',
+    ro: 'Ca să, fără să',
+    title: { ru: 'Сложные предложения', ua: 'Складні речення' },
+    lessons: [
+      { id: 'u21l1', title: u21l1.title, lesson: u21l1 },
+      { id: 'u21l2', title: u21l2.title, lesson: u21l2 },
+      { id: 'u21l3', title: u21l3.title, lesson: u21l3 },
+      { id: 'u21l4', title: u21l4.title, lesson: u21l4 },
+      { id: 'u21l5', title: u21l5.title, lesson: u21l5 },
     ],
   },
 ];
