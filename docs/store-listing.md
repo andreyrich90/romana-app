@@ -105,7 +105,7 @@
 | Вопрос | Ответ |
 |--------|-------|
 | Собираются ли данные? | Да, только при создании аккаунта |
-| Какие | Эл. почта (Contact info → Email); учебный прогресс (App activity → Other user-generated content / App interactions) |
+| Какие | Эл. почта (Contact info → Email); при входе через Google — ещё имя и фото профиля (Contact info → Name; User content → Photos); учебный прогресс (App activity → Other user-generated content / App interactions) |
 | Для чего | Работа приложения (App functionality), управление аккаунтом |
 | Связаны с личностью? | Да (привязаны к аккаунту) |
 | Используются для трекинга / рекламы? | Нет |

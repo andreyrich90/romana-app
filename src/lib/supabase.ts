@@ -37,3 +37,20 @@ if (supabase && Platform.OS !== 'web') {
     else supabase.auth.stopAutoRefresh();
   });
 }
+
+/**
+ * Which sign-in providers the Supabase project has switched on, from its public settings.
+ * The Google button appears only once Google is enabled in the dashboard, so a build never
+ * shows a button that cannot work. Any failure reads as "none".
+ */
+export async function supabaseProviders(): Promise<Record<string, boolean>> {
+  if (!url || !anonKey) return {};
+  try {
+    const res = await fetch(`${url}/auth/v1/settings`, { headers: { apikey: anonKey } });
+    if (!res.ok) return {};
+    const body = (await res.json()) as { external?: Record<string, boolean> };
+    return body.external ?? {};
+  } catch {
+    return {};
+  }
+}

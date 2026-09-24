@@ -51,6 +51,12 @@ export default function Account() {
       }
     });
 
+  const google = () =>
+    run(async () => {
+      const r = await auth.signInWithGoogle();
+      if (!r.ok && r.error !== 'cancelled') say(r.error);
+    });
+
   const forgot = () =>
     run(async () => {
       if (!email.trim()) return say('email');
@@ -149,6 +155,28 @@ export default function Account() {
         ) : (
           <>
             <Text style={[s.text, { color: c.muted }]}>{t.accountWhy}</Text>
+            {auth.googleEnabled && (
+              <>
+                <Pressable
+                  onPress={google}
+                  disabled={busy}
+                  accessibilityRole="button"
+                  style={({ pressed }) => [
+                    s.google,
+                    { backgroundColor: c.surface, borderColor: c.line, opacity: busy ? 0.6 : 1 },
+                    pressed && { transform: [{ translateY: 2 }], borderBottomWidth: 2 },
+                  ]}
+                >
+                  <Text style={s.googleG}>G</Text>
+                  <Text style={[s.googleText, { color: c.ink }]}>{t.withGoogle}</Text>
+                </Pressable>
+                <View style={s.orRow}>
+                  <View style={[s.orLine, { backgroundColor: c.line }]} />
+                  <Text style={[s.orText, { color: c.muted }]}>{t.orEmail}</Text>
+                  <View style={[s.orLine, { backgroundColor: c.line }]} />
+                </View>
+              </>
+            )}
             <Card>
               <TextInput
                 value={email}
@@ -218,6 +246,21 @@ export default function Account() {
 }
 
 const s = StyleSheet.create({
+  google: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderRadius: 16,
+    paddingVertical: 14,
+  },
+  googleG: { fontSize: 20, fontWeight: '800', color: '#4285F4' },
+  googleText: { fontSize: 16, fontWeight: '700' },
+  orRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  orLine: { flex: 1, height: 2, borderRadius: 1 },
+  orText: { fontSize: 13 },
   body: { paddingHorizontal: 16, gap: 16, maxWidth: 560, width: '100%', alignSelf: 'center' },
   back: { alignSelf: 'flex-start', paddingVertical: 4 },
   backText: { fontSize: 15, fontWeight: '700' },

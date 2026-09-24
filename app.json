@@ -52,7 +52,8 @@
             "backgroundColor": "#0B1230"
           }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "scheme": "romana",
     "description": "Румынский язык с нуля: короткие уроки с объяснениями на русском и украинском.",

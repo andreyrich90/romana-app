@@ -42,6 +42,15 @@ npx expo start
 
 Без этих ключей приложение работает в гостевом режиме и не показывает кнопку входа.
 
+### Вход через Google
+
+Кнопка «Войти через Google» появляется сама, как только Google включён в Supabase: приложение читает публичные настройки проекта (`/auth/v1/settings`). Пересобирать ничего не нужно.
+
+1. **Google Cloud Console** (https://console.cloud.google.com) → создайте проект → **APIs & Services → OAuth consent screen**: тип *External*, название «Română», почта поддержки. Опубликуйте экран (*Publish app*), иначе войти смогут только тестовые пользователи.
+2. **APIs & Services → Credentials → Create credentials → OAuth client ID**, тип **Web application**. В **Authorized redirect URIs** добавьте адрес из Supabase: `https://<ваш-проект>.supabase.co/auth/v1/callback` (его показывает Supabase на шаге 3). Скопируйте **Client ID** и **Client secret**.
+3. **Supabase → Authentication → Sign In / Providers → Google**: включите, вставьте Client ID и Client secret, сохраните.
+4. **Supabase → Authentication → URL Configuration → Redirect URLs**: добавьте `romana://auth-callback` (приложение из магазина) и `exp://**` (проверка в Expo Go). Для сайта ничего добавлять не нужно — он возвращается на Site URL.
+
 ## Публикация
 
 - Инструкция по сборке и отправке в App Store и Google Play — `docs/release.md`.
