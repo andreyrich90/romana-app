@@ -5,7 +5,7 @@
  */
 
 /** Address for privacy questions and deletion requests. Shown on both pages. */
-export const CONTACT_EMAIL = '';
+export const CONTACT_EMAIL = 'partners@seajobs.pro';
 
 export const UPDATED = '2026-09-24';
 
@@ -28,7 +28,7 @@ const ru: Legal = {
       {
         h: 'С аккаунтом',
         p: [
-          'Если вы создаёте аккаунт, мы храним адрес электронной почты, пароль в зашифрованном (хешированном) виде и ваш учебный прогресс: какие уроки пройдены, лучшая точность, опыт, серия дней и дата последнего занятия.',
+          'Если вы создаёте аккаунт, мы храним адрес электронной почты, пароль в зашифрованном (хешированном) виде и ваш учебный прогресс: какие уроки пройдены, лучшая точность, опыт, серия дней, дата последнего занятия, цель дня и слова, сохранённые в кошелёк.',
           'Эти данные нужны только для того, чтобы вы могли войти и продолжить обучение на другом устройстве. Почту мы используем лишь для писем о подтверждении адреса и восстановлении пароля.',
           'При входе через Google пароль не создаётся: Google передаёт нам адрес почты, имя и ссылку на фото профиля. Больше ничего из вашего аккаунта Google мы не получаем.',
         ],
@@ -98,7 +98,7 @@ const ua: Legal = {
       {
         h: 'З акаунтом',
         p: [
-          'Якщо ви створюєте акаунт, ми зберігаємо адресу електронної пошти, пароль у зашифрованому (гешованому) вигляді та ваш навчальний прогрес: які уроки пройдено, найкращу точність, досвід, серію днів і дату останнього заняття.',
+          'Якщо ви створюєте акаунт, ми зберігаємо адресу електронної пошти, пароль у зашифрованому (гешованому) вигляді та ваш навчальний прогрес: які уроки пройдено, найкращу точність, досвід, серію днів, дату останнього заняття, мету дня та слова, збережені в гаманець.',
           'Ці дані потрібні лише для того, щоб ви могли увійти й продовжити навчання на іншому пристрої. Пошту ми використовуємо тільки для листів про підтвердження адреси та відновлення пароля.',
           'Під час входу через Google пароль не створюється: Google передає нам адресу пошти, ім’я та посилання на фото профілю. Більше нічого з вашого акаунта Google ми не отримуємо.',
         ],
@@ -169,7 +169,7 @@ const en: Legal = {
       {
         h: 'With an account',
         p: [
-          'If you create an account, we store your email address, your password in hashed form, and your learning progress: completed lessons, best accuracy, XP, streak and the date of your last lesson.',
+          'If you create an account, we store your email address, your password in hashed form, and your learning progress: completed lessons, best accuracy, XP, streak, the date of your last lesson, your daily goal and the words saved to your wallet.',
           'This data exists only so you can sign in and continue on another device. Your email is used only for address confirmation and password reset messages.',
           'If you sign in with Google, no password is created: Google shares your email address, name and a link to your profile photo with us. We receive nothing else from your Google account.',
         ],
