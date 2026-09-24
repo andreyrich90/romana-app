@@ -15,7 +15,9 @@ export type Achievement = {
 type Def = Omit<Achievement, 'value'> & { measure: (p: Progress) => number };
 
 const written = COURSE.flatMap((u) => u.lessons).filter((l) => l.lesson);
+const writtenA1 = COURSE.filter((u) => u.level === 'A1').flatMap((u) => u.lessons);
 const done = (p: Progress) => written.filter((l) => l.id in p.completed).length;
+const doneA1 = (p: Progress) => writtenA1.filter((l) => l.id in p.completed).length;
 const unitsDone = (p: Progress) =>
   COURSE.filter((u) => u.lessons.every((l) => l.lesson && l.id in p.completed)).length;
 const perfect = (p: Progress) => Object.values(p.completed).filter((r) => r.bestAccuracy >= 100).length;
@@ -69,8 +71,8 @@ const DEFS: Def[] = [
     icon: '🇷🇴',
     title: { ru: 'Уровень A1', ua: 'Рівень A1' },
     desc: { ru: 'Пройти все уроки уровня A1', ua: 'Пройти всі уроки рівня A1' },
-    target: written.length,
-    measure: done,
+    target: writtenA1.length,
+    measure: doneA1,
   },
   {
     id: 'perfect',

@@ -28,11 +28,16 @@ import { u6l2 } from './lessons/u6l2';
 import { u6l3 } from './lessons/u6l3';
 import { u6l4 } from './lessons/u6l4';
 import { u6l5 } from './lessons/u6l5';
+import { u7l1 } from './lessons/u7l1';
+import { u7l2 } from './lessons/u7l2';
+import { u7l3 } from './lessons/u7l3';
+import { u7l4 } from './lessons/u7l4';
+import { u7l5 } from './lessons/u7l5';
 import type { Lesson, Unit } from './types';
 
 /**
- * The A1 course map. Lessons without `lesson` are planned but not yet written;
- * their scope is in docs/curriculum-a1.md.
+ * The course map, A1 then A2. Lessons without `lesson` are planned but not yet written;
+ * their scope is in docs/curriculum-a1.md and docs/curriculum-a2.md.
  */
 export const COURSE: Unit[] = [
   {
@@ -111,6 +116,19 @@ export const COURSE: Unit[] = [
       { id: 'u6l3', title: u6l3.title, lesson: u6l3 },
       { id: 'u6l4', title: u6l4.title, lesson: u6l4 },
       { id: 'u6l5', title: u6l5.title, lesson: u6l5 },
+    ],
+  },
+  {
+    id: 'u7',
+    level: 'A2',
+    ro: 'Ieri',
+    title: { ru: 'Вчера', ua: 'Учора' },
+    lessons: [
+      { id: 'u7l1', title: u7l1.title, lesson: u7l1 },
+      { id: 'u7l2', title: u7l2.title, lesson: u7l2 },
+      { id: 'u7l3', title: u7l3.title, lesson: u7l3 },
+      { id: 'u7l4', title: u7l4.title, lesson: u7l4 },
+      { id: 'u7l5', title: u7l5.title, lesson: u7l5 },
     ],
   },
 ];

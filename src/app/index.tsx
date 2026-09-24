@@ -69,7 +69,9 @@ export default function Home() {
             onPress={() => router.push('/account')}
             style={({ pressed }) => [
               s.avatar,
-              initial ? { backgroundColor: c.blue, borderColor: c.blueEdge } : { backgroundColor: c.sunk, borderColor: c.line },
+              initial
+                ? { backgroundColor: c.blue, borderColor: c.blueEdge }
+                : { backgroundColor: c.sunk, borderColor: c.line },
               pressed && { opacity: 0.7 },
             ]}
           >
@@ -94,9 +96,7 @@ export default function Home() {
             <Text style={s.practiceIcon}>🔁</Text>
             <View style={{ flex: 1 }}>
               <Text style={[s.practiceTitle, { color: c.ink }]}>{t.practice}</Text>
-              <Text style={[s.practiceSub, { color: c.muted }]}>
-                {hasLessons ? t.practiceSub : t.practiceEmpty}
-              </Text>
+              <Text style={[s.practiceSub, { color: c.muted }]}>{hasLessons ? t.practiceSub : t.practiceEmpty}</Text>
             </View>
             {hasLessons && due > 0 && (
               <Text style={[s.badge, { backgroundColor: c.ochre, color: c.onBlue }]}>{due}</Text>
@@ -111,7 +111,11 @@ export default function Home() {
                 key={href + label}
                 accessibilityRole="button"
                 onPress={() => router.push(href as '/words' | '/profile')}
-                style={({ pressed }) => [s.link, { backgroundColor: c.surface, borderColor: c.line }, pressed && { opacity: 0.7 }]}
+                style={({ pressed }) => [
+                  s.link,
+                  { backgroundColor: c.surface, borderColor: c.line },
+                  pressed && { opacity: 0.7 },
+                ]}
               >
                 <Text style={[s.linkText, { color: c.ink }]}>
                   {icon} {label}
@@ -120,77 +124,93 @@ export default function Home() {
             ))}
           </View>
         </View>
-        {COURSE.map((unit, ui) => (
-          <View key={unit.id} style={s.unitBlock}>
-            <View style={[s.unit, { backgroundColor: ui === 0 ? c.blue : c.surface, borderColor: ui === 0 ? c.blueEdge : c.line }]}>
-              <Text style={[s.unitKicker, { color: ui === 0 ? c.onBlue : c.muted }]}>
-                {unit.level} · {t.unit} {ui + 1}
-              </Text>
-              <Text style={[s.unitTitle, { color: ui === 0 ? c.onBlue : c.ink }]}>{unit.title[lang]}</Text>
-              <Text style={[s.unitRo, { color: ui === 0 ? c.onBlue : c.muted }]}>{unit.ro}</Text>
-            </View>
+        {COURSE.map((unit, ui) => {
+          // The first unit of each level gets the filled header, so A2 visibly starts somewhere.
+          const lead = ui === 0 || COURSE[ui - 1].level !== unit.level;
+          return (
+            <View key={unit.id} style={s.unitBlock}>
+              <View
+                style={[
+                  s.unit,
+                  { backgroundColor: lead ? c.blue : c.surface, borderColor: lead ? c.blueEdge : c.line },
+                ]}
+              >
+                <Text style={[s.unitKicker, { color: lead ? c.onBlue : c.muted }]}>
+                  {unit.level} · {t.unit} {COURSE.filter((u, j) => j <= ui && u.level === unit.level).length}
+                </Text>
+                <Text style={[s.unitTitle, { color: lead ? c.onBlue : c.ink }]}>{unit.title[lang]}</Text>
+                <Text style={[s.unitRo, { color: lead ? c.onBlue : c.muted }]}>{unit.ro}</Text>
+              </View>
 
-            <View style={s.path}>
-              {unit.lessons.map((l, li) => {
-                const st = status(l);
-                const bg = st === 'done' ? c.good : st === 'open' ? c.ochre : c.sunk;
-                const edge = st === 'done' ? c.goodEdge : st === 'open' ? c.ochreEdge : c.line;
-                const isOpen = open === l.id;
-                return (
-                  <View key={l.id} style={[s.node, { transform: [{ translateX: OFFSETS[li % OFFSETS.length] }] }]}>
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel={l.title[lang]}
-                      onPress={() => setOpen(isOpen ? null : l.id)}
-                      style={({ pressed }) => [
-                        s.dot,
-                        { backgroundColor: bg, borderBottomColor: edge },
-                        st === 'open' && { boxShadow: `0 0 0 6px ${c.ochreSoft}` },
-                        pressed && { transform: [{ translateY: 3 }], borderBottomWidth: 3 },
-                      ]}
-                    >
-                      <Text style={[s.dotText, { color: st === 'done' || st === 'open' ? '#fff' : c.muted }]}>
-                        {st === 'done' ? '✓' : st === 'open' ? '★' : st === 'locked' ? '🔒' : li + 1}
-                      </Text>
-                    </Pressable>
-                    <Text style={[s.nodeLabel, { color: st === 'locked' || st === 'soon' ? c.muted : c.ink }]}>
-                      {l.title[lang]}
-                    </Text>
-                    {isOpen && (
-                      <View style={[s.pop, { backgroundColor: c.surface, borderColor: c.line }]}>
-                        <Text style={[s.popTitle, { color: c.ink }]}>
-                          {t.lesson} {li + 1} · {l.title[lang]}
+              <View style={s.path}>
+                {unit.lessons.map((l, li) => {
+                  const st = status(l);
+                  const bg = st === 'done' ? c.good : st === 'open' ? c.ochre : c.sunk;
+                  const edge = st === 'done' ? c.goodEdge : st === 'open' ? c.ochreEdge : c.line;
+                  const isOpen = open === l.id;
+                  return (
+                    <View key={l.id} style={[s.node, { transform: [{ translateX: OFFSETS[li % OFFSETS.length] }] }]}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={l.title[lang]}
+                        onPress={() => setOpen(isOpen ? null : l.id)}
+                        style={({ pressed }) => [
+                          s.dot,
+                          { backgroundColor: bg, borderBottomColor: edge },
+                          st === 'open' && { boxShadow: `0 0 0 6px ${c.ochreSoft}` },
+                          pressed && { transform: [{ translateY: 3 }], borderBottomWidth: 3 },
+                        ]}
+                      >
+                        <Text style={[s.dotText, { color: st === 'done' || st === 'open' ? '#fff' : c.muted }]}>
+                          {st === 'done' ? '✓' : st === 'open' ? '★' : st === 'locked' ? '🔒' : li + 1}
                         </Text>
-                        {st === 'locked' ? (
-                          <Text style={{ color: c.muted }}>{t.locked}</Text>
-                        ) : st === 'soon' ? (
-                          <Text style={{ color: c.muted }}>{t.soon}</Text>
-                        ) : (
-                          <Button
-                            tone="primary"
-                            onPress={() => {
-                              setOpen(null);
-                              router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
-                            }}
-                          >
-                            {st === 'done' ? t.repeat : t.start}
-                          </Button>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                );
-              })}
+                      </Pressable>
+                      <Text style={[s.nodeLabel, { color: st === 'locked' || st === 'soon' ? c.muted : c.ink }]}>
+                        {l.title[lang]}
+                      </Text>
+                      {isOpen && (
+                        <View style={[s.pop, { backgroundColor: c.surface, borderColor: c.line }]}>
+                          <Text style={[s.popTitle, { color: c.ink }]}>
+                            {t.lesson} {li + 1} · {l.title[lang]}
+                          </Text>
+                          {st === 'locked' ? (
+                            <Text style={{ color: c.muted }}>{t.locked}</Text>
+                          ) : st === 'soon' ? (
+                            <Text style={{ color: c.muted }}>{t.soon}</Text>
+                          ) : (
+                            <Button
+                              tone="primary"
+                              onPress={() => {
+                                setOpen(null);
+                                router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
+                              }}
+                            >
+                              {st === 'done' ? t.repeat : t.start}
+                            </Button>
+                          )}
+                        </View>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </ScrollView>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  top: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 2 },
+  top: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+  },
   logo: { fontSize: 22, fontWeight: '800', letterSpacing: -0.3 },
   stats: { flex: 1, flexDirection: 'row', justifyContent: 'center', gap: 14 },
   stat: { fontSize: 16, fontWeight: '800', fontVariant: ['tabular-nums'] },
@@ -200,11 +220,28 @@ const s = StyleSheet.create({
   avatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: 16, fontWeight: '800' },
   today: { gap: 12 },
-  practice: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 2, borderBottomWidth: 5, borderRadius: 18, padding: 14 },
+  practice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderRadius: 18,
+    padding: 14,
+  },
   practiceIcon: { fontSize: 26 },
   practiceTitle: { fontSize: 17, fontWeight: '800' },
   practiceSub: { fontSize: 13, lineHeight: 18 },
-  badge: { minWidth: 28, height: 28, borderRadius: 14, textAlign: 'center', lineHeight: 28, fontWeight: '800', overflow: 'hidden', paddingHorizontal: 6 },
+  badge: {
+    minWidth: 28,
+    height: 28,
+    borderRadius: 14,
+    textAlign: 'center',
+    lineHeight: 28,
+    fontWeight: '800',
+    overflow: 'hidden',
+    paddingHorizontal: 6,
+  },
   links: { flexDirection: 'row', gap: 10 },
   link: { flex: 1, borderWidth: 2, borderBottomWidth: 4, borderRadius: 14, paddingVertical: 10, alignItems: 'center' },
   linkText: { fontSize: 15, fontWeight: '700' },
@@ -216,7 +253,14 @@ const s = StyleSheet.create({
   unitRo: { fontSize: 15, fontStyle: 'italic', opacity: 0.9 },
   path: { alignItems: 'center', gap: 14 },
   node: { alignItems: 'center', gap: 6 },
-  dot: { width: 68, height: 62, borderRadius: 34, borderBottomWidth: 6, alignItems: 'center', justifyContent: 'center' },
+  dot: {
+    width: 68,
+    height: 62,
+    borderRadius: 34,
+    borderBottomWidth: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   dotText: { fontSize: 22, fontWeight: '800' },
   nodeLabel: { fontSize: 13, fontWeight: '700' },
   pop: { marginTop: 4, width: 240, borderWidth: 2, borderRadius: 16, padding: 14, gap: 10 },
