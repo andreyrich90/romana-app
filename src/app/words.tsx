@@ -107,6 +107,24 @@ export default function Words() {
         />
       )}
 
+      {tab === 'wallet' && walletCount > 0 && (
+        <Pressable
+          onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: 'wallet' } })}
+          accessibilityRole="button"
+          style={({ pressed }) => [
+            s.train,
+            { backgroundColor: c.blueSoft, borderColor: c.blue },
+            pressed && { transform: [{ translateY: 2 }] },
+          ]}
+        >
+          <Text style={s.trainIcon}>🔁</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={[s.ro, { color: c.ink }]}>{t.walletTrain}</Text>
+            <Text style={[s.tr, { color: c.muted }]}>{t.walletTrainSub(walletCount)}</Text>
+          </View>
+        </Pressable>
+      )}
+
       {tab === 'wallet' ? (
         walletCount === 0 ? (
           <Text style={[s.sub, { color: c.muted }]}>{t.walletEmpty}</Text>
@@ -170,4 +188,6 @@ const s = StyleSheet.create({
   tr: { fontSize: 14 },
   trWallet: { fontSize: 15, lineHeight: 21 },
   meta: { fontSize: 12 },
+  train: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 2, borderBottomWidth: 5, borderRadius: 18, padding: 14 },
+  trainIcon: { fontSize: 26 },
 });

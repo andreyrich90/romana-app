@@ -9,7 +9,7 @@ import { COURSE, isUnlocked, lessonIndex } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
 import { dueCount, PRACTICE_ID } from '../engine/practice';
 import { usePalette } from '../lib/theme';
-import { day } from '../state/model';
+import { day, walletWords } from '../state/model';
 import { useAuth } from '../state/auth';
 import { useProgress } from '../state/progress';
 
@@ -25,6 +25,7 @@ export default function Home() {
   const lang = progress.lang;
   const [open, setOpen] = useState<string | null>(null);
   const hasLessons = Object.keys(progress.completed).length > 0;
+  const walletCount = walletWords(progress).length;
   const due = hasLessons ? dueCount(progress.completed, progress.recall, day(new Date())) : 0;
 
   const status = (l: LessonMeta) =>
@@ -134,6 +135,23 @@ export default function Home() {
               <Text style={[s.badge, { backgroundColor: c.ochre, color: c.onBlue }]}>{due}</Text>
             )}
           </Pressable>
+          {walletCount > 0 && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: 'wallet' } })}
+              style={({ pressed }) => [
+                s.practice,
+                { backgroundColor: c.surface, borderColor: c.line },
+                pressed && { transform: [{ translateY: 2 }] },
+              ]}
+            >
+              <Text style={s.practiceIcon}>👛</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={[s.practiceTitle, { color: c.ink }]}>{t.walletTrain}</Text>
+                <Text style={[s.practiceSub, { color: c.muted }]}>{t.walletTrainSub(walletCount)}</Text>
+              </View>
+            </Pressable>
+          )}
           <View style={s.links}>
             {[
               ['📖', t.dictionary, '/words'],

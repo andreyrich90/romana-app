@@ -171,7 +171,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [update],
   );
 
-  const recordAnswer = useCallback((key: string, ok: boolean) => update((p) => applyAnswer(p, key, ok)), [update]);
+  // Exercises without a key (the wallet session) are not tracked for spaced repetition.
+  const recordAnswer = useCallback(
+    (key: string, ok: boolean) => {
+      if (key) update((p) => applyAnswer(p, key, ok));
+    },
+    [update],
+  );
 
   const completeOnboarding = useCallback(
     (startAt: string | null, dailyGoal: number) =>

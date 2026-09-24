@@ -13,15 +13,31 @@ import type { Lesson } from '../../content/types';
 import { check, isGraded, reveal, type Answer, type Verdict } from '../../engine/check';
 import { current, isFinished, isOut, reduce, result, startSession, type Session } from '../../engine/session';
 import { buildPractice, exerciseKey, PRACTICE_ID } from '../../engine/practice';
+import { buildWalletPractice, WALLET_ID } from '../../engine/walletPractice';
 import { lessonPool } from '../../engine/wordBank';
-import { day } from '../../state/model';
+import { day, walletWords } from '../../state/model';
 import { speak } from '../../lib/speech';
 import { usePalette } from '../../lib/theme';
 import { useProgress } from '../../state/progress';
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return id === PRACTICE_ID ? <PracticeScreen /> : <CourseLesson id={id} />;
+  if (id === PRACTICE_ID) return <PracticeScreen />;
+  if (id === WALLET_ID) return <WalletScreen />;
+  return <CourseLesson id={id} />;
+}
+
+/** The wallet session is drawn once when opened; a new attempt draws another. */
+function WalletScreen() {
+  const { progress } = useProgress();
+  const [attempt, setAttempt] = useState(0);
+  const lesson = useMemo(
+    () => buildWalletPractice(walletWords(progress)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [attempt],
+  );
+  if (!lesson) return <Missing />;
+  return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
 }
 
 /** Practice is assembled once when opened, from what is due at that moment. */
@@ -77,7 +93,7 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
     if (finished && !saved.current) {
       saved.current = true;
       const r = result(session);
-      finishSession(lesson.id, r.xp, r.accuracy, lesson.id === PRACTICE_ID);
+      finishSession(lesson.id, r.xp, r.accuracy, lesson.id === PRACTICE_ID || lesson.id === WALLET_ID);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     }
   }, [finished, session, finishSession, lesson.id]);
@@ -264,7 +280,7 @@ function Results({ lesson, session, onAgain }: { lesson: Lesson; session: Sessio
       style={{ backgroundColor: c.bg }}
       contentContainerStyle={[s.results, { paddingTop: insets.top + 32, paddingBottom: insets.bottom + 24 }]}
     >
-      <Text style={[s.doneTitle, { color: c.ochre }]}>{lesson.id === PRACTICE_ID ? t.practiceDone : t.done}</Text>
+      <Text style={[s.doneTitle, { color: c.ochre }]}>{lesson.id === PRACTICE_ID ? t.practiceDone : lesson.id === WALLET_ID ? t.walletDone : t.done}</Text>
       <Text style={[s.sub, { color: c.muted }]}>{t.doneSub}</Text>
       <View style={s.statRow}>
         {tiles.map(([label, value, color]) => (
