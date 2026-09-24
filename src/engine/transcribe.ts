@@ -15,6 +15,7 @@ const WORDS: Record<string, [ru: string, ua: string]> = {
   deși: ['деши', 'деші'],
   mi: ['мь', 'мь'],
   ți: ['ць', 'ць'],
+  taxi: ['такси', 'таксі'],
 };
 /**
  * Native words where i-e inside the word is one syllable. Elsewhere, mostly in borrowed
@@ -146,6 +147,8 @@ function word(w: string, lang: Lang): string {
     else if (ch === 'ă') out += E_SCHWA;
     else if (ch === 'â' || ch === 'î') out += Y;
     else if (ch === 'y') out += I;
+    // ex- before a vowel is voiced: exemplu «эгземплу», examen «эгзамен».
+    else if (ch === 'x' && i === 1 && w[0] === 'e' && next && isVowel(next)) out += 'гз';
     else out += CONS[ch] ?? ch;
   }
   return out;
