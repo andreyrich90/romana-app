@@ -42,7 +42,7 @@ export const u3l3: Lesson = {
     },
     {
       kind: 'tip',
-      title: 'A vrea — хотеть',
+      title: 'Vreau, vrei, vrea',
       body: {
         ru: [
           'Настоящее время — в таблице. Для вежливой просьбы — **aș vrea** (я бы хотел), а официант спросит вас **ați vrea…?** — не хотели бы вы…?',
