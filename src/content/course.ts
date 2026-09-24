@@ -33,6 +33,11 @@ import { u7l2 } from './lessons/u7l2';
 import { u7l3 } from './lessons/u7l3';
 import { u7l4 } from './lessons/u7l4';
 import { u7l5 } from './lessons/u7l5';
+import { u8l1 } from './lessons/u8l1';
+import { u8l2 } from './lessons/u8l2';
+import { u8l3 } from './lessons/u8l3';
+import { u8l4 } from './lessons/u8l4';
+import { u8l5 } from './lessons/u8l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -129,6 +134,19 @@ export const COURSE: Unit[] = [
       { id: 'u7l3', title: u7l3.title, lesson: u7l3 },
       { id: 'u7l4', title: u7l4.title, lesson: u7l4 },
       { id: 'u7l5', title: u7l5.title, lesson: u7l5 },
+    ],
+  },
+  {
+    id: 'u8',
+    level: 'A2',
+    ro: 'Mâine',
+    title: { ru: 'Завтра', ua: 'Завтра' },
+    lessons: [
+      { id: 'u8l1', title: u8l1.title, lesson: u8l1 },
+      { id: 'u8l2', title: u8l2.title, lesson: u8l2 },
+      { id: 'u8l3', title: u8l3.title, lesson: u8l3 },
+      { id: 'u8l4', title: u8l4.title, lesson: u8l4 },
+      { id: 'u8l5', title: u8l5.title, lesson: u8l5 },
     ],
   },
 ];
