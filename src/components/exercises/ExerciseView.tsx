@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import type { Exercise, Lang } from '../../content/types';
 import type { Answer, Verdict } from '../../engine/check';
+import { reading } from '../../engine/phrases';
 import { bankFor } from '../../engine/wordBank';
 import type { UI } from '../../i18n/ui';
 import { speak } from '../../lib/speech';
@@ -99,7 +100,10 @@ function Tip({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'tip' }> }
           {ex.rows.map((r) => (
             <Pressable key={r.ro} onPress={() => speak(r.ro)} style={[s.row, { borderColor: c.line }]}>
               <TapText style={[s.rowRo, { color: c.ink }]}>{r.ro}</TapText>
-              <Text style={[s.rowTr, { color: c.muted }]}>{r.tr[lang]}</Text>
+              <Text style={[s.rowTr, { color: c.muted }]}>
+                {/* Rows without a hand-written reading get one from the rules. */}
+                {r.tr[lang].includes('«') ? r.tr[lang] : `${r.tr[lang]} · «${reading(r.ro, lang)}»`}
+              </Text>
             </Pressable>
           ))}
         </View>
