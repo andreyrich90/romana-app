@@ -10,6 +10,12 @@ const VOWELS = 'aeiouăâî';
 /** A clitic i before a vowel, as in mi-ar: softens the consonant, is not a syllable. */
 const GLIDE = '\u0001';
 const IOTATED: Record<string, string> = { a: 'я', e: 'е', u: 'ю' };
+/** Whole words the rules get wrong: stressed final i, soft clitics before a consonant. */
+const WORDS: Record<string, [ru: string, ua: string]> = {
+  deși: ['деши', 'деші'],
+  mi: ['мь', 'мь'],
+  ți: ['ць', 'ць'],
+};
 /** Words whose first e is said «йе» (pronouns and forms of a fi); elsewhere a first e is plain «э». */
 const JE_WORDS = new Set(['e', 'el', 'ea', 'ei', 'ele', 'eu', 'este', 'ești', 'eram', 'erai', 'era', 'erați', 'erau']);
 const isVowel = (ch: string | undefined) => !!ch && VOWELS.includes(ch);
@@ -21,6 +27,7 @@ const CONS: Record<string, string> = {
 
 function word(w: string, lang: Lang): string {
   const ua = lang === 'ua';
+  if (WORDS[w]) return WORDS[w][ua ? 1 : 0];
   const I = ua ? 'і' : 'и';
   const Y = ua ? 'и' : 'ы';
   const E_SCHWA = ua ? 'е' : 'э';
@@ -43,6 +50,13 @@ function word(w: string, lang: Lang): string {
       const soft = ch === 'c' ? 'ч' : 'дж';
       const hard = ch === 'c' ? 'к' : 'г';
       if (next === 'h' && (w[i + 2] === 'e' || w[i + 2] === 'i')) {
+        // chiar, ghiozdan: the i only softens before a vowel («кьяр»).
+        const glide = w[i + 2] === 'i' && 'au'.includes(w[i + 3] ?? '-') ? IOTATED[w[i + 3]] : undefined;
+        if (glide) {
+          out += hard + 'ь' + glide;
+          i += 3;
+          continue;
+        }
         out += hard;
         i += 1;
         continue;
