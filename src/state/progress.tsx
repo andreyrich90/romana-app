@@ -5,12 +5,12 @@ import type { Lang } from '../content/types';
 import { UI } from '../i18n/ui';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './auth';
-import { day, initial, liveStreak, merge, sanitize, synced, type Progress } from './model';
+import { applyAnswer, applyLessonDone, applyXp, initial, liveStreak, merge, sanitize, synced, type Progress } from './model';
 
 const KEY = 'romana.progress.v1';
 
 /** How long to wait after a change before saving it to the account, so a lesson's burst of updates is one request. */
-const PUSH_DELAY_MS = 800;
+const PUSH_DELAY_MS = 2000;
 
 export type SyncState = 'off' | 'syncing' | 'saved' | 'error';
 
@@ -22,7 +22,11 @@ type Ctx = {
   sync: SyncState;
   setLang: (lang: Lang) => void;
   setWordBank: (on: boolean) => void;
-  completeLesson: (id: string, xp: number, accuracy: number) => void;
+  setDailyGoal: (goal: number) => void;
+  /** A finished lesson (or practice, which earns XP but is not a course lesson). */
+  finishSession: (id: string, xp: number, accuracy: number, practice?: boolean) => void;
+  /** One graded answer, for spaced repetition. */
+  recordAnswer: (key: string, ok: boolean) => void;
 };
 
 const ProgressContext = createContext<Ctx | null>(null);
@@ -106,30 +110,35 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       setStatus({ user: userId, state: error ? 'error' : 'saved' });
     }, PUSH_DELAY_MS);
     return () => clearTimeout(id);
-  }, [progress.xp, progress.streak, progress.lastDay, progress.completed, userId]);
+  }, [
+    progress.xp,
+    progress.streak,
+    progress.lastDay,
+    progress.freezes,
+    progress.completed,
+    progress.recall,
+    progress.xpByDay,
+    progress.practiceCount,
+    userId,
+  ]);
 
   const setLang = useCallback((lang: Lang) => update((p) => ({ ...p, lang })), [update]);
   const setWordBank = useCallback((wordBank: boolean) => update((p) => ({ ...p, wordBank })), [update]);
 
-  const completeLesson = useCallback(
-    (id: string, xp: number, accuracy: number) =>
+  const setDailyGoal = useCallback((dailyGoal: number) => update((p) => ({ ...p, dailyGoal })), [update]);
+
+  const finishSession = useCallback(
+    (id: string, xp: number, accuracy: number, practice = false) =>
       update((p) => {
-        const today = day(new Date());
-        const streak = p.lastDay === today ? p.streak : liveStreak(p) + 1;
-        const prev = p.completed[id];
-        return {
-          ...p,
-          xp: p.xp + xp,
-          streak,
-          lastDay: today,
-          completed: {
-            ...p.completed,
-            [id]: { bestAccuracy: Math.max(prev?.bestAccuracy ?? 0, accuracy), times: (prev?.times ?? 0) + 1 },
-          },
-        };
+        const withXp = applyXp(p, xp);
+        return practice
+          ? { ...withXp, practiceCount: withXp.practiceCount + 1 }
+          : applyLessonDone(withXp, id, accuracy);
       }),
     [update],
   );
+
+  const recordAnswer = useCallback((key: string, ok: boolean) => update((p) => applyAnswer(p, key, ok)), [update]);
 
   const value = useMemo<Ctx>(
     () => ({
@@ -139,9 +148,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       sync,
       setLang,
       setWordBank,
-      completeLesson,
+      setDailyGoal,
+      finishSession,
+      recordAnswer,
     }),
-    [ready, progress, sync, setLang, setWordBank, completeLesson],
+    [ready, progress, sync, setLang, setWordBank, setDailyGoal, finishSession, recordAnswer],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

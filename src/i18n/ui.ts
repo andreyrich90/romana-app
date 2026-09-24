@@ -1,5 +1,14 @@
 import type { Lang } from '../content/types';
 
+/** Slavic plural: 1 день, 2 дня, 5 дней (the same pattern in Ukrainian: 1 день, 2 дні, 5 днів). */
+function plural(n: number, one: string, few: string, many: string): string {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+
 const ru = {
   langName: 'Русский',
   xp: 'Опыт',
@@ -73,6 +82,35 @@ const ru = {
   cancel: 'Отмена',
   back: 'Назад',
   privacy: 'Политика конфиденциальности',
+  todayGoal: 'Цель дня',
+  goalDone: 'Цель дня выполнена!',
+  goalLeft: (n: number) => `Ещё ${n} ⚡ до цели`,
+  days: (n: number) => `${n} ${plural(n, 'день', 'дня', 'дней')}`,
+  inARow: 'подряд',
+  freezes: 'Заморозки серии',
+  freezeHint: 'Заморозка сохраняет серию, если вы пропустили день. Одна даётся за каждые 7 дней подряд, копится до двух.',
+  practice: 'Тренировка',
+  practiceSub: 'Повторите то, в чём ошибались и что давно не встречали',
+  practiceDue: (n: number) => `к повторению: ${n}`,
+  practiceEmpty: 'Пройдите первый урок — и здесь появятся задания для повторения.',
+  practiceDone: 'Тренировка завершена!',
+  profile: 'Профиль',
+  levelN: (n: number) => `Уровень ${n}`,
+  toNextLevel: (x: number) => `До следующего уровня: ${x} ⚡`,
+  thisWeek: 'Эта неделя',
+  totalXp: 'Всего опыта',
+  bestStreak: 'Лучшая серия',
+  lessonsDone: 'Уроков пройдено',
+  goalTitle: 'Дневная цель',
+  goalNames: { 10: 'Лёгкая', 20: 'Обычная', 30: 'Серьёзная', 50: 'Интенсивная' } as Record<number, string>,
+  goalNote: 'Серия дней растёт, только когда цель выполнена.',
+  achievements: 'Достижения',
+  dictionary: 'Словарь',
+  dictionarySub: 'Все слова из пройденных уроков',
+  search: 'Поиск по-румынски или по-русски',
+  dictionaryEmpty: 'Здесь появятся слова из пройденных уроков.',
+  nothingFound: 'Ничего не найдено',
+  weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
   authErrors: {
     invalid: 'Неверная почта или пароль.',
     exists: 'Аккаунт с этой почтой уже есть — войдите.',
@@ -159,6 +197,35 @@ const ua: Dict = {
   cancel: 'Скасувати',
   back: 'Назад',
   privacy: 'Політика конфіденційності',
+  todayGoal: 'Мета дня',
+  goalDone: 'Мету дня виконано!',
+  goalLeft: (n: number) => `Ще ${n} ⚡ до мети`,
+  days: (n: number) => `${n} ${plural(n, 'день', 'дні', 'днів')}`,
+  inARow: 'поспіль',
+  freezes: 'Заморозки серії',
+  freezeHint: 'Заморозка зберігає серію, якщо ви пропустили день. Одна дається за кожні 7 днів поспіль, накопичується до двох.',
+  practice: 'Тренування',
+  practiceSub: 'Повторіть те, у чому помилялися і чого давно не бачили',
+  practiceDue: (n: number) => `до повторення: ${n}`,
+  practiceEmpty: 'Пройдіть перший урок — і тут зʼявляться завдання для повторення.',
+  practiceDone: 'Тренування завершено!',
+  profile: 'Профіль',
+  levelN: (n: number) => `Рівень ${n}`,
+  toNextLevel: (x: number) => `До наступного рівня: ${x} ⚡`,
+  thisWeek: 'Цей тиждень',
+  totalXp: 'Усього досвіду',
+  bestStreak: 'Найкраща серія',
+  lessonsDone: 'Уроків пройдено',
+  goalTitle: 'Денна мета',
+  goalNames: { 10: 'Легка', 20: 'Звичайна', 30: 'Серйозна', 50: 'Інтенсивна' } as Record<number, string>,
+  goalNote: 'Серія днів зростає, лише коли мету виконано.',
+  achievements: 'Досягнення',
+  dictionary: 'Словник',
+  dictionarySub: 'Усі слова з пройдених уроків',
+  search: 'Пошук румунською або українською',
+  dictionaryEmpty: 'Тут зʼявляться слова з пройдених уроків.',
+  nothingFound: 'Нічого не знайдено',
+  weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
   authErrors: {
     invalid: 'Неправильна пошта або пароль.',
     exists: 'Акаунт із цією поштою вже є — увійдіть.',

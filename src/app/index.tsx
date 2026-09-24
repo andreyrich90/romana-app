@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { DailyGoal } from '../components/DailyGoal';
 import { Button } from '../components/ui';
 import { COURSE, isUnlocked } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
+import { dueCount, PRACTICE_ID } from '../engine/practice';
 import { usePalette } from '../lib/theme';
+import { day } from '../state/model';
 import { useAuth } from '../state/auth';
 import { useProgress } from '../state/progress';
 
@@ -21,6 +24,8 @@ export default function Home() {
   const initial = auth.session?.user.email?.[0]?.toUpperCase();
   const lang = progress.lang;
   const [open, setOpen] = useState<string | null>(null);
+  const hasLessons = Object.keys(progress.completed).length > 0;
+  const due = hasLessons ? dueCount(progress.completed, progress.recall, day(new Date())) : 0;
 
   const status = (l: LessonMeta) =>
     l.id in progress.completed ? 'done' : !isUnlocked(l.id, progress.completed) ? 'locked' : l.lesson ? 'open' : 'soon';
@@ -31,14 +36,19 @@ export default function Home() {
         <Text style={[s.logo, { color: c.ink }]}>
           Română<Text style={{ color: c.blue }}>.</Text>
         </Text>
-        <View style={s.stats}>
+        <Pressable
+          style={s.stats}
+          onPress={() => router.push('/profile')}
+          accessibilityRole="button"
+          accessibilityLabel={t.profile}
+        >
           <Text style={[s.stat, { color: c.ochre }]} accessibilityLabel={`${t.streak}: ${progress.streak}`}>
             🔥 {progress.streak}
           </Text>
           <Text style={[s.stat, { color: c.blue }]} accessibilityLabel={`${t.xp}: ${progress.xp}`}>
             ⚡ {progress.xp}
           </Text>
-        </View>
+        </Pressable>
         <View style={[s.seg, { backgroundColor: c.sunk }]}>
           {(['ru', 'ua'] as Lang[]).map((l) => (
             <Pressable
@@ -69,6 +79,47 @@ export default function Home() {
       </View>
 
       <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
+        <View style={s.today}>
+          <DailyGoal />
+          <Pressable
+            accessibilityRole="button"
+            disabled={!hasLessons}
+            onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: PRACTICE_ID } })}
+            style={({ pressed }) => [
+              s.practice,
+              { backgroundColor: hasLessons ? c.blueSoft : c.sunk, borderColor: hasLessons ? c.blue : c.line },
+              pressed && { transform: [{ translateY: 2 }] },
+            ]}
+          >
+            <Text style={s.practiceIcon}>🔁</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[s.practiceTitle, { color: c.ink }]}>{t.practice}</Text>
+              <Text style={[s.practiceSub, { color: c.muted }]}>
+                {hasLessons ? t.practiceSub : t.practiceEmpty}
+              </Text>
+            </View>
+            {hasLessons && due > 0 && (
+              <Text style={[s.badge, { backgroundColor: c.ochre, color: c.onBlue }]}>{due}</Text>
+            )}
+          </Pressable>
+          <View style={s.links}>
+            {[
+              ['📖', t.dictionary, '/words'],
+              ['🏆', t.achievements, '/profile'],
+            ].map(([icon, label, href]) => (
+              <Pressable
+                key={href + label}
+                accessibilityRole="button"
+                onPress={() => router.push(href as '/words' | '/profile')}
+                style={({ pressed }) => [s.link, { backgroundColor: c.surface, borderColor: c.line }, pressed && { opacity: 0.7 }]}
+              >
+                <Text style={[s.linkText, { color: c.ink }]}>
+                  {icon} {label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
         {COURSE.map((unit, ui) => (
           <View key={unit.id} style={s.unitBlock}>
             <View style={[s.unit, { backgroundColor: ui === 0 ? c.blue : c.surface, borderColor: ui === 0 ? c.blueEdge : c.line }]}>
@@ -148,6 +199,15 @@ const s = StyleSheet.create({
   segText: { fontWeight: '700', fontSize: 14 },
   avatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: 16, fontWeight: '800' },
+  today: { gap: 12 },
+  practice: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 2, borderBottomWidth: 5, borderRadius: 18, padding: 14 },
+  practiceIcon: { fontSize: 26 },
+  practiceTitle: { fontSize: 17, fontWeight: '800' },
+  practiceSub: { fontSize: 13, lineHeight: 18 },
+  badge: { minWidth: 28, height: 28, borderRadius: 14, textAlign: 'center', lineHeight: 28, fontWeight: '800', overflow: 'hidden', paddingHorizontal: 6 },
+  links: { flexDirection: 'row', gap: 10 },
+  link: { flex: 1, borderWidth: 2, borderBottomWidth: 4, borderRadius: 14, paddingVertical: 10, alignItems: 'center' },
+  linkText: { fontSize: 15, fontWeight: '700' },
   scroll: { paddingHorizontal: 16, paddingTop: 20, gap: 28 },
   unitBlock: { gap: 18 },
   unit: { borderRadius: 20, borderWidth: 2, borderBottomWidth: 5, padding: 18, gap: 2 },

@@ -30,6 +30,11 @@ export type Exercise =
 export type Lesson = {
   id: string;
   title: Bi;
+  /**
+   * Spaced-repetition key per exercise. Course lessons leave it out and use `id#index`;
+   * a practice session mixes exercises from many lessons and carries their original keys.
+   */
+  keys?: string[];
   /** What the lesson teaches, shown on the start card and the results screen. */
   words: Word[];
   exercises: Exercise[];

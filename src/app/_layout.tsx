@@ -16,6 +16,8 @@ export default function RootLayout() {
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg } }}>
             <Stack.Screen name="index" />
             <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal', gestureEnabled: false }} />
+            <Stack.Screen name="profile" />
+            <Stack.Screen name="words" />
             <Stack.Screen name="account" />
             <Stack.Screen name="privacy" />
             <Stack.Screen name="delete-account" />
