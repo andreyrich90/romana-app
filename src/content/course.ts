@@ -1,3 +1,8 @@
+import { u0l1 } from './lessons/u0l1';
+import { u0l2 } from './lessons/u0l2';
+import { u0l3 } from './lessons/u0l3';
+import { u0l4 } from './lessons/u0l4';
+import { u0l5 } from './lessons/u0l5';
 import { u1l1 } from './lessons/u1l1';
 import { u1l2 } from './lessons/u1l2';
 import { u1l3 } from './lessons/u1l3';
@@ -65,6 +70,20 @@ import type { Lesson, Unit } from './types';
  * their scope is in docs/curriculum-a1.md and docs/curriculum-a2.md.
  */
 export const COURSE: Unit[] = [
+  {
+    id: 'u0',
+    level: 'A0',
+    kicker: { ru: 'Старт', ua: 'Старт' },
+    ro: 'Alfabetul',
+    title: { ru: 'Алфавит и чтение', ua: 'Абетка і читання' },
+    lessons: [
+      { id: 'u0l1', title: u0l1.title, lesson: u0l1 },
+      { id: 'u0l2', title: u0l2.title, lesson: u0l2 },
+      { id: 'u0l3', title: u0l3.title, lesson: u0l3 },
+      { id: 'u0l4', title: u0l4.title, lesson: u0l4 },
+      { id: 'u0l5', title: u0l5.title, lesson: u0l5 },
+    ],
+  },
   {
     id: 'u1',
     level: 'A1',
@@ -229,14 +248,26 @@ export function findLesson(id: string): Lesson | undefined {
   return ORDER.find((l) => l.id === id)?.lesson;
 }
 
+/** Position of a lesson in the course, -1 if unknown. Later lessons have larger numbers. */
+export function lessonIndex(id: string | null | undefined): number {
+  return id ? ORDER.findIndex((l) => l.id === id) : -1;
+}
+
+/** The first lesson of a unit: where a placement test starts the learner. */
+export function unitStart(unitId: string): string {
+  return COURSE.find((u) => u.id === unitId)!.lessons[0].id;
+}
+
 /**
  * A lesson opens once the nearest written lesson before it is completed. Lessons that
  * are only planned are skipped over, so a gap in the course (a unit not yet written)
- * does not lock everything after it.
+ * does not lock everything after it. `startAt` is where the placement test put the
+ * learner: that lesson and everything before it are open without being completed.
  */
-export function isUnlocked(id: string, completed: Record<string, unknown>): boolean {
+export function isUnlocked(id: string, completed: Record<string, unknown>, startAt?: string | null): boolean {
   const i = ORDER.findIndex((l) => l.id === id);
   if (i < 0) return false;
+  if (i <= lessonIndex(startAt)) return true;
   for (let j = i - 1; j >= 0; j--) {
     if (ORDER[j].lesson) return ORDER[j].id in completed;
   }

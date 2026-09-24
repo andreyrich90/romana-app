@@ -5,7 +5,30 @@ import type { Lang } from '../content/types';
 import { UI } from '../i18n/ui';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './auth';
-import { applyAnswer, applyLessonDone, applyXp, initial, liveStreak, merge, sanitize, synced, type Progress } from './model';
+import {
+  applyAnswer,
+  applyLessonDone,
+  applyXp,
+  furtherStart,
+  initial,
+  liveStreak,
+  merge,
+  sanitize,
+  synced,
+  type Progress,
+} from './model';
+
+/** Anyone who has already studied has, in effect, been placed: they never see the first-run questions. */
+const hasStudied = (p: Pick<Progress, 'xp' | 'completed'>) => p.xp > 0 || Object.keys(p.completed).length > 0;
+
+/**
+ * Progress saved before the alphabet unit existed: the learner started at A1, so keep
+ * everything from A1 lesson 1 open rather than sending them back to the letters.
+ */
+function migrate(p: Progress): Progress {
+  if (p.onboarded || !hasStudied(p)) return p;
+  return { ...p, onboarded: true, startAt: furtherStart(p.startAt, 'u1l1') };
+}
 
 const KEY = 'romana.progress.v1';
 
@@ -27,6 +50,10 @@ type Ctx = {
   finishSession: (id: string, xp: number, accuracy: number, practice?: boolean) => void;
   /** One graded answer, for spaced repetition. */
   recordAnswer: (key: string, ok: boolean) => void;
+  /** First run done: start where the test (or the learner) chose, with the chosen daily goal. */
+  completeOnboarding: (startAt: string | null, dailyGoal: number) => void;
+  /** A retaken test: moves the start point forward only. */
+  placeAt: (startAt: string | null) => void;
 };
 
 const ProgressContext = createContext<Ctx | null>(null);
@@ -51,7 +78,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     AsyncStorage.getItem(KEY)
       .then((raw) => {
-        if (raw) setProgress({ ...initial, ...JSON.parse(raw) });
+        if (raw) setProgress(migrate({ ...initial, ...JSON.parse(raw) }));
       })
       .catch(() => {})
       .finally(() => setReady(true));
@@ -74,7 +101,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     previousUser.current = userId;
     if (!userId || !supabase) {
       linked.current = null;
-      if (was && !userId) update((p) => ({ ...initial, lang: p.lang, wordBank: p.wordBank }));
+      if (was && !userId) update((p) => ({ ...initial, lang: p.lang, wordBank: p.wordBank, onboarded: p.onboarded }));
       return;
     }
     let cancelled = false;
@@ -86,7 +113,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         return;
       }
       const merged = data ? merge(synced(latest.current), sanitize(data.data)) : synced(latest.current);
-      update((p) => ({ ...p, ...merged }));
+      // An account that has studied elsewhere needs no first-run questions on this device.
+      update((p) => ({ ...p, ...merged, onboarded: p.onboarded || hasStudied(merged) || merged.startAt !== null }));
       const { error: saveError } = await supabase
         .from('progress')
         .upsert({ user_id: userId, data: merged, updated_at: new Date().toISOString() });
@@ -119,6 +147,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     progress.recall,
     progress.xpByDay,
     progress.practiceCount,
+    progress.startAt,
     userId,
   ]);
 
@@ -140,6 +169,17 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const recordAnswer = useCallback((key: string, ok: boolean) => update((p) => applyAnswer(p, key, ok)), [update]);
 
+  const completeOnboarding = useCallback(
+    (startAt: string | null, dailyGoal: number) =>
+      update((p) => ({ ...p, startAt: furtherStart(p.startAt, startAt), dailyGoal, onboarded: true })),
+    [update],
+  );
+
+  const placeAt = useCallback(
+    (startAt: string | null) => update((p) => ({ ...p, startAt: furtherStart(p.startAt, startAt) })),
+    [update],
+  );
+
   const value = useMemo<Ctx>(
     () => ({
       ready,
@@ -151,8 +191,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       setDailyGoal,
       finishSession,
       recordAnswer,
+      completeOnboarding,
+      placeAt,
     }),
-    [ready, progress, sync, setLang, setWordBank, setDailyGoal, finishSession, recordAnswer],
+    [ready, progress, sync, setLang, setWordBank, setDailyGoal, finishSession, recordAnswer, completeOnboarding, placeAt],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

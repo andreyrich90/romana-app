@@ -1,11 +1,11 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { Redirect, router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DailyGoal } from '../components/DailyGoal';
 import { Button } from '../components/ui';
-import { COURSE, isUnlocked } from '../content/course';
+import { COURSE, isUnlocked, lessonIndex } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
 import { dueCount, PRACTICE_ID } from '../engine/practice';
 import { usePalette } from '../lib/theme';
@@ -19,7 +19,7 @@ const OFFSETS = [0, -52, -74, -40, 28];
 export default function Home() {
   const c = usePalette();
   const insets = useSafeAreaInsets();
-  const { progress, t, setLang } = useProgress();
+  const { ready, progress, t, setLang } = useProgress();
   const auth = useAuth();
   const initial = auth.session?.user.email?.[0]?.toUpperCase();
   const lang = progress.lang;
@@ -28,7 +28,39 @@ export default function Home() {
   const due = hasLessons ? dueCount(progress.completed, progress.recall, day(new Date())) : 0;
 
   const status = (l: LessonMeta) =>
-    l.id in progress.completed ? 'done' : !isUnlocked(l.id, progress.completed) ? 'locked' : l.lesson ? 'open' : 'soon';
+    l.id in progress.completed
+      ? 'done'
+      : !isUnlocked(l.id, progress.completed, progress.startAt)
+        ? 'locked'
+        : l.lesson
+          ? 'open'
+          : 'soon';
+
+  // Open on the unit the learner is working through, not always on the alphabet.
+  const scroller = useRef<ScrollView>(null);
+  const unitY = useRef<Record<string, number>>({});
+  const scrolled = useRef(false);
+  // The first lesson still to do from the start point on; skipped earlier lessons do not count.
+  const current = COURSE.find((u) =>
+    u.lessons.some(
+      (l) =>
+        l.lesson &&
+        !(l.id in progress.completed) &&
+        lessonIndex(l.id) >= lessonIndex(progress.startAt) &&
+        isUnlocked(l.id, progress.completed, progress.startAt),
+    ),
+  )?.id;
+  const scrollToCurrent = (unitId: string, y: number) => {
+    unitY.current[unitId] = y;
+    if (scrolled.current || unitId !== current || COURSE[0].id === unitId) return;
+    scrolled.current = true;
+    setTimeout(() => scroller.current?.scrollTo({ y: Math.max(0, y - 12), animated: false }), 0);
+  };
+  useEffect(() => {
+    scrolled.current = false;
+  }, [progress.startAt]);
+
+  if (ready && !progress.onboarded) return <Redirect href="/welcome" />;
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg, paddingTop: insets.top }}>
@@ -80,7 +112,7 @@ export default function Home() {
         )}
       </View>
 
-      <ScrollView contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
+      <ScrollView ref={scroller} contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
         <View style={s.today}>
           <DailyGoal />
           <Pressable
@@ -128,7 +160,7 @@ export default function Home() {
           // The first unit of each level gets the filled header, so A2 visibly starts somewhere.
           const lead = ui === 0 || COURSE[ui - 1].level !== unit.level;
           return (
-            <View key={unit.id} style={s.unitBlock}>
+            <View key={unit.id} style={s.unitBlock} onLayout={(e) => scrollToCurrent(unit.id, e.nativeEvent.layout.y)}>
               <View
                 style={[
                   s.unit,
@@ -136,7 +168,9 @@ export default function Home() {
                 ]}
               >
                 <Text style={[s.unitKicker, { color: lead ? c.onBlue : c.muted }]}>
-                  {unit.level} · {t.unit} {COURSE.filter((u, j) => j <= ui && u.level === unit.level).length}
+                  {unit.kicker
+                    ? unit.kicker[lang]
+                    : `${unit.level} · ${t.unit} ${COURSE.filter((u, j) => j <= ui && u.level === unit.level).length}`}
                 </Text>
                 <Text style={[s.unitTitle, { color: lead ? c.onBlue : c.ink }]}>{unit.title[lang]}</Text>
                 <Text style={[s.unitRo, { color: lead ? c.onBlue : c.muted }]}>{unit.ro}</Text>

@@ -121,6 +121,14 @@ export default function Profile() {
         🧊 {t.freezes}: {progress.freezes}. {t.freezeHint}
       </Text>
 
+      <Pressable
+        onPress={() => router.push({ pathname: '/welcome', params: { retake: '1' } })}
+        accessibilityRole="button"
+        style={[s.retake, { backgroundColor: c.surface, borderColor: c.line }]}
+      >
+        <Text style={[s.goalXp, { color: c.ink }]}>🧭 {t.retakeTest}</Text>
+      </Pressable>
+
       <Text style={[s.h, { color: c.ink }]}>
         {t.achievements} · {earned}/{list.length}
       </Text>
@@ -173,6 +181,7 @@ const s = StyleSheet.create({
   goalXp: { fontSize: 16, fontWeight: '800' },
   goalName: { fontSize: 12 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  retake: { borderWidth: 2, borderBottomWidth: 4, borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
   ach: { flexBasis: '47%', flexGrow: 1, borderWidth: 2, borderRadius: 16, padding: 12, gap: 4 },
   achIcon: { fontSize: 28 },
   dim: { opacity: 0.4 },

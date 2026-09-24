@@ -1,3 +1,4 @@
+import { lessonIndex } from '../content/course';
 import type { Lang } from '../content/types';
 
 export type LessonRecord = { bestAccuracy: number; times: number };
@@ -35,10 +36,17 @@ export type Progress = {
   dailyGoal: number;
   /** Build typed answers from word tiles instead of the keyboard. Remembered across lessons. */
   wordBank: boolean;
+  /**
+   * Where the placement test put the learner (a lesson id): it and everything before it
+   * are open. `null` starts at the very beginning, the alphabet.
+   */
+  startAt: string | null;
+  /** The first-run questions (level, test, goal) have been answered on this device. */
+  onboarded: boolean;
 };
 
 /** What is stored in the account. Interface language, input mode and the goal stay per device. */
-export type Synced = Omit<Progress, 'lang' | 'wordBank' | 'dailyGoal'>;
+export type Synced = Omit<Progress, 'lang' | 'wordBank' | 'dailyGoal' | 'onboarded'>;
 
 export const GOALS = [10, 20, 30, 50] as const;
 export const MAX_FREEZES = 2;
@@ -59,7 +67,14 @@ export const initial: Progress = {
   practiceCount: 0,
   dailyGoal: 20,
   wordBank: false,
+  startAt: null,
+  onboarded: false,
 };
+
+/** The further of two start points; a test can move the learner forward, never back. */
+export function furtherStart(a: string | null, b: string | null): string | null {
+  return lessonIndex(b) > lessonIndex(a) ? b : a;
+}
 
 export function day(d: Date): string {
   const p = (n: number) => String(n).padStart(2, '0');
@@ -168,7 +183,7 @@ export function applyAnswer(p: Progress, key: string, ok: boolean, now = new Dat
 }
 
 export function synced(p: Progress): Synced {
-  const { lang: _l, wordBank: _w, dailyGoal: _g, ...rest } = p;
+  const { lang: _l, wordBank: _w, dailyGoal: _g, onboarded: _o, ...rest } = p;
   return rest;
 }
 
@@ -203,6 +218,7 @@ export function sanitize(raw: unknown): Synced {
     completed,
     recall,
     practiceCount: num(r.practiceCount),
+    startAt: typeof r.startAt === 'string' && lessonIndex(r.startAt) >= 0 ? r.startAt : null,
   };
 }
 
@@ -243,5 +259,6 @@ export function merge(a: Synced, b: Synced): Synced {
     completed,
     recall,
     practiceCount: Math.max(a.practiceCount, b.practiceCount),
+    startAt: furtherStart(a.startAt, b.startAt),
   };
 }
