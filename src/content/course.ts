@@ -108,6 +108,11 @@ import { u21l2 } from './lessons/u21l2';
 import { u21l3 } from './lessons/u21l3';
 import { u21l4 } from './lessons/u21l4';
 import { u21l5 } from './lessons/u21l5';
+import { u22l1 } from './lessons/u22l1';
+import { u22l2 } from './lessons/u22l2';
+import { u22l3 } from './lessons/u22l3';
+import { u22l4 } from './lessons/u22l4';
+import { u22l5 } from './lessons/u22l5';
 import type { Lesson, Unit } from './types';
 
 /**
@@ -400,6 +405,19 @@ export const COURSE: Unit[] = [
       { id: 'u21l3', title: u21l3.title, lesson: u21l3 },
       { id: 'u21l4', title: u21l4.title, lesson: u21l4 },
       { id: 'u21l5', title: u21l5.title, lesson: u21l5 },
+    ],
+  },
+  {
+    id: 'u22',
+    level: 'B2',
+    ro: 'Știri',
+    title: { ru: 'Новости', ua: 'Новини' },
+    lessons: [
+      { id: 'u22l1', title: u22l1.title, lesson: u22l1 },
+      { id: 'u22l2', title: u22l2.title, lesson: u22l2 },
+      { id: 'u22l3', title: u22l3.title, lesson: u22l3 },
+      { id: 'u22l4', title: u22l4.title, lesson: u22l4 },
+      { id: 'u22l5', title: u22l5.title, lesson: u22l5 },
     ],
   },
 ];
