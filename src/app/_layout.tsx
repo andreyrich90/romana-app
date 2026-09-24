@@ -17,6 +17,8 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal', gestureEnabled: false }} />
             <Stack.Screen name="account" />
+            <Stack.Screen name="privacy" />
+            <Stack.Screen name="delete-account" />
           </Stack>
         </ProgressProvider>
       </AuthProvider>

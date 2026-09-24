@@ -195,6 +195,10 @@ export default function Account() {
           </>
         )}
 
+        <Pressable onPress={() => router.push('/privacy')} hitSlop={8} style={s.linkWrap}>
+          <Text style={[s.small, { color: c.muted }]}>{t.privacy}</Text>
+        </Pressable>
+
         {notice && (
           <Text
             accessibilityLiveRegion="polite"
@@ -226,5 +230,6 @@ const s = StyleSheet.create({
   note: { fontSize: 14, lineHeight: 20 },
   linkWrap: { alignSelf: 'center', paddingVertical: 4 },
   link: { fontSize: 15, fontWeight: '700' },
+  small: { fontSize: 13, textDecorationLine: 'underline' },
   notice: { fontSize: 15, lineHeight: 21, padding: 12, borderRadius: 12, overflow: 'hidden' },
 });

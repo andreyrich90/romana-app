@@ -8,7 +8,11 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "pro.romana.app"
+      "bundleIdentifier": "pro.seajobs.romana",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +22,11 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "pro.romana.app"
+      "package": "pro.seajobs.romana",
+      "versionCode": 1,
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -32,8 +40,22 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-splash-screen"
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#2446A8",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#0B1230"
+          }
+        }
+      ]
     ],
-    "scheme": "romana"
+    "scheme": "romana",
+    "description": "Румынский язык с нуля: короткие уроки с объяснениями на русском и украинском.",
+    "primaryColor": "#2446A8"
   }
 }
