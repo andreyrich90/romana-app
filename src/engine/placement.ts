@@ -17,6 +17,9 @@ export const STAGES: [string, string][] = [
   ['u13', 'u14'],
   ['u15', 'u16'],
   ['u17', 'u18'],
+  ['u19', 'u20'],
+  ['u21', 'u22'],
+  ['u23', 'u24'],
 ];
 export const PER_STAGE = 3;
 export const PASS = 2;

@@ -17,7 +17,7 @@ import { useProgress } from '../state/progress';
 type Step = 'hello' | 'level' | 'test' | 'result' | 'goal';
 
 /** Which placement stage each self-assessed level starts the test at; the beginner skips it. */
-const FIRST_STAGE = [0, 1, 3, 5];
+const FIRST_STAGE = [0, 1, 3, 5, 7];
 
 const noop = () => {};
 
