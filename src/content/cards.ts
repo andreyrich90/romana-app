@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -2469,6 +2469,454 @@ export const CARDS: LearnCard[] = [
       task('Где ближайшая заправка?', 'Де найближча заправка?', ['Unde e cea mai apropiată benzinărie', 'Unde este cea mai apropiată benzinărie']),
       task('Где можно припарковаться?', 'Де можна припаркуватися?', ['Unde pot să parchez', 'Unde pot parca', 'Unde pot să parchez mașina']),
       task('Дизель.', 'Дизель.', ['Motorină', 'Motorina']),
+    ],
+  },
+  {
+    id: 'chirie',
+    kind: 'word',
+    theme: 'home',
+    ro: 'chirie',
+    tr: bi('аренда, квартплата', 'оренда, орендна плата'),
+    meaning: bi(
+      'Плата за съём жилья. Обычно платят помесячно и в начале вносят залог — garanție, часто в размере одного месяца.',
+      'Плата за найм житла. Зазвичай платять щомісяця, а на початку вносять заставу — garanție, часто в розмірі одного місяця.',
+    ),
+    examples: [
+      w('Cât este chiria?', 'Сколько стоит аренда?', 'Скільки коштує оренда?'),
+      w('Chiria se plătește la începutul lunii.', 'Аренду платят в начале месяца.', 'Оренду платять на початку місяця.'),
+      w('Cereți garanție?', 'Вы берёте залог?', 'Ви берете заставу?'),
+      w('Locuiesc cu chirie.', 'Я снимаю жильё.', 'Я винаймаю житло.'),
+    ],
+    expressions: [
+      w('a închiria', 'снимать; сдавать', 'винаймати; здавати'),
+      w('de închiriat', 'сдаётся', 'здається'),
+      w('garanție', 'залог', 'застава'),
+      w('chiriaș', 'квартирант', 'квартирант'),
+    ],
+    remember: bi(
+      'A închiria — и «снимать», и «сдавать»: **închiriez un apartament** — снимаю или сдаю, понятно из контекста. «Живу на съёмной» — **stau cu chirie**.',
+      'A închiria — і «винаймати», і «здавати»: **închiriez un apartament** — винаймаю чи здаю, зрозуміло з контексту. «Живу на орендованій» — **stau cu chirie**.',
+    ),
+    practice: [
+      task('Сколько стоит аренда?', 'Скільки коштує оренда?', ['Cât este chiria', 'Cât e chiria', 'Cât costă chiria']),
+      task('Я снимаю жильё.', 'Я винаймаю житло.', ['Locuiesc cu chirie', 'Stau cu chirie']),
+      task('Сдаётся.', 'Здається.', ['De închiriat', 'Se închiriază']),
+    ],
+  },
+  {
+    id: 'garsoniera',
+    kind: 'topic',
+    theme: 'home',
+    ro: 'garsonieră',
+    tr: bi('какие бывают квартиры', 'які бувають квартири'),
+    meaning: bi(
+      'Слова из объявлений. Garsonieră — однокомнатная (студия), apartament cu două camere — «двушка». В Румынии считают все комнаты, включая гостиную.',
+      'Слова з оголошень. Garsonieră — однокімнатна (студія), apartament cu două camere — «двокімнатна». У Румунії рахують усі кімнати, включно з вітальнею.',
+    ),
+    examples: [
+      w('Caut o garsonieră aproape de centru.', 'Ищу однокомнатную недалеко от центра.', 'Шукаю однокімнатну недалеко від центру.'),
+      w('Apartamentul are două camere și balcon.', 'В квартире две комнаты и балкон.', 'У квартирі дві кімнати й балкон.'),
+      w('Este decomandat.', 'Комнаты раздельные.', 'Кімнати окремі.'),
+      w('Blocul este vechi, dar renovat.', 'Дом старый, но отремонтированный.', 'Будинок старий, але відремонтований.'),
+    ],
+    expressions: [
+      w('garsonieră', 'однокомнатная, студия', 'однокімнатна, студія'),
+      w('decomandat', 'с раздельными комнатами', 'з окремими кімнатами'),
+      w('bloc', 'многоквартирный дом', 'багатоквартирний будинок'),
+      w('etaj', 'этаж', 'поверх'),
+    ],
+    remember: bi(
+      '**Decomandat** — в каждую комнату свой вход из коридора, **semidecomandat** — частично проходные. **La parter** — на первом этаже, а etajul 1 — это уже второй.',
+      '**Decomandat** — у кожну кімнату свій вхід з коридору, **semidecomandat** — частково прохідні. **La parter** — перший поверх, а etajul 1 — це вже другий.',
+    ),
+    practice: [
+      task('Ищу однокомнатную.', 'Шукаю однокімнатну.', ['Caut o garsonieră', 'Caut garsonieră']),
+      task('Квартира с двумя комнатами.', 'Квартира з двома кімнатами.', ['Apartament cu două camere', 'Un apartament cu două camere']),
+      task('На первом этаже.', 'На першому поверсі.', ['La parter']),
+    ],
+  },
+  {
+    id: 'vizionare',
+    kind: 'topic',
+    theme: 'home',
+    ro: 'La vizionare',
+    tr: bi('на просмотре квартиры', 'на огляді квартири'),
+    meaning: bi(
+      'Vizionare — просмотр квартиры перед арендой. Вопросы, которые стоит задать хозяину до подписания договора.',
+      'Vizionare — огляд квартири перед орендою. Питання, які варто поставити власнику до підписання договору.',
+    ),
+    examples: [
+      w('Pot să văd apartamentul mâine?', 'Можно посмотреть квартиру завтра?', 'Можна подивитися квартиру завтра?'),
+      w('Este mobilat?', 'Квартира с мебелью?', 'Квартира з меблями?'),
+      w('De când este liber?', 'С какого числа свободна?', 'З якого числа вільна?'),
+      w('Se acceptă animale?', 'Можно с животными?', 'Можна з тваринами?'),
+      w('Ce încălzire are?', 'Какое здесь отопление?', 'Яке тут опалення?'),
+    ],
+    expressions: [
+      w('mobilat', 'с мебелью', 'з меблями'),
+      w('utilat', 'с техникой', 'з технікою'),
+      w('liber', 'свободный', 'вільний'),
+      w('centrală proprie', 'свой газовый котёл', 'власний газовий котел'),
+    ],
+    remember: bi(
+      'Mobilat și utilat — «с мебелью и техникой». **Centrală proprie** — своё отопление: зимой вы сами решаете, когда топить, и платите по счётчику.',
+      'Mobilat și utilat — «з меблями й технікою». **Centrală proprie** — власне опалення: узимку ви самі вирішуєте, коли топити, і платите за лічильником.',
+    ),
+    practice: [
+      task('Можно посмотреть квартиру?', 'Можна подивитися квартиру?', ['Pot să văd apartamentul', 'Pot vedea apartamentul', 'Aș putea să văd apartamentul']),
+      task('Квартира с мебелью?', 'Квартира з меблями?', ['Este mobilat', 'E mobilat', 'Apartamentul este mobilat']),
+      task('С какого числа свободна?', 'З якого числа вільна?', ['De când este liber', 'De când e liber', 'Când se eliberează']),
+    ],
+  },
+  {
+    id: 'proprietar',
+    kind: 'word',
+    theme: 'home',
+    ro: 'proprietar',
+    tr: bi('хозяин, владелец', 'власник, господар'),
+    meaning: bi(
+      'Хозяин квартиры. С ним подписывают contract de închiriere — договор аренды. Договор лучше оформить письменно.',
+      'Власник квартири. З ним підписують contract de închiriere — договір оренди. Договір краще оформити письмово.',
+    ),
+    examples: [
+      w('Proprietarul locuiește în alt oraș.', 'Хозяин живёт в другом городе.', 'Власник живе в іншому місті.'),
+      w('Semnăm contractul de închiriere?', 'Подписываем договор аренды?', 'Підписуємо договір оренди?'),
+      w('Contractul este pe un an.', 'Договор на год.', 'Договір на рік.'),
+      w('Vă trimit chiria prin transfer.', 'Я переведу вам аренду на счёт.', 'Я перекажу вам оренду на рахунок.'),
+    ],
+    expressions: [
+      w('contract de închiriere', 'договор аренды', 'договір оренди'),
+      w('a semna', 'подписать', 'підписати'),
+      w('chiriaș', 'квартирант', 'квартирант'),
+      w('agenție imobiliară', 'агентство недвижимости', 'агенція нерухомості'),
+    ],
+    remember: bi(
+      'Proprietar (м.), **proprietară** (ж.). Жильцы дома вместе — **asociația de proprietari**: она собирает плату за обслуживание дома.',
+      'Proprietar (ч.), **proprietară** (ж.). Мешканці будинку разом — **asociația de proprietari**: вона збирає плату за обслуговування будинку.',
+    ),
+    practice: [
+      task('Договор аренды.', 'Договір оренди.', ['Contract de închiriere', 'Contractul de închiriere']),
+      task('Подписываем договор?', 'Підписуємо договір?', ['Semnăm contractul', 'Semnăm contractul de închiriere']),
+      task('Договор на год.', 'Договір на рік.', ['Contractul este pe un an', 'Contractul e pe un an', 'Contract pe un an']),
+    ],
+  },
+  {
+    id: 'utilitati',
+    kind: 'word',
+    theme: 'home',
+    ro: 'utilități',
+    tr: bi('коммунальные услуги', 'комунальні послуги'),
+    meaning: bi(
+      'Коммуналка: свет, газ, вода, интернет. Отдельно платят întreținere — сбор ассоциации жильцов за обслуживание дома.',
+      'Комуналка: світло, газ, вода, інтернет. Окремо платять întreținere — збір асоціації мешканців за обслуговування будинку.',
+    ),
+    examples: [
+      w('Utilitățile sunt incluse în chirie?', 'Коммунальные включены в аренду?', 'Комунальні включені в оренду?'),
+      w('Iarna, gazele sunt scumpe.', 'Зимой газ дорогой.', 'Узимку газ дорогий.'),
+      w('Factura la curent a venit.', 'Пришёл счёт за свет.', 'Прийшов рахунок за світло.'),
+      w('Cât e întreținerea pe lună?', 'Сколько в месяц за обслуживание дома?', 'Скільки на місяць за обслуговування будинку?'),
+    ],
+    expressions: [
+      w('curent', 'электричество, свет', 'електрика, світло'),
+      w('gaze', 'газ', 'газ'),
+      w('factură', 'счёт (к оплате)', 'рахунок (до сплати)'),
+      w('întreținere', 'плата за обслуживание дома', 'плата за обслуговування будинку'),
+    ],
+    remember: bi(
+      'Газ — во множественном: **gazele**. Свет в разговоре — **curentul**: a luat curentul — «свет отключили».',
+      'Газ — у множині: **gazele**. Світло в розмові — **curentul**: a luat curentul — «світло вимкнули».',
+    ),
+    practice: [
+      task('Коммунальные включены?', 'Комунальні включені?', ['Utilitățile sunt incluse', 'Sunt incluse utilitățile', 'Utilitățile sunt incluse în chirie']),
+      task('Счёт за свет.', 'Рахунок за світло.', ['Factura la curent', 'Factura de curent', 'Factura la electricitate']),
+      task('Сколько в месяц?', 'Скільки на місяць?', ['Cât e pe lună', 'Cât este pe lună', 'Cât costă pe lună']),
+    ],
+  },
+  {
+    id: 'centrala',
+    kind: 'phrase',
+    theme: 'home',
+    ro: 'S-a stricat centrala.',
+    tr: bi('сломался котёл', 'зламався котел'),
+    meaning: bi(
+      'Самая частая зимняя беда: в румынских квартирах отопление и горячая вода часто идут от своего газового котла — centrala.',
+      'Найчастіша зимова біда: у румунських квартирах опалення й гаряча вода часто йдуть від власного газового котла — centrala.',
+    ),
+    examples: [
+      w('S-a stricat centrala și nu avem apă caldă.', 'Сломался котёл, и у нас нет горячей воды.', 'Зламався котел, і в нас немає гарячої води.'),
+      w('Curge apa în baie.', 'В ванной течёт вода.', 'У ванній тече вода.'),
+      w('Nu merge încălzirea.', 'Не работает отопление.', 'Не працює опалення.'),
+      w('Trebuie să chemăm un instalator.', 'Нужно вызвать сантехника.', 'Треба викликати сантехніка.'),
+    ],
+    expressions: [
+      w('apă caldă', 'горячая вода', 'гаряча вода'),
+      w('încălzire', 'отопление', 'опалення'),
+      w('instalator', 'сантехник', 'сантехнік'),
+      w('electrician', 'электрик', 'електрик'),
+    ],
+    remember: bi(
+      '«Сломалось» — **s-a stricat**, «не работает» — **nu merge**. Кто платит за ремонт, лучше заранее прописать в договоре.',
+      '«Зламалося» — **s-a stricat**, «не працює» — **nu merge**. Хто платить за ремонт, краще заздалегідь прописати в договорі.',
+    ),
+    practice: [
+      task('Сломался котёл.', 'Зламався котел.', ['S-a stricat centrala', 'Centrala s-a stricat']),
+      task('Не работает отопление.', 'Не працює опалення.', ['Nu merge încălzirea', 'Încălzirea nu merge', 'Nu funcționează încălzirea']),
+      task('Нужно вызвать сантехника.', 'Треба викликати сантехніка.', ['Trebuie să chemăm un instalator', 'Trebuie să chem un instalator']),
+    ],
+  },
+  {
+    id: 'vecin',
+    kind: 'word',
+    theme: 'home',
+    ro: 'vecin',
+    tr: bi('сосед', 'сусід'),
+    meaning: bi(
+      'Сосед. Соседи по блоку — это ещё и asociația de proprietari с администратором, объявлениями на двери подъезда и общими правилами.',
+      'Сусід. Сусіди по блоку — це ще й asociația de proprietari з адміністратором, оголошеннями на дверях під’їзду і спільними правилами.',
+    ),
+    examples: [
+      w('Vecinii de sus fac mult zgomot.', 'Соседи сверху очень шумят.', 'Сусіди згори дуже шумлять.'),
+      w('Bună ziua, sunt noul vecin.', 'Добрый день, я ваш новый сосед.', 'Добрий день, я ваш новий сусід.'),
+      w('Unde este administratorul?', 'Где найти администратора дома?', 'Де знайти адміністратора будинку?'),
+      w('Liniște după ora zece seara, vă rog.', 'Тишина после десяти вечера, пожалуйста.', 'Тиша після десятої вечора, будь ласка.'),
+    ],
+    expressions: [
+      w('vecina', 'соседка', 'сусідка'),
+      w('zgomot', 'шум', 'шум'),
+      w('administrator', 'администратор дома', 'адміністратор будинку'),
+      w('scara blocului', 'подъезд', 'під’їзд'),
+    ],
+    remember: bi(
+      'vecin — vecină — vecini — vecine. «Сверху / снизу» — **de sus / de jos**: vecinii de jos.',
+      'vecin — vecină — vecini — vecine. «Згори / знизу» — **de sus / de jos**: vecinii de jos.',
+    ),
+    practice: [
+      task('Я ваш новый сосед.', 'Я ваш новий сусід.', ['Sunt noul vecin', 'Sunt noul dumneavoastră vecin', 'Sunt noua vecină']),
+      task('Соседи сверху шумят.', 'Сусіди згори шумлять.', ['Vecinii de sus fac zgomot', 'Vecinii de sus fac mult zgomot']),
+      task('Подъезд.', 'Під’їзд.', ['Scara blocului', 'Scara']),
+    ],
+  },
+  {
+    id: 'cont',
+    kind: 'word',
+    theme: 'bank',
+    ro: 'cont',
+    tr: bi('банковский счёт', 'банківський рахунок'),
+    meaning: bi(
+      'Банковский счёт. На него приходит зарплата, с него платят аренду. Номер счёта в Румынии — IBAN, начинается с RO.',
+      'Банківський рахунок. На нього приходить зарплата, з нього платять оренду. Номер рахунку в Румунії — IBAN, починається з RO.',
+    ),
+    examples: [
+      w('Aș vrea să deschid un cont.', 'Я бы хотел открыть счёт.', 'Я хотів би відкрити рахунок.'),
+      w('Îmi dați IBAN-ul, vă rog?', 'Дайте мне ваш IBAN, пожалуйста.', 'Дайте мені ваш IBAN, будь ласка.'),
+      w('Pot primi salariul în contul ăsta?', 'Можно получать зарплату на этот счёт?', 'Можна отримувати зарплату на цей рахунок?'),
+      w('Am nevoie de un extras de cont.', 'Мне нужна выписка со счёта.', 'Мені потрібна виписка з рахунку.'),
+    ],
+    expressions: [
+      w('cont curent', 'текущий счёт', 'поточний рахунок'),
+      w('a deschide un cont', 'открыть счёт', 'відкрити рахунок'),
+      w('extras de cont', 'выписка со счёта', 'виписка з рахунку'),
+      w('sold', 'остаток на счёте', 'залишок на рахунку'),
+    ],
+    remember: bi(
+      'Cont — **средний род**: contul, conturi. Для открытия счёта обычно просят паспорт или вид на жительство и адрес.',
+      'Cont — **середній рід**: contul, conturi. Для відкриття рахунку зазвичай просять паспорт або посвідку на проживання й адресу.',
+    ),
+    practice: [
+      task('Я бы хотел открыть счёт.', 'Я хотів би відкрити рахунок.', ['Aș vrea să deschid un cont', 'Vreau să deschid un cont', 'Aș dori să deschid un cont']),
+      task('Выписка со счёта.', 'Виписка з рахунку.', ['Extras de cont', 'Extrasul de cont', 'Un extras de cont']),
+      task('Остаток на счёте.', 'Залишок на рахунку.', ['Sold', 'Soldul', 'Soldul contului']),
+    ],
+  },
+  {
+    id: 'bancomat',
+    kind: 'word',
+    theme: 'bank',
+    ro: 'bancomat',
+    tr: bi('банкомат', 'банкомат'),
+    meaning: bi(
+      'Банкомат. «Снять деньги» — a scoate bani. Если банкомат чужого банка, может быть комиссия — comision.',
+      'Банкомат. «Зняти гроші» — a scoate bani. Якщо банкомат чужого банку, може бути комісія — comision.',
+    ),
+    examples: [
+      w('Unde e un bancomat?', 'Где здесь банкомат?', 'Де тут банкомат?'),
+      w('Trebuie să scot bani.', 'Мне нужно снять деньги.', 'Мені треба зняти гроші.'),
+      w('Bancomatul mi-a reținut cardul.', 'Банкомат задержал мою карту.', 'Банкомат затримав мою картку.'),
+      w('Există comision?', 'Есть комиссия?', 'Є комісія?'),
+    ],
+    expressions: [
+      w('a scoate bani', 'снять деньги', 'зняти гроші'),
+      w('codul PIN', 'ПИН-код', 'ПІН-код'),
+      w('comision', 'комиссия', 'комісія'),
+      w('a depune bani', 'положить деньги', 'покласти гроші'),
+    ],
+    remember: bi(
+      '**A scoate** — «вынимать, доставать»: scot bani — снимаю деньги. Обратное — **a depune**: depun bani în cont.',
+      '**A scoate** — «виймати, діставати»: scot bani — знімаю гроші. Зворотне — **a depune**: depun bani în cont.',
+    ),
+    practice: [
+      task('Где здесь банкомат?', 'Де тут банкомат?', ['Unde e un bancomat', 'Unde este un bancomat', 'Unde găsesc un bancomat']),
+      task('Мне нужно снять деньги.', 'Мені треба зняти гроші.', ['Trebuie să scot bani', 'Am nevoie să scot bani', 'Vreau să scot bani']),
+      task('Есть комиссия?', 'Є комісія?', ['Există comision', 'Este comision', 'E vreun comision']),
+    ],
+  },
+  {
+    id: 'transfer',
+    kind: 'word',
+    theme: 'bank',
+    ro: 'transfer',
+    tr: bi('перевод денег', 'переказ грошей'),
+    meaning: bi(
+      'Перевод денег — на другой счёт, за аренду, семье домой. Для перевода нужны IBAN и имя получателя — beneficiarul.',
+      'Переказ грошей — на інший рахунок, за оренду, родині додому. Для переказу потрібні IBAN та ім’я отримувача — beneficiarul.',
+    ),
+    examples: [
+      w('Vreau să fac un transfer.', 'Я хочу сделать перевод.', 'Я хочу зробити переказ.'),
+      w('Trimit bani acasă în fiecare lună.', 'Каждый месяц я отправляю деньги домой.', 'Щомісяця я надсилаю гроші додому.'),
+      w('Care este numele beneficiarului?', 'Как зовут получателя?', 'Як звати отримувача?'),
+      w('Banii ajung într-o zi.', 'Деньги придут за день.', 'Гроші прийдуть за день.'),
+    ],
+    expressions: [
+      w('beneficiar', 'получатель', 'отримувач'),
+      w('suma', 'сумма', 'сума'),
+      w('a trimite bani', 'отправить деньги', 'надіслати гроші'),
+      w('plată', 'платёж', 'платіж'),
+    ],
+    remember: bi(
+      'Transfer — **средний род**: transferul, transferuri. «Переведи мне» в разговоре — **trimite-mi banii** или **fă-mi un transfer**.',
+      'Transfer — **середній рід**: transferul, transferuri. «Перекажи мені» у розмові — **trimite-mi banii** або **fă-mi un transfer**.',
+    ),
+    practice: [
+      task('Я хочу сделать перевод.', 'Я хочу зробити переказ.', ['Vreau să fac un transfer', 'Aș vrea să fac un transfer']),
+      task('Я отправляю деньги домой.', 'Я надсилаю гроші додому.', ['Trimit bani acasă']),
+      task('Получатель.', 'Отримувач.', ['Beneficiar', 'Beneficiarul']),
+    ],
+  },
+  {
+    id: 'am-pierdut-cardul',
+    kind: 'phrase',
+    theme: 'bank',
+    ro: 'Am pierdut cardul!',
+    tr: bi('я потерял карту!', 'я загубив картку!'),
+    meaning: bi(
+      'Что сказать в банке или на горячей линии, если карту потеряли или украли, или если на счёте странный платёж.',
+      'Що сказати в банку чи на гарячій лінії, якщо картку загубили або вкрали, чи якщо на рахунку дивний платіж.',
+    ),
+    examples: [
+      w('Am pierdut cardul, vreau să-l blochez.', 'Я потерял карту, хочу её заблокировать.', 'Я загубив картку, хочу її заблокувати.'),
+      w('Mi s-a furat portofelul.', 'У меня украли кошелёк.', 'У мене вкрали гаманець.'),
+      w('Nu recunosc această plată.', 'Я не совершал этот платёж.', 'Я не здійснював цей платіж.'),
+      w('Când primesc un card nou?', 'Когда я получу новую карту?', 'Коли я отримаю нову картку?'),
+    ],
+    expressions: [
+      w('a bloca', 'заблокировать', 'заблокувати'),
+      w('portofel', 'кошелёк', 'гаманець'),
+      w('card nou', 'новая карта', 'нова картка'),
+      w('fraudă', 'мошенничество', 'шахрайство'),
+    ],
+    remember: bi(
+      '«У меня украли» — **mi s-a furat** (дословно «мне украли»). Карту блокируют сразу — в приложении банка или по телефону на обороте карты.',
+      '«У мене вкрали» — **mi s-a furat** (дослівно «мені вкрали»). Картку блокують одразу — у застосунку банку або за телефоном на звороті картки.',
+    ),
+    practice: [
+      task('Я потерял карту.', 'Я загубив картку.', ['Am pierdut cardul', 'Mi-am pierdut cardul']),
+      task('Хочу заблокировать карту.', 'Хочу заблокувати картку.', ['Vreau să blochez cardul', 'Aș vrea să blochez cardul']),
+      task('У меня украли кошелёк.', 'У мене вкрали гаманець.', ['Mi s-a furat portofelul', 'Mi-au furat portofelul']),
+    ],
+  },
+  {
+    id: 'schimb-valutar',
+    kind: 'word',
+    theme: 'bank',
+    ro: 'schimb valutar',
+    tr: bi('обмен валюты', 'обмін валюти'),
+    meaning: bi(
+      'Обмен валюты — в банке или в обменнике (casă de schimb). Сравните курс — cursul — и спросите о комиссии.',
+      'Обмін валюти — у банку або в обміннику (casă de schimb). Порівняйте курс — cursul — і спитайте про комісію.',
+    ),
+    examples: [
+      w('Unde pot schimba euro?', 'Где можно обменять евро?', 'Де можна обміняти євро?'),
+      w('Cât e cursul azi?', 'Какой сегодня курс?', 'Який сьогодні курс?'),
+      w('Vreau să schimb o sută de euro în lei.', 'Хочу обменять сто евро на леи.', 'Хочу обміняти сто євро на леї.'),
+    ],
+    expressions: [
+      w('casă de schimb', 'обменник', 'обмінник'),
+      w('cursul', 'курс валюты', 'курс валюти'),
+      w('valută', 'валюта', 'валюта'),
+      w('euro', 'евро', 'євро'),
+    ],
+    remember: bi(
+      'На что меняем — **în**: schimb euro **în** lei. Euro не склоняется: un euro, o sută de euro.',
+      'На що міняємо — **în**: schimb euro **în** lei. Euro не змінюється: un euro, o sută de euro.',
+    ),
+    practice: [
+      task('Где можно обменять евро?', 'Де можна обміняти євро?', ['Unde pot schimba euro', 'Unde pot să schimb euro', 'Unde pot schimba bani']),
+      task('Какой сегодня курс?', 'Який сьогодні курс?', ['Cât e cursul azi', 'Cât este cursul azi', 'Care e cursul azi', 'Cât e cursul astăzi']),
+      task('Обменник.', 'Обмінник.', ['Casă de schimb', 'Casa de schimb', 'Schimb valutar']),
+    ],
+  },
+  {
+    id: 'credit',
+    kind: 'word',
+    theme: 'bank',
+    ro: 'credit',
+    tr: bi('кредит', 'кредит'),
+    meaning: bi(
+      'Кредит. Ежемесячный платёж — rată, процент — dobândă. «Платить в рассрочку» — în rate.',
+      'Кредит. Щомісячний платіж — rată, відсоток — dobândă. «Платити на виплат» — în rate.',
+    ),
+    examples: [
+      w('Am luat un credit pentru mașină.', 'Я взял кредит на машину.', 'Я взяв кредит на машину.'),
+      w('Cât este rata lunară?', 'Какой ежемесячный платёж?', 'Який щомісячний платіж?'),
+      w('Dobânda este prea mare.', 'Процент слишком высокий.', 'Відсоток зависокий.'),
+      w('Se poate plăti în rate?', 'Можно в рассрочку?', 'Можна на виплат?'),
+    ],
+    expressions: [
+      w('rată', 'ежемесячный платёж', 'щомісячний платіж'),
+      w('dobândă', 'процент по кредиту', 'відсоток за кредитом'),
+      w('în rate', 'в рассрочку', 'на виплат'),
+      w('a lua un credit', 'взять кредит', 'взяти кредит'),
+    ],
+    remember: bi(
+      'Rată — **женский род**: rata, rate. «В рассрочку без процентов» — **rate fără dobândă**: так часто продают технику.',
+      'Rată — **жіночий рід**: rata, rate. «На виплат без відсотків» — **rate fără dobândă**: так часто продають техніку.',
+    ),
+    practice: [
+      task('Можно в рассрочку?', 'Можна на виплат?', ['Se poate plăti în rate', 'Pot plăti în rate', 'Se poate în rate']),
+      task('Какой ежемесячный платёж?', 'Який щомісячний платіж?', ['Cât este rata lunară', 'Cât e rata lunară', 'Cât e rata']),
+      task('Взять кредит.', 'Взяти кредит.', ['A lua un credit', 'Iau un credit']),
+    ],
+  },
+  {
+    id: 'la-banca',
+    kind: 'topic',
+    theme: 'bank',
+    ro: 'La bancă',
+    tr: bi('в отделении банка', 'у відділенні банку'),
+    meaning: bi(
+      'Фразы для визита в банк: записаться, спросить про обслуживание счёта, приложение, лимиты.',
+      'Фрази для візиту в банк: записатися, спитати про обслуговування рахунку, застосунок, ліміти.',
+    ),
+    examples: [
+      w('Cât costă administrarea contului?', 'Сколько стоит обслуживание счёта?', 'Скільки коштує обслуговування рахунку?'),
+      w('Aveți aplicație pe telefon?', 'У вас есть приложение для телефона?', 'У вас є застосунок для телефона?'),
+      w('Care este limita de retragere?', 'Какой лимит на снятие?', 'Який ліміт на зняття?'),
+      w('Trebuie să vin la sucursală?', 'Нужно прийти в отделение?', 'Треба прийти до відділення?'),
+    ],
+    expressions: [
+      w('sucursală', 'отделение банка', 'відділення банку'),
+      w('aplicație', 'приложение', 'застосунок'),
+      w('limită', 'лимит', 'ліміт'),
+      w('retragere', 'снятие наличных', 'зняття готівки'),
+    ],
+    remember: bi(
+      'В банке всё на «вы»: **aveți**, **puteți**, **trebuie să vin?** А вежливое начало — **Bună ziua, aș vrea să…**',
+      'У банку все на «ви»: **aveți**, **puteți**, **trebuie să vin?** А ввічливий початок — **Bună ziua, aș vrea să…**',
+    ),
+    practice: [
+      task('Сколько стоит обслуживание счёта?', 'Скільки коштує обслуговування рахунку?', ['Cât costă administrarea contului', 'Cât costă întreținerea contului', 'Cât e administrarea contului']),
+      task('У вас есть приложение?', 'У вас є застосунок?', ['Aveți aplicație', 'Aveți o aplicație', 'Aveți aplicație pe telefon']),
+      task('Отделение банка.', 'Відділення банку.', ['Sucursală', 'Sucursala', 'Agenție', 'Agenția']),
     ],
   },
 ];

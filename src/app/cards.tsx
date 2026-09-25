@@ -10,8 +10,8 @@ import { day } from '../state/model';
 import { useProgress } from '../state/progress';
 
 const KINDS: CardKind[] = ['word', 'phrase', 'topic'];
-const THEMES: CardTheme[] = ['work', 'docs', 'health', 'shop', 'transport'];
-const ICON: Record<CardKind | CardTheme, string> = { work: '💼', docs: '📄', health: '🩺', shop: '🛒', transport: '🚌', word: '📝', phrase: '💬', topic: '💡' };
+const THEMES: CardTheme[] = ['work', 'docs', 'health', 'shop', 'transport', 'home', 'bank'];
+const ICON: Record<CardKind | CardTheme, string> = { work: '💼', docs: '📄', health: '🩺', shop: '🛒', transport: '🚌', home: '🏠', bank: '🏦', word: '📝', phrase: '💬', topic: '💡' };
 
 /** The card library: today's card first, then every card by kind. */
 export default function Cards() {
