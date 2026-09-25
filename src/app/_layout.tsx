@@ -21,6 +21,8 @@ export default function RootLayout() {
               <Stack.Screen name="welcome" options={{ gestureEnabled: false }} />
               <Stack.Screen name="profile" />
               <Stack.Screen name="words" />
+              <Stack.Screen name="cards" />
+              <Stack.Screen name="card/[id]" />
               <Stack.Screen name="account" />
               <Stack.Screen name="privacy" />
               <Stack.Screen name="delete-account" />

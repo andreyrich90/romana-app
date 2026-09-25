@@ -14,6 +14,7 @@ import { check, isGraded, reveal, type Answer, type Verdict } from '../../engine
 import { current, isFinished, isOut, reduce, result, startSession, type Session } from '../../engine/session';
 import { buildPractice, exerciseKey, PRACTICE_ID } from '../../engine/practice';
 import { buildWalletPractice, WALLET_ID } from '../../engine/walletPractice';
+import { cardSession, isCardSession } from '../../engine/cardPractice';
 import { lessonPool } from '../../engine/wordBank';
 import { day, walletWords } from '../../state/model';
 import { speak } from '../../lib/speech';
@@ -24,6 +25,7 @@ export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   if (id === PRACTICE_ID) return <PracticeScreen />;
   if (id === WALLET_ID) return <WalletScreen />;
+  if (isCardSession(id)) return <CardScreen id={id} />;
   return <CourseLesson id={id} />;
 }
 
@@ -36,6 +38,15 @@ function WalletScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [attempt],
   );
+  if (!lesson) return <Missing />;
+  return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
+}
+
+/** A card's practice, reshuffled on each attempt. */
+function CardScreen({ id }: { id: string }) {
+  const [attempt, setAttempt] = useState(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const lesson = useMemo(() => cardSession(id), [id, attempt]);
   if (!lesson) return <Missing />;
   return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
 }
@@ -93,7 +104,7 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
     if (finished && !saved.current) {
       saved.current = true;
       const r = result(session);
-      finishSession(lesson.id, r.xp, r.accuracy, lesson.id === PRACTICE_ID || lesson.id === WALLET_ID);
+      finishSession(lesson.id, r.xp, r.accuracy, lesson.id === PRACTICE_ID || lesson.id === WALLET_ID || isCardSession(lesson.id));
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     }
   }, [finished, session, finishSession, lesson.id]);
@@ -280,7 +291,7 @@ function Results({ lesson, session, onAgain }: { lesson: Lesson; session: Sessio
       style={{ backgroundColor: c.bg }}
       contentContainerStyle={[s.results, { paddingTop: insets.top + 32, paddingBottom: insets.bottom + 24 }]}
     >
-      <Text style={[s.doneTitle, { color: c.ochre }]}>{lesson.id === PRACTICE_ID ? t.practiceDone : lesson.id === WALLET_ID ? t.walletDone : t.done}</Text>
+      <Text style={[s.doneTitle, { color: c.ochre }]}>{lesson.id === PRACTICE_ID ? t.practiceDone : lesson.id === WALLET_ID ? t.walletDone : isCardSession(lesson.id) ? t.cardDone : t.done}</Text>
       <Text style={[s.sub, { color: c.muted }]}>{t.doneSub}</Text>
       <View style={s.statRow}>
         {tiles.map(([label, value, color]) => (

@@ -4,6 +4,8 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DailyGoal } from '../components/DailyGoal';
+import { DayCard } from '../components/DayCard';
+import { cardOfDay } from '../content/cards';
 import { Button } from '../components/ui';
 import { COURSE, isUnlocked, lessonIndex } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
@@ -124,6 +126,7 @@ export default function Home() {
       <ScrollView ref={scroller} contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
         <View style={s.today}>
           <DailyGoal />
+          <DayCard card={cardOfDay(day(new Date()))} />
           <Pressable
             accessibilityRole="button"
             disabled={!hasLessons}
@@ -163,20 +166,22 @@ export default function Home() {
           <View style={s.links}>
             {[
               ['📖', t.dictionary, '/words'],
+              ['🗂', t.cards, '/cards'],
               ['🏆', t.achievements, '/profile'],
             ].map(([icon, label, href]) => (
               <Pressable
                 key={href + label}
                 accessibilityRole="button"
-                onPress={() => router.push(href as '/words' | '/profile')}
+                onPress={() => router.push(href as '/words' | '/cards' | '/profile')}
                 style={({ pressed }) => [
                   s.link,
                   { backgroundColor: c.surface, borderColor: c.line },
                   pressed && { opacity: 0.7 },
                 ]}
               >
-                <Text style={[s.linkText, { color: c.ink }]}>
-                  {icon} {label}
+                <Text style={s.linkIcon}>{icon}</Text>
+                <Text style={[s.linkText, { color: c.ink }]} numberOfLines={1} adjustsFontSizeToFit>
+                  {label}
                 </Text>
               </Pressable>
             ))}
@@ -303,8 +308,9 @@ const s = StyleSheet.create({
     paddingHorizontal: 6,
   },
   links: { flexDirection: 'row', gap: 10 },
-  link: { flex: 1, borderWidth: 2, borderBottomWidth: 4, borderRadius: 14, paddingVertical: 10, alignItems: 'center' },
-  linkText: { fontSize: 15, fontWeight: '700' },
+  link: { flex: 1, borderWidth: 2, borderBottomWidth: 4, borderRadius: 14, paddingVertical: 8, paddingHorizontal: 4, alignItems: 'center', gap: 2 },
+  linkIcon: { fontSize: 20 },
+  linkText: { fontSize: 14, fontWeight: '700' },
   scroll: { paddingHorizontal: 16, paddingTop: 20, gap: 28 },
   unitBlock: { gap: 18 },
   unit: { borderRadius: 20, borderWidth: 2, borderBottomWidth: 5, padding: 18, gap: 2 },
