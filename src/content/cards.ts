@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -3495,6 +3495,328 @@ export const CARDS: LearnCard[] = [
       task('Искренние соболезнования.', 'Щирі співчуття.', ['Sincere condoleanțe', 'Condoleanțe', 'Condoleanțele mele']),
       task('Я рядом с тобой.', 'Я поруч із тобою.', ['Sunt alături de tine', 'Sunt lângă tine']),
       task('Чем я могу помочь?', 'Чим я можу допомогти?', ['Cu ce te pot ajuta', 'Cum te pot ajuta', 'Cu ce vă pot ajuta', 'Cum vă pot ajuta']),
+    ],
+  },
+  {
+    id: 'vacanta',
+    kind: 'word',
+    theme: 'travel',
+    ro: 'vacanță',
+    tr: bi('отдых, каникулы', 'відпочинок, канікули'),
+    meaning: bi(
+      'Отдых и путешествие. Не путайте с concediu: concediu — отпуск от работы по документам, vacanță — сам отдых и поездка.',
+      'Відпочинок і подорож. Не плутайте з concediu: concediu — відпустка від роботи за документами, vacanță — сам відпочинок і поїздка.',
+    ),
+    examples: [
+      w('Unde mergi în vacanță?', 'Куда едешь отдыхать?', 'Куди їдеш відпочивати?'),
+      w('Vacanță plăcută!', 'Хорошего отдыха!', 'Гарного відпочинку!'),
+      w('Suntem aici în vacanță.', 'Мы здесь на отдыхе.', 'Ми тут на відпочинку.'),
+      w('Am nevoie de o vacanță.', 'Мне нужен отпуск.', 'Мені потрібна відпустка.'),
+    ],
+    expressions: [
+      w('în vacanță', 'на отдыхе, в отпуске', 'на відпочинку, у відпустці'),
+      w('vacanță plăcută', 'хорошего отдыха', 'гарного відпочинку'),
+      w('excursie', 'экскурсия, поездка', 'екскурсія, поїздка'),
+      w('turist', 'турист', 'турист'),
+    ],
+    remember: bi(
+      'Vacanță — **женский род**: vacanța, vacanțe. Школьные каникулы — тоже vacanța: **vacanța de vară** — летние каникулы.',
+      'Vacanță — **жіночий рід**: vacanța, vacanțe. Шкільні канікули — теж vacanța: **vacanța de vară** — літні канікули.',
+    ),
+    practice: [
+      task('Куда едешь отдыхать?', 'Куди їдеш відпочивати?', ['Unde mergi în vacanță', 'Unde pleci în vacanță']),
+      task('Хорошего отдыха!', 'Гарного відпочинку!', ['Vacanță plăcută', 'Vacanță frumoasă']),
+      task('Мы здесь на отдыхе.', 'Ми тут на відпочинку.', ['Suntem aici în vacanță', 'Suntem în vacanță aici', 'Suntem în vacanță']),
+    ],
+  },
+  {
+    id: 'mare-munte',
+    kind: 'phrase',
+    theme: 'travel',
+    ro: 'La mare sau la munte?',
+    tr: bi('на море или в горы?', 'на море чи в гори?'),
+    meaning: bi(
+      'Главный румынский вопрос перед летом. Море — Черноморское побережье (litoralul), горы — Карпаты с домиками-пансионами.',
+      'Головне румунське питання перед літом. Море — чорноморське узбережжя (litoralul), гори — Карпати з будиночками-пансіонами.',
+    ),
+    examples: [
+      w('Anul ăsta mergem la munte.', 'В этом году едем в горы.', 'Цього року їдемо в гори.'),
+      w('Am fost o săptămână pe litoral.', 'Мы неделю были на побережье.', 'Ми тиждень були на узбережжі.'),
+      w('Traseul este ușor și marcat.', 'Маршрут лёгкий и размечен.', 'Маршрут легкий і позначений.'),
+      w('Dormim la o cabană.', 'Ночуем в горном домике.', 'Ночуємо в гірському будиночку.'),
+    ],
+    expressions: [
+      w('litoral', 'морское побережье', 'морське узбережжя'),
+      w('plajă', 'пляж', 'пляж'),
+      w('traseu', 'туристический маршрут', 'туристичний маршрут'),
+      w('cabană', 'горный домик, приют', 'гірський будиночок, притулок'),
+    ],
+    remember: bi(
+      'Куда — **la**: la mare, la munte. «На побережье» — **pe litoral** (pe — «по, на»).',
+      'Куди — **la**: la mare, la munte. «На узбережжі» — **pe litoral** (pe — «по, на»).',
+    ),
+    practice: [
+      task('На море или в горы?', 'На море чи в гори?', ['La mare sau la munte']),
+      task('Мы едем в горы.', 'Ми їдемо в гори.', ['Mergem la munte', 'Plecăm la munte']),
+      task('Пляж.', 'Пляж.', ['Plajă', 'Plaja']),
+    ],
+  },
+  {
+    id: 'cazare',
+    kind: 'word',
+    theme: 'travel',
+    ro: 'cazare',
+    tr: bi('жильё, размещение', 'житло, розміщення'),
+    meaning: bi(
+      'Любое жильё в поездке: гостиница, квартира на сутки или pensiune — гостевой дом, очень популярный в горах и сёлах.',
+      'Будь-яке житло в поїздці: готель, квартира подобово або pensiune — гостьовий будинок, дуже популярний у горах і селах.',
+    ),
+    examples: [
+      w('Căutăm cazare pentru două nopți.', 'Ищем жильё на две ночи.', 'Шукаємо житло на дві ночі.'),
+      w('Prețul include micul dejun?', 'Завтрак включён в цену?', 'Сніданок включено в ціну?'),
+      w('Am rezervat o pensiune lângă Sibiu.', 'Я забронировал гостевой дом возле Сибиу.', 'Я забронював гостьовий будинок біля Сібіу.'),
+      w('Aveți locuri libere?', 'У вас есть свободные места?', 'У вас є вільні місця?'),
+    ],
+    expressions: [
+      w('pensiune', 'гостевой дом', 'гостьовий будинок'),
+      w('hotel', 'гостиница', 'готель'),
+      w('cu mic dejun', 'с завтраком', 'зі сніданком'),
+      w('o noapte', 'одна ночь', 'одна ніч'),
+    ],
+    remember: bi(
+      'Cazare — **женский род**. Глагол — **a se caza**: ne cazăm — мы заселяемся. Ночь — **noapte**, две ночи — **două nopți**.',
+      'Cazare — **жіночий рід**. Дієслово — **a se caza**: ne cazăm — ми заселяємося. Ніч — **noapte**, дві ночі — **două nopți**.',
+    ),
+    practice: [
+      task('Ищем жильё на две ночи.', 'Шукаємо житло на дві ночі.', ['Căutăm cazare pentru două nopți', 'Căutăm cazare pe două nopți']),
+      task('Завтрак включён?', 'Сніданок включено?', ['Micul dejun este inclus', 'Micul dejun e inclus', 'Prețul include micul dejun', 'Este inclus micul dejun']),
+      task('У вас есть свободные места?', 'У вас є вільні місця?', ['Aveți locuri libere', 'Aveți camere libere']),
+    ],
+  },
+  {
+    id: 'la-receptie',
+    kind: 'topic',
+    theme: 'travel',
+    ro: 'La recepție',
+    tr: bi('на ресепшене', 'на рецепції'),
+    meaning: bi(
+      'Заселение: документы, ключ, завтрак, пароль от вайфая. Всё, что спрашивают и что стоит спросить самому.',
+      'Заселення: документи, ключ, сніданок, пароль від вайфаю. Усе, що питають і що варто спитати самому.',
+    ),
+    examples: [
+      w('Bună seara, am o rezervare pe numele meu.', 'Добрый вечер, у меня бронь на моё имя.', 'Добрий вечір, у мене бронювання на моє ім’я.'),
+      w('Un act de identitate, vă rog.', 'Документ, удостоверяющий личность, пожалуйста.', 'Документ, що посвідчує особу, будь ласка.'),
+      w('La ce oră este micul dejun?', 'Во сколько завтрак?', 'О котрій сніданок?'),
+      w('Care este parola de la wifi?', 'Какой пароль от вайфая?', 'Який пароль від вайфаю?'),
+    ],
+    expressions: [
+      w('recepție', 'ресепшен, стойка регистрации', 'рецепція, стійка реєстрації'),
+      w('cheia camerei', 'ключ от номера', 'ключ від номера'),
+      w('parola', 'пароль', 'пароль'),
+      w('etajul doi', 'третий этаж (по-нашему)', 'третій поверх (по-нашому)'),
+    ],
+    remember: bi(
+      'Номер в гостинице — просто **camera**: camera numărul doisprezece. Этажи считают от **parter**, поэтому etajul doi — это наш третий.',
+      'Номер у готелі — просто **camera**: camera numărul doisprezece. Поверхи рахують від **parter**, тому etajul doi — це наш третій.',
+    ),
+    practice: [
+      task('У меня бронь.', 'У мене бронювання.', ['Am o rezervare', 'Am rezervare', 'Am o rezervare pe numele meu']),
+      task('Во сколько завтрак?', 'О котрій сніданок?', ['La ce oră este micul dejun', 'La ce oră e micul dejun', 'Când este micul dejun']),
+      task('Какой пароль от вайфая?', 'Який пароль від вайфаю?', ['Care este parola de la wifi', 'Care e parola de la wifi', 'Care e parola de wifi', 'Care este parola de wifi']),
+    ],
+  },
+  {
+    id: 'camera',
+    kind: 'word',
+    theme: 'travel',
+    ro: 'cameră',
+    tr: bi('комната; номер', 'кімната; номер'),
+    meaning: bi(
+      'Комната дома и номер в гостинице. При бронировании уточняют: на одного или двоих, какая кровать, какой вид из окна.',
+      'Кімната вдома й номер у готелі. Під час бронювання уточнюють: на одного чи двох, яке ліжко, який вид із вікна.',
+    ),
+    examples: [
+      w('Aș vrea o cameră dublă.', 'Я бы хотел двухместный номер.', 'Я б хотів двомісний номер.'),
+      w('Cu pat matrimonial sau cu paturi separate?', 'С двуспальной кроватью или с раздельными?', 'З двоспальним ліжком чи з окремими?'),
+      w('Camera are vedere la mare.', 'Номер с видом на море.', 'Номер із видом на море.'),
+      w('Are baie proprie?', 'Там своя ванная?', 'Там своя ванна кімната?'),
+    ],
+    expressions: [
+      w('cameră single', 'одноместный номер', 'одномісний номер'),
+      w('cameră dublă', 'двухместный номер', 'двомісний номер'),
+      w('pat matrimonial', 'двуспальная кровать', 'двоспальне ліжко'),
+      w('vedere la mare', 'вид на море', 'вид на море'),
+    ],
+    remember: bi(
+      'Cameră — **женский род**: camera, camere. Вид на что — **vedere la**: vedere la munte, vedere la oraș.',
+      'Cameră — **жіночий рід**: camera, camere. Вид на що — **vedere la**: vedere la munte, vedere la oraș.',
+    ),
+    practice: [
+      task('Двухместный номер.', 'Двомісний номер.', ['O cameră dublă', 'Cameră dublă']),
+      task('Двуспальная кровать.', 'Двоспальне ліжко.', ['Pat matrimonial', 'Un pat matrimonial', 'Pat dublu']),
+      task('Номер с видом на море.', 'Номер із видом на море.', ['Camera are vedere la mare', 'Cameră cu vedere la mare', 'O cameră cu vedere la mare']),
+    ],
+  },
+  {
+    id: 'nu-functioneaza',
+    kind: 'phrase',
+    theme: 'travel',
+    ro: 'Nu funcționează…',
+    tr: bi('не работает…', 'не працює…'),
+    meaning: bi(
+      'Если в номере что-то не так: не работает кондиционер, нет полотенец, шумно. Можно попросить починить или сменить номер.',
+      'Якщо в номері щось не так: не працює кондиціонер, немає рушників, галасливо. Можна попросити полагодити або змінити номер.',
+    ),
+    examples: [
+      w('Nu funcționează aerul condiționat.', 'Не работает кондиционер.', 'Не працює кондиціонер.'),
+      w('Nu avem prosoape în cameră.', 'В номере нет полотенец.', 'У номері немає рушників.'),
+      w('Camera este prea zgomotoasă.', 'В номере слишком шумно.', 'У номері надто галасливо.'),
+      w('Se poate schimba camera?', 'Можно поменять номер?', 'Можна змінити номер?'),
+    ],
+    expressions: [
+      w('aer condiționat', 'кондиционер', 'кондиціонер'),
+      w('prosop', 'полотенце', 'рушник'),
+      w('zgomotos', 'шумный', 'галасливий'),
+      w('curățenie', 'уборка', 'прибирання'),
+    ],
+    remember: bi(
+      '**Nu funcționează** — официальнее, **nu merge** — проще, смысл один. Форма одна и для одной вещи, и для нескольких: nu funcționează lumina, nu funcționează prizele.',
+      '**Nu funcționează** — офіційніше, **nu merge** — простіше, зміст один. Форма одна і для однієї речі, і для кількох: nu funcționează lumina, nu funcționează prizele.',
+    ),
+    practice: [
+      task('Не работает кондиционер.', 'Не працює кондиціонер.', ['Nu funcționează aerul condiționat', 'Nu merge aerul condiționat', 'Aerul condiționat nu funcționează', 'Aerul condiționat nu merge']),
+      task('У нас нет полотенец.', 'У нас немає рушників.', ['Nu avem prosoape', 'Nu avem prosoape în cameră']),
+      task('Можно поменять номер?', 'Можна змінити номер?', ['Se poate schimba camera', 'Putem schimba camera', 'Pot schimba camera']),
+    ],
+  },
+  {
+    id: 'eliberam-camera',
+    kind: 'phrase',
+    theme: 'travel',
+    ro: 'Eliberăm camera.',
+    tr: bi('освобождаем номер', 'звільняємо номер'),
+    meaning: bi(
+      'Выезд из гостиницы: когда освободить номер, где оставить багаж до вечера, как расплатиться.',
+      'Виїзд із готелю: коли звільнити номер, де залишити багаж до вечора, як розрахуватися.',
+    ),
+    examples: [
+      w('Până la ce oră trebuie să eliberăm camera?', 'До скольки нужно освободить номер?', 'До котрої треба звільнити номер?'),
+      w('Putem lăsa bagajele aici până seara?', 'Можно оставить здесь багаж до вечера?', 'Можна залишити тут багаж до вечора?'),
+      w('Aș vrea să plătesc.', 'Я бы хотел расплатиться.', 'Я б хотів розрахуватися.'),
+      w('Ne chemați un taxi, vă rog?', 'Вызовите нам такси, пожалуйста.', 'Викличте нам таксі, будь ласка.'),
+    ],
+    expressions: [
+      w('a elibera', 'освободить', 'звільнити'),
+      w('bagaje', 'багаж, вещи', 'багаж, речі'),
+      w('până seara', 'до вечера', 'до вечора'),
+      w('factură', 'счёт, инвойс', 'рахунок, інвойс'),
+    ],
+    remember: bi(
+      '«До» — **până la**: până la ora douăsprezece. Но с частью дня — без la: **până seara**, până mâine.',
+      '«До» — **până la**: până la ora douăsprezece. Але з частиною дня — без la: **până seara**, până mâine.',
+    ),
+    practice: [
+      task('До скольки нужно освободить номер?', 'До котрої треба звільнити номер?', ['Până la ce oră trebuie să eliberăm camera', 'Până la ce oră trebuie eliberată camera', 'Până când trebuie să eliberăm camera']),
+      task('Можно оставить багаж?', 'Можна залишити багаж?', ['Putem lăsa bagajele', 'Pot lăsa bagajul', 'Pot să las bagajul', 'Putem lăsa bagajele aici']),
+      task('Я бы хотел расплатиться.', 'Я б хотів розрахуватися.', ['Aș vrea să plătesc', 'Aș dori să plătesc', 'Vreau să plătesc']),
+    ],
+  },
+  {
+    id: 'ce-merita-vazut',
+    kind: 'topic',
+    theme: 'travel',
+    ro: 'Ce merită văzut?',
+    tr: bi('что посмотреть', 'що подивитися'),
+    meaning: bi(
+      'Вопросы туриста: что стоит посмотреть, сколько стоит вход, есть ли экскурсия, когда закрывается музей.',
+      'Питання туриста: що варто подивитися, скільки коштує вхід, чи є екскурсія, коли зачиняється музей.',
+    ),
+    examples: [
+      w('Ce merită văzut în oraș?', 'Что стоит посмотреть в городе?', 'Що варто подивитися в місті?'),
+      w('Cât costă intrarea?', 'Сколько стоит вход?', 'Скільки коштує вхід?'),
+      w('La ce oră se închide muzeul?', 'Во сколько закрывается музей?', 'О котрій зачиняється музей?'),
+      w('Aveți un ghid în limba rusă?', 'У вас есть экскурсовод на русском?', 'У вас є екскурсовод російською?'),
+      w('Putem face poze aici?', 'Здесь можно фотографировать?', 'Тут можна фотографувати?'),
+    ],
+    expressions: [
+      w('muzeu', 'музей', 'музей'),
+      w('castel', 'замок', 'замок'),
+      w('mănăstire', 'монастырь', 'монастир'),
+      w('ghid', 'гид, экскурсовод', 'гід, екскурсовод'),
+      w('centrul vechi', 'старый город', 'старе місто'),
+    ],
+    remember: bi(
+      'Merită + форма на -t: **merită văzut** — стоит посмотреть, **merită încercat** — стоит попробовать. «Фотографировать» — **a face poze**.',
+      'Merită + форма на -t: **merită văzut** — варто подивитися, **merită încercat** — варто спробувати. «Фотографувати» — **a face poze**.',
+    ),
+    practice: [
+      task('Что стоит посмотреть?', 'Що варто подивитися?', ['Ce merită văzut', 'Ce merită vizitat', 'Ce e de văzut']),
+      task('Сколько стоит вход?', 'Скільки коштує вхід?', ['Cât costă intrarea', 'Cât e intrarea', 'Cât costă biletul']),
+      task('Здесь можно фотографировать?', 'Тут можна фотографувати?', ['Putem face poze aici', 'Se pot face poze aici', 'Pot face poze aici', 'Pot să fac poze aici']),
+    ],
+  },
+  {
+    id: 'm-am-ratacit',
+    kind: 'phrase',
+    theme: 'travel',
+    ro: 'M-am rătăcit.',
+    tr: bi('я заблудился', 'я заблукав'),
+    meaning: bi(
+      'Если потерялись в незнакомом городе. Румыны охотно объясняют дорогу — главное спросить вежливо.',
+      'Якщо загубилися в незнайомому місті. Румуни охоче пояснюють дорогу — головне спитати ввічливо.',
+    ),
+    examples: [
+      w('Scuzați-mă, m-am rătăcit.', 'Извините, я заблудился.', 'Вибачте, я заблукав.'),
+      w('Cum ajung la hotelul Central?', 'Как мне добраться до гостиницы «Централ»?', 'Як мені дістатися до готелю «Централ»?'),
+      w('Îmi puteți arăta pe hartă?', 'Можете показать мне на карте?', 'Можете показати мені на мапі?'),
+      w('Se poate merge pe jos?', 'Можно дойти пешком?', 'Можна дійти пішки?'),
+    ],
+    expressions: [
+      w('hartă', 'карта', 'мапа'),
+      w('pe jos', 'пешком', 'пішки'),
+      w('a se rătăci', 'заблудиться', 'заблукати'),
+      w('cum ajung la…?', 'как добраться до…?', 'як дістатися до…?'),
+    ],
+    remember: bi(
+      'Мужчина и женщина говорят одинаково: **m-am rătăcit**. «Мы заблудились» — **ne-am rătăcit**.',
+      'Чоловік і жінка кажуть однаково: **m-am rătăcit**. «Ми заблукали» — **ne-am rătăcit**.',
+    ),
+    practice: [
+      task('Я заблудился.', 'Я заблукав.', ['M-am rătăcit', 'M-am pierdut']),
+      task('Можете показать на карте?', 'Можете показати на мапі?', ['Îmi puteți arăta pe hartă', 'Puteți să-mi arătați pe hartă', 'Puteți să îmi arătați pe hartă']),
+      task('Можно дойти пешком?', 'Можна дійти пішки?', ['Se poate merge pe jos', 'Pot merge pe jos', 'Se poate ajunge pe jos']),
+    ],
+  },
+  {
+    id: 'bagaj',
+    kind: 'word',
+    theme: 'travel',
+    ro: 'bagaj',
+    tr: bi('багаж', 'багаж'),
+    meaning: bi(
+      'Багаж: чемодан, рюкзак, сумка. Пригодится и в гостинице, и в аэропорту, если багаж потерялся.',
+      'Багаж: валіза, рюкзак, сумка. Знадобиться і в готелі, і в аеропорту, якщо багаж загубився.',
+    ),
+    examples: [
+      w('Unde este camera de bagaje?', 'Где камера хранения?', 'Де камера схову?'),
+      w('Mi s-a pierdut bagajul.', 'Мой багаж потерялся.', 'Мій багаж загубився.'),
+      w('Valiza mea e albastră și mare.', 'Мой чемодан синий и большой.', 'Моя валіза синя й велика.'),
+      w('Mă ajutați cu bagajele?', 'Поможете мне с багажом?', 'Допоможете мені з багажем?'),
+    ],
+    expressions: [
+      w('valiză', 'чемодан', 'валіза'),
+      w('rucsac', 'рюкзак', 'рюкзак'),
+      w('geantă', 'сумка', 'сумка'),
+      w('camera de bagaje', 'камера хранения', 'камера схову'),
+    ],
+    remember: bi(
+      'Bagaj — **средний род**: bagajul, bagaje. «Потерялся» с «у меня» — **mi s-a pierdut** («мне потерялось»).',
+      'Bagaj — **середній рід**: bagajul, bagaje. «Загубився» з «у мене» — **mi s-a pierdut** («мені загубилося»).',
+    ),
+    practice: [
+      task('Мой багаж потерялся.', 'Мій багаж загубився.', ['Mi s-a pierdut bagajul', 'Mi-am pierdut bagajul', 'Bagajul meu s-a pierdut']),
+      task('Где камера хранения?', 'Де камера схову?', ['Unde este camera de bagaje', 'Unde e camera de bagaje']),
+      task('Чемодан.', 'Валіза.', ['Valiză', 'Valiza', 'O valiză']),
     ],
   },
 ];
