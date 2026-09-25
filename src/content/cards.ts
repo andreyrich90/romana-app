@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel' | 'post';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel' | 'post' | 'school';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -4073,6 +4073,295 @@ export const CARDS: LearnCard[] = [
       task('Меня не было дома.', 'Мене не було вдома.', ['Nu am fost acasă', 'N-am fost acasă', 'Nu eram acasă']),
       task('Где я могу забрать посылку?', 'Де я можу забрати посилку?', ['De unde pot ridica coletul', 'Unde pot ridica coletul', 'De unde pot să ridic coletul']),
       task('Ещё раз.', 'Ще раз.', ['Din nou', 'Încă o dată']),
+    ],
+  },
+  {
+    id: 'gradinita',
+    kind: 'word',
+    theme: 'school',
+    ro: 'grădiniță',
+    tr: bi('детский сад', 'дитячий садок'),
+    meaning: bi(
+      'Детский сад — для детей примерно от трёх до шести лет. Для малышей младше — creșă (ясли). Группы делят по возрасту: grupa mică, mijlocie, mare.',
+      'Дитячий садок — для дітей приблизно від трьох до шести років. Для молодших — creșă (ясла). Групи ділять за віком: grupa mică, mijlocie, mare.',
+    ),
+    examples: [
+      w('Fetița mea merge la grădiniță.', 'Моя дочка ходит в детский сад.', 'Моя донька ходить у садочок.'),
+      w('E în grupa mijlocie.', 'Она в средней группе.', 'Вона в середній групі.'),
+      w('Aveți program prelungit?', 'У вас есть группа продлённого дня?', 'У вас є група подовженого дня?'),
+      w('Ce mănâncă copiii la prânz?', 'Чем кормят детей в обед?', 'Чим годують дітей в обід?'),
+    ],
+    expressions: [
+      w('creșă', 'ясли', 'ясла'),
+      w('grupa mică', 'младшая группа', 'молодша група'),
+      w('educatoare', 'воспитательница', 'вихователька'),
+      w('program prelungit', 'продлённый день', 'подовжений день'),
+    ],
+    remember: bi(
+      'Grădiniță — от grădină (сад), дословно «садик». Воспитательница — **educatoare**, в школе учительница — уже **învățătoare**.',
+      'Grădiniță — від grădină (сад), дослівно «садочок». Вихователька — **educatoare**, у школі вчителька — уже **învățătoare**.',
+    ),
+    practice: [
+      task('Моя дочка ходит в садик.', 'Моя донька ходить у садочок.', ['Fetița mea merge la grădiniță', 'Fiica mea merge la grădiniță']),
+      task('Воспитательница.', 'Вихователька.', ['Educatoare', 'Educatoarea', 'Doamna educatoare']),
+      task('Ясли.', 'Ясла.', ['Creșă', 'Creșa']),
+    ],
+  },
+  {
+    id: 'vin-sa-il-iau',
+    kind: 'phrase',
+    theme: 'school',
+    ro: 'Vin să-l iau.',
+    tr: bi('я пришёл его забрать', 'я прийшов його забрати'),
+    meaning: bi(
+      'Что говорят, когда забирают ребёнка из сада или школы, и как предупредить, что заберёт кто-то другой.',
+      'Що кажуть, коли забирають дитину із садочка чи школи, і як попередити, що забере хтось інший.',
+    ),
+    examples: [
+      w('Bună ziua, vin să-l iau pe Andrei.', 'Добрый день, я за Андреем.', 'Добрий день, я по Андрія.'),
+      w('Azi o ia bunica.', 'Сегодня её заберёт бабушка.', 'Сьогодні її забере бабуся.'),
+      w('Întârzii puțin, ajung la cinci.', 'Я немного опоздаю, буду в пять.', 'Я трохи запізнюся, буду о п’ятій.'),
+      w('Și-a luat haina?', 'Он взял куртку?', 'Він узяв куртку?'),
+    ],
+    expressions: [
+      w('a lua copilul', 'забрать ребёнка', 'забрати дитину'),
+      w('să-l iau', 'чтобы его забрать', 'щоб його забрати'),
+      w('s-o iau', 'чтобы её забрать', 'щоб її забрати'),
+      w('bunica', 'бабушка', 'бабуся'),
+    ],
+    remember: bi(
+      'Его — **îl / -l**, её — **o**: vin să-l iau (за ним), vin s-o iau (за ней). Перед именем человека в винительном — **pe**: îl iau **pe** Andrei.',
+      'Його — **îl / -l**, її — **o**: vin să-l iau (по нього), vin s-o iau (по неї). Перед ім’ям людини в знахідному — **pe**: îl iau **pe** Andrei.',
+    ),
+    practice: [
+      task('Я пришёл его забрать.', 'Я прийшов його забрати.', ['Vin să-l iau', 'Am venit să-l iau', 'Vin să îl iau']),
+      task('Я пришла её забрать.', 'Я прийшла її забрати.', ['Vin s-o iau', 'Am venit s-o iau', 'Vin să o iau']),
+      task('Сегодня его заберёт бабушка.', 'Сьогодні його забере бабуся.', ['Azi îl ia bunica', 'Astăzi îl ia bunica', 'Bunica îl ia azi']),
+    ],
+  },
+  {
+    id: 'inscriere',
+    kind: 'word',
+    theme: 'school',
+    ro: 'înscriere',
+    tr: bi('запись, зачисление', 'запис, зарахування'),
+    meaning: bi(
+      'Запись ребёнка в сад или школу. Обычно нужны свидетельство о рождении, медицинская справка и документы родителей.',
+      'Запис дитини до садочка чи школи. Зазвичай потрібні свідоцтво про народження, медична довідка й документи батьків.',
+    ),
+    examples: [
+      w('Vreau să-mi înscriu copilul la școală.', 'Я хочу записать ребёнка в школу.', 'Я хочу записати дитину до школи.'),
+      w('Ce acte trebuie pentru înscriere?', 'Какие документы нужны для записи?', 'Які документи потрібні для запису?'),
+      w('Mai sunt locuri libere?', 'Ещё есть свободные места?', 'Ще є вільні місця?'),
+      w('Copilul nu vorbește încă românește.', 'Ребёнок пока не говорит по-румынски.', 'Дитина поки що не говорить румунською.'),
+    ],
+    expressions: [
+      w('certificat de naștere', 'свидетельство о рождении', 'свідоцтво про народження'),
+      w('adeverință medicală', 'медицинская справка', 'медична довідка'),
+      w('a înscrie', 'записать, зачислить', 'записати, зарахувати'),
+      w('cerere de înscriere', 'заявление о зачислении', 'заява про зарахування'),
+    ],
+    remember: bi(
+      'Записать ребёнка — **a înscrie copilul**, записаться самому — **a se înscrie**. Справка — **adeverință**, свидетельство — **certificat**.',
+      'Записати дитину — **a înscrie copilul**, записатися самому — **a se înscrie**. Довідка — **adeverință**, свідоцтво — **certificat**.',
+    ),
+    practice: [
+      task('Я хочу записать ребёнка в школу.', 'Я хочу записати дитину до школи.', ['Vreau să-mi înscriu copilul la școală', 'Vreau să înscriu copilul la școală', 'Aș vrea să-mi înscriu copilul la școală']),
+      task('Свидетельство о рождении.', 'Свідоцтво про народження.', ['Certificat de naștere', 'Certificatul de naștere']),
+      task('Медицинская справка.', 'Медична довідка.', ['Adeverință medicală', 'Adeverința medicală', 'O adeverință medicală']),
+    ],
+  },
+  {
+    id: 'clasa',
+    kind: 'topic',
+    theme: 'school',
+    ro: 'În ce clasă ești?',
+    tr: bi('как устроена школа', 'як улаштована школа'),
+    meaning: bi(
+      'Школа начинается в шесть лет с подготовительного класса (clasa pregătitoare). Дальше — начальная школа, гимназия с пятого по восьмой класс и лицей.',
+      'Школа починається в шість років із підготовчого класу (clasa pregătitoare). Далі — початкова школа, гімназія з п’ятого по восьмий клас і ліцей.',
+    ),
+    examples: [
+      w('În ce clasă ești? — În clasa a treia.', 'В каком ты классе? — В третьем.', 'У якому ти класі? — У третьому.'),
+      w('Anul acesta începe clasa pregătitoare.', 'В этом году он идёт в подготовительный класс.', 'Цього року він іде в підготовчий клас.'),
+      w('Fratele lui e la liceu.', 'Его брат учится в лицее.', 'Його брат навчається в ліцеї.'),
+      w('La sfârșitul liceului se dă bacalaureatul.', 'В конце лицея сдают бакалавриат.', 'Наприкінці ліцею складають бакалаврат.'),
+    ],
+    expressions: [
+      w('clasa pregătitoare', 'подготовительный класс', 'підготовчий клас'),
+      w('școala primară', 'начальная школа', 'початкова школа'),
+      w('gimnaziu', 'средняя школа (5–8 класс)', 'середня школа (5–8 клас)'),
+      w('liceu', 'лицей, старшая школа', 'ліцей, старша школа'),
+      w('bacalaureat', 'выпускной экзамен', 'випускний іспит'),
+    ],
+    remember: bi(
+      'Порядковые классы — с **a**: clasa **a doua**, **a treia**, **a patra**. Исключение — первый: **clasa întâi**.',
+      'Порядкові класи — з **a**: clasa **a doua**, **a treia**, **a patra**. Виняток — перший: **clasa întâi**.',
+    ),
+    practice: [
+      task('В каком ты классе?', 'У якому ти класі?', ['În ce clasă ești', 'În ce clasă este']),
+      task('В третьем классе.', 'У третьому класі.', ['În clasa a treia', 'Clasa a treia']),
+      task('В первом классе.', 'У першому класі.', ['În clasa întâi', 'Clasa întâi', 'În clasa I']),
+    ],
+  },
+  {
+    id: 'invatatoare',
+    kind: 'word',
+    theme: 'school',
+    ro: 'învățătoare',
+    tr: bi('учительница начальных классов', 'вчителька початкових класів'),
+    meaning: bi(
+      'В начальной школе у класса одна учительница — învățătoare. С пятого класса у каждого предмета свой profesor, а за класс отвечает diriginte — классный руководитель.',
+      'У початковій школі в класу одна вчителька — învățătoare. З п’ятого класу в кожного предмета свій profesor, а за клас відповідає diriginte — класний керівник.',
+    ),
+    examples: [
+      w('Doamna învățătoare este foarte bună.', 'Учительница очень хорошая.', 'Вчителька дуже добра.'),
+      w('Cine este dirigintele clasei?', 'Кто классный руководитель?', 'Хто класний керівник?'),
+      w('Profesorul de matematică e sever.', 'Учитель математики строгий.', 'Учитель математики суворий.'),
+      w('Vreau să vorbesc cu directorul.', 'Я хочу поговорить с директором.', 'Я хочу поговорити з директором.'),
+    ],
+    expressions: [
+      w('învățător', 'учитель начальных классов', 'учитель початкових класів'),
+      w('diriginte', 'классный руководитель', 'класний керівник'),
+      w('profesoară', 'учительница', 'вчителька'),
+      w('director', 'директор', 'директор'),
+    ],
+    remember: bi(
+      'Учителей называют **doamna învățătoare**, **domnul profesor**, **doamna dirigintă** — с «господин / госпожа» и должностью, без имени.',
+      'Учителів називають **doamna învățătoare**, **domnul profesor**, **doamna dirigintă** — з «пан / пані» і посадою, без імені.',
+    ),
+    practice: [
+      task('Кто классный руководитель?', 'Хто класний керівник?', ['Cine este dirigintele', 'Cine e dirigintele', 'Cine este dirigintele clasei', 'Cine e dirigintele clasei']),
+      task('Учитель математики.', 'Учитель математики.', ['Profesorul de matematică', 'Profesor de matematică', 'Profesoara de matematică']),
+      task('Я хочу поговорить с директором.', 'Я хочу поговорити з директором.', ['Vreau să vorbesc cu directorul', 'Aș vrea să vorbesc cu directorul', 'Vreau să vorbesc cu doamna directoare']),
+    ],
+  },
+  {
+    id: 'teme',
+    kind: 'word',
+    theme: 'school',
+    ro: 'teme',
+    tr: bi('домашнее задание', 'домашнє завдання'),
+    meaning: bi(
+      'Домашка — teme (тема для дома), всегда во множественном. Рядом — всё, что лежит в портфеле: тетрадь, учебник, пенал.',
+      'Домашка — teme (завдання додому), завжди в множині. Поруч — усе, що лежить у портфелі: зошит, підручник, пенал.',
+    ),
+    examples: [
+      w('Ți-ai făcut temele?', 'Ты сделал уроки?', 'Ти зробив уроки?'),
+      w('Azi am multe teme la română.', 'Сегодня у меня много домашки по румынскому.', 'Сьогодні в мене багато домашки з румунської.'),
+      w('Mi-am uitat caietul acasă.', 'Я забыл тетрадь дома.', 'Я забув зошит удома.'),
+      w('Îți pregătești ghiozdanul pentru mâine?', 'Соберёшь портфель на завтра?', 'Збереш портфель на завтра?'),
+    ],
+    expressions: [
+      w('caiet', 'тетрадь', 'зошит'),
+      w('manual', 'учебник', 'підручник'),
+      w('ghiozdan', 'школьный рюкзак', 'шкільний рюкзак'),
+      w('penar', 'пенал', 'пенал'),
+    ],
+    remember: bi(
+      '«Сделать уроки» — **a-și face temele**: îmi fac temele (я делаю), își face temele (он делает). По какому предмету — **la**: teme la matematică.',
+      '«Зробити уроки» — **a-și face temele**: îmi fac temele (я роблю), își face temele (він робить). З якого предмета — **la**: teme la matematică.',
+    ),
+    practice: [
+      task('Ты сделал уроки?', 'Ти зробив уроки?', ['Ți-ai făcut temele', 'Ai făcut temele', 'Ți-ai terminat temele']),
+      task('Тетрадь.', 'Зошит.', ['Caiet', 'Caietul', 'Un caiet']),
+      task('Учебник.', 'Підручник.', ['Manual', 'Manualul', 'Un manual']),
+    ],
+  },
+  {
+    id: 'note',
+    kind: 'phrase',
+    theme: 'school',
+    ro: 'Am luat zece!',
+    tr: bi('я получил десятку!', 'я отримав десятку!'),
+    meaning: bi(
+      'Оценки в Румынии — от 1 до 10, десять — лучшая. В начальной школе вместо цифр ставят calificative: FB (очень хорошо), B, S, I (недостаточно).',
+      'Оцінки в Румунії — від 1 до 10, десять — найкраща. У початковій школі замість цифр ставлять calificative: FB (дуже добре), B, S, I (недостатньо).',
+    ),
+    examples: [
+      w('Am luat zece la matematică!', 'Я получил десятку по математике!', 'Я отримав десятку з математики!'),
+      w('Ce notă ai luat?', 'Какую оценку ты получил?', 'Яку оцінку ти отримав?'),
+      w('A luat Foarte bine la citire.', 'Он получил «очень хорошо» по чтению.', 'Він отримав «дуже добре» з читання.'),
+      w('Media lui este nouă.', 'Его средний балл — девять.', 'Його середній бал — дев’ять.'),
+    ],
+    expressions: [
+      w('notă', 'оценка', 'оцінка'),
+      w('calificativ', 'оценка словом (в начальной школе)', 'оцінка словом (у початковій школі)'),
+      w('media', 'средний балл', 'середній бал'),
+      w('catalog', 'классный журнал', 'класний журнал'),
+    ],
+    remember: bi(
+      'Оценку «берут»: **am luat nota nouă** — я получил девятку. Пять — проходной балл: ниже пяти — **corigent** (задолженность).',
+      'Оцінку «беруть»: **am luat nota nouă** — я отримав дев’ятку. П’ять — прохідний бал: нижче п’яти — **corigent** (заборгованість).',
+    ),
+    practice: [
+      task('Я получил десятку!', 'Я отримав десятку!', ['Am luat zece', 'Am luat nota zece', 'Am luat un zece']),
+      task('Какую оценку ты получил?', 'Яку оцінку ти отримав?', ['Ce notă ai luat', 'Ce notă ai primit']),
+      task('Средний балл.', 'Середній бал.', ['Media', 'Medie']),
+    ],
+  },
+  {
+    id: 'sedinta-parinti',
+    kind: 'phrase',
+    theme: 'school',
+    ro: 'Ședința cu părinții',
+    tr: bi('родительское собрание', 'батьківські збори'),
+    meaning: bi(
+      'Собрание родителей с учителем. И вопросы, которые стоит задать учителю о своём ребёнке.',
+      'Збори батьків із учителем. І питання, які варто поставити вчителю про свою дитину.',
+    ),
+    examples: [
+      w('Mâine e ședința cu părinții.', 'Завтра родительское собрание.', 'Завтра батьківські збори.'),
+      w('Cum se descurcă la școală?', 'Как он справляется в школе?', 'Як він дає раду в школі?'),
+      w('Are probleme la citire?', 'У него трудности с чтением?', 'У нього труднощі з читанням?'),
+      w('E un copil cuminte.', 'Он послушный ребёнок.', 'Він слухняна дитина.'),
+    ],
+    expressions: [
+      w('ședință', 'собрание', 'збори'),
+      w('părinți', 'родители', 'батьки'),
+      w('cuminte', 'послушный, спокойный', 'слухняний, спокійний'),
+      w('a se descurca', 'справляться', 'давати раду'),
+    ],
+    remember: bi(
+      '**Cuminte** не меняется: un băiat cuminte, o fată cuminte. «Будь умницей!» ребёнку — **Fii cuminte!**',
+      '**Cuminte** не змінюється: un băiat cuminte, o fată cuminte. «Будь чемним!» дитині — **Fii cuminte!**',
+    ),
+    practice: [
+      task('Родительское собрание.', 'Батьківські збори.', ['Ședința cu părinții', 'Ședință cu părinții']),
+      task('Как он справляется в школе?', 'Як він дає раду в школі?', ['Cum se descurcă la școală', 'Cum se descurcă la școală băiatul']),
+      task('Будь умницей!', 'Будь чемним!', ['Fii cuminte']),
+    ],
+  },
+  {
+    id: 'scutire',
+    kind: 'phrase',
+    theme: 'school',
+    ro: 'Azi nu vine, e bolnav.',
+    tr: bi('сегодня не придёт, заболел', 'сьогодні не прийде, захворів'),
+    meaning: bi(
+      'Как предупредить учителя или воспитателя, что ребёнок не придёт. После болезни часто просят справку от врача — scutire medicală.',
+      'Як попередити вчителя чи вихователя, що дитина не прийде. Після хвороби часто просять довідку від лікаря — scutire medicală.',
+    ),
+    examples: [
+      w('Bună dimineața, azi Maria nu vine, e bolnavă.', 'Доброе утро, сегодня Мария не придёт, она заболела.', 'Доброго ранку, сьогодні Марія не прийде, вона захворіла.'),
+      w('E răcit, rămâne acasă două zile.', 'Он простыл, побудет дома два дня.', 'Він застудився, побуде вдома два дні.'),
+      w('Vă aduc scutirea medicală luni.', 'Я принесу справку от врача в понедельник.', 'Я принесу довідку від лікаря в понеділок.'),
+      w('Ce teme au avut azi?', 'Что сегодня задали?', 'Що сьогодні задали?'),
+    ],
+    expressions: [
+      w('scutire medicală', 'справка от врача', 'довідка від лікаря'),
+      w('absență', 'пропуск', 'пропуск'),
+      w('a motiva', 'оправдать (пропуск)', 'виправдати (пропуск)'),
+      w('rămâne acasă', 'остаётся дома', 'залишається вдома'),
+    ],
+    remember: bi(
+      'О мальчике — **bolnav**, **răcit**; о девочке — **bolnavă**, **răcită**. Пропуск без справки — **absență nemotivată**.',
+      'Про хлопчика — **bolnav**, **răcit**; про дівчинку — **bolnavă**, **răcită**. Пропуск без довідки — **absență nemotivată**.',
+    ),
+    practice: [
+      task('Сегодня он не придёт, он заболел.', 'Сьогодні він не прийде, він захворів.', ['Azi nu vine, e bolnav', 'Astăzi nu vine, e bolnav', 'Azi nu vine, este bolnav']),
+      task('Справка от врача.', 'Довідка від лікаря.', ['Scutire medicală', 'Scutirea medicală', 'O scutire medicală']),
+      task('Что сегодня задали?', 'Що сьогодні задали?', ['Ce teme au avut azi', 'Ce teme au azi', 'Ce au avut de făcut azi']),
     ],
   },
 ];
