@@ -4,13 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Title } from '../components/ui';
 import { DayCard } from '../components/DayCard';
-import { CARDS, cardOfDay, type CardKind } from '../content/cards';
+import { CARDS, cardOfDay, type CardKind, type CardTheme, type LearnCard } from '../content/cards';
 import { usePalette } from '../lib/theme';
 import { day } from '../state/model';
 import { useProgress } from '../state/progress';
 
 const KINDS: CardKind[] = ['word', 'phrase', 'topic'];
-const ICON: Record<CardKind, string> = { word: '📝', phrase: '💬', topic: '💡' };
+const THEMES: CardTheme[] = ['work', 'docs'];
+const ICON: Record<CardKind | CardTheme, string> = { work: '💼', docs: '📄', word: '📝', phrase: '💬', topic: '💡' };
 
 /** The card library: today's card first, then every card by kind. */
 export default function Cards() {
@@ -38,13 +39,16 @@ export default function Cards() {
 
       <DayCard card={today} />
 
-      {KINDS.map((kind) => (
-        <View key={kind} style={s.group}>
+      {[
+        ...THEMES.map((th) => ({ key: th, title: t.cardThemes[th], cards: CARDS.filter((k) => k.theme === th) })),
+        ...KINDS.map((kind) => ({ key: kind, title: t.cardKinds[kind], cards: CARDS.filter((k) => !k.theme && k.kind === kind) })),
+      ].map((g) => (
+        <View key={g.key} style={s.group}>
           <Text style={[s.groupTitle, { color: c.ochre }]}>
-            {ICON[kind]} {t.cardKinds[kind]}
+            {ICON[g.key]} {g.title}
           </Text>
           <View style={[s.list, { backgroundColor: c.surface, borderColor: c.line }]}>
-            {CARDS.filter((k) => k.kind === kind).map((card, i) => (
+            {g.cards.map((card: LearnCard, i: number) => (
               <Pressable
                 key={card.id}
                 accessibilityRole="button"

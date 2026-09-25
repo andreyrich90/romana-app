@@ -6,12 +6,15 @@ import type { Bi, Word } from './types';
  * short practice built from its own examples (src/engine/cardPractice.ts).
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
+/** Practical cards grouped by situation; the library shows each theme as its own section. */
+export type CardTheme = 'work' | 'docs';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
 export type LearnCard = {
   id: string;
   kind: CardKind;
+  theme?: CardTheme;
   /** The Romanian headline, read aloud and tappable. */
   ro: string;
   /** Short translation under the headline. */
@@ -1176,6 +1179,427 @@ export const CARDS: LearnCard[] = [
       task('Он хороший человек.', 'Він добра людина.', ['E un om bun', 'Este un om bun']),
       task('Ты хорошо говоришь.', 'Ти добре говориш.', ['Vorbești bine']),
       task('Еда вкусная.', 'Їжа смачна.', ['Mâncarea e bună', 'Mâncarea este bună', 'Mâncarea e gustoasă', 'Mâncarea este gustoasă']),
+    ],
+  },
+  {
+    id: 'caut-de-lucru',
+    kind: 'phrase',
+    theme: 'work',
+    ro: 'Caut de lucru.',
+    tr: bi('ищу работу', 'шукаю роботу'),
+    meaning: bi(
+      'Самый простой способ сказать «ищу работу». Рядом — loc de muncă (рабочее место), anunț (объявление), angajator (работодатель).',
+      'Найпростіший спосіб сказати «шукаю роботу». Поруч — loc de muncă (робоче місце), anunț (оголошення), angajator (роботодавець).',
+    ),
+    examples: [
+      w('Caut de lucru ca șofer.', 'Ищу работу водителем.', 'Шукаю роботу водієм.'),
+      w('Angajați?', 'Вы нанимаете? Есть работа?', 'Ви наймаєте? Є робота?'),
+      w('Am văzut anunțul pe internet.', 'Я видел объявление в интернете.', 'Я бачив оголошення в інтернеті.'),
+      w('Vă trimit CV-ul pe email.', 'Я пришлю вам резюме на почту.', 'Я надішлю вам резюме на пошту.'),
+    ],
+    expressions: [
+      w('loc de muncă', 'рабочее место, вакансия', 'робоче місце, вакансія'),
+      w('anunț de angajare', 'объявление о работе', 'оголошення про роботу'),
+      w('angajator', 'работодатель', 'роботодавець'),
+      w('a se angaja', 'устроиться на работу', 'влаштуватися на роботу'),
+    ],
+    remember: bi(
+      '«Ищу работу водителем» — **caut de lucru ca șofer**: профессия идёт после **ca**. Angajez — «я нанимаю», mă angajez — «я устраиваюсь».',
+      '«Шукаю роботу водієм» — **caut de lucru ca șofer**: професія йде після **ca**. Angajez — «я наймаю», mă angajez — «я влаштовуюся».',
+    ),
+    practice: [
+      task('Я ищу работу.', 'Я шукаю роботу.', ['Caut de lucru', 'Caut un loc de muncă', 'Caut o slujbă', 'Caut muncă']),
+      task('Вы нанимаете?', 'Ви наймаєте?', ['Angajați']),
+      task('Ищу работу водителем.', 'Шукаю роботу водієм.', ['Caut de lucru ca șofer', 'Caut un loc de muncă ca șofer']),
+    ],
+  },
+  {
+    id: 'interviu',
+    kind: 'topic',
+    theme: 'work',
+    ro: 'La interviu',
+    tr: bi('на собеседовании', 'на співбесіді'),
+    meaning: bi(
+      'Фразы, которые почти наверняка понадобятся на собеседовании: об опыте, о начале работы и о зарплате.',
+      'Фрази, які майже напевно знадобляться на співбесіді: про досвід, про початок роботи й про зарплату.',
+    ),
+    examples: [
+      w('Am experiență de trei ani.', 'У меня три года опыта.', 'У мене три роки досвіду.'),
+      w('Am lucrat ca bucătar în Italia.', 'Я работал поваром в Италии.', 'Я працював кухарем в Італії.'),
+      w('Când pot începe?', 'Когда я могу начать?', 'Коли я можу почати?'),
+      w('Care este salariul?', 'Какая зарплата?', 'Яка зарплата?'),
+      w('Sunt disponibil de luni.', 'Я могу выйти с понедельника.', 'Я можу вийти з понеділка.'),
+    ],
+    expressions: [
+      w('interviu de angajare', 'собеседование', 'співбесіда'),
+      w('experiență', 'опыт', 'досвід'),
+      w('perioadă de probă', 'испытательный срок', 'випробувальний термін'),
+      w('disponibil', 'свободен, готов выйти', 'вільний, готовий вийти'),
+    ],
+    remember: bi(
+      'Опыт «сколько?» — **de**: experiență **de** doi ani. Кем работал — **ca**: am lucrat **ca** bucătar.',
+      'Досвід «скільки?» — **de**: experiență **de** doi ani. Ким працював — **ca**: am lucrat **ca** bucătar.',
+    ),
+    practice: [
+      task('У меня три года опыта.', 'У мене три роки досвіду.', ['Am experiență de trei ani', 'Am trei ani de experiență']),
+      task('Когда я могу начать?', 'Коли я можу почати?', ['Când pot începe', 'Când pot să încep']),
+      task('Какая зарплата?', 'Яка зарплата?', ['Care este salariul', 'Care e salariul', 'Cât este salariul', 'Cât e salariul']),
+    ],
+  },
+  {
+    id: 'salariu',
+    kind: 'word',
+    theme: 'work',
+    ro: 'salariu',
+    tr: bi('зарплата', 'зарплата'),
+    meaning: bi(
+      'Зарплата. В Румынии важно различать brut (до налогов) и net (на руки): в договоре обычно пишут брутто.',
+      'Зарплата. У Румунії важливо розрізняти brut (до податків) і net (на руки): у договорі зазвичай пишуть брутто.',
+    ),
+    examples: [
+      w('Salariul net este de patru mii de lei.', 'Зарплата на руки — четыре тысячи лей.', 'Зарплата на руки — чотири тисячі лей.'),
+      w('Când primim salariul?', 'Когда мы получаем зарплату?', 'Коли ми отримуємо зарплату?'),
+      w('Salariul se plătește pe card.', 'Зарплата перечисляется на карту.', 'Зарплата перераховується на картку.'),
+      w('Aș vrea o mărire de salariu.', 'Я бы хотел повышения зарплаты.', 'Я хотів би підвищення зарплати.'),
+    ],
+    expressions: [
+      w('salariul net', 'зарплата на руки', 'зарплата на руки'),
+      w('salariul brut', 'зарплата до налогов', 'зарплата до податків'),
+      w('salariul minim', 'минимальная зарплата', 'мінімальна зарплата'),
+      w('fluturaș de salariu', 'расчётный листок', 'розрахунковий листок'),
+    ],
+    remember: bi(
+      'Salariu — **средний род**: salariul, salarii. «Получать зарплату» — **a primi salariul** или разговорное **a lua salariul**.',
+      'Salariu — **середній рід**: salariul, salarii. «Отримувати зарплату» — **a primi salariul** або розмовне **a lua salariul**.',
+    ),
+    practice: [
+      task('Когда мы получаем зарплату?', 'Коли ми отримуємо зарплату?', ['Când primim salariul', 'Când luăm salariul']),
+      task('Зарплата на руки.', 'Зарплата на руки.', ['Salariul net', 'Salariu net']),
+      task('Минимальная зарплата.', 'Мінімальна зарплата.', ['Salariul minim', 'Salariu minim']),
+    ],
+  },
+  {
+    id: 'program',
+    kind: 'word',
+    theme: 'work',
+    ro: 'program',
+    tr: bi('график работы', 'графік роботи'),
+    meaning: bi(
+      'Программа, но чаще всего — график: program de lucru — рабочие часы, в том числе магазина или учреждения.',
+      'Програма, але найчастіше — графік: program de lucru — робочі години, зокрема магазину чи установи.',
+    ),
+    examples: [
+      w('Ce program aveți?', 'Какой у вас график?', 'Який у вас графік?'),
+      w('Lucrez de la opt la patru.', 'Я работаю с восьми до четырёх.', 'Я працюю з восьмої до четвертої.'),
+      w('Săptămâna asta am tura de noapte.', 'На этой неделе я в ночную смену.', 'Цього тижня я на нічній зміні.'),
+      w('Plătiți orele suplimentare?', 'Вы оплачиваете сверхурочные?', 'Ви оплачуєте понаднормові?'),
+    ],
+    expressions: [
+      w('program de lucru', 'рабочий график', 'робочий графік'),
+      w('normă întreagă', 'полный день', 'повний день'),
+      w('jumătate de normă', 'полставки', 'пів ставки'),
+      w('tura de noapte', 'ночная смена', 'нічна зміна'),
+      w('ore suplimentare', 'сверхурочные', 'понаднормові'),
+    ],
+    remember: bi(
+      'Program — **средний род**: programul, programe. «С… до…» — **de la… la…**: de la nouă la cinci.',
+      'Program — **середній рід**: programul, programe. «З… до…» — **de la… la…**: de la nouă la cinci.',
+    ),
+    practice: [
+      task('Какой у вас график?', 'Який у вас графік?', ['Ce program aveți', 'Care este programul', 'Care e programul', 'Care e programul dumneavoastră']),
+      task('Я работаю с восьми до четырёх.', 'Я працюю з восьмої до четвертої.', ['Lucrez de la opt la patru', 'Lucrez de la ora opt la ora patru', 'Lucrez de la opt până la patru']),
+      task('Ночная смена.', 'Нічна зміна.', ['Tura de noapte', 'Tură de noapte']),
+    ],
+  },
+  {
+    id: 'concediu',
+    kind: 'word',
+    theme: 'work',
+    ro: 'concediu',
+    tr: bi('отпуск', 'відпустка'),
+    meaning: bi(
+      'Отпуск от работы — и оплачиваемый, и по болезни. Не путайте с vacanță: так говорят о каникулах и отдыхе вообще.',
+      'Відпустка від роботи — і оплачувана, і через хворобу. Не плутайте з vacanță: так кажуть про канікули й відпочинок загалом.',
+    ),
+    examples: [
+      w('Sunt în concediu până luni.', 'Я в отпуске до понедельника.', 'Я у відпустці до понеділка.'),
+      w('Aș vrea să-mi iau concediu în august.', 'Я бы хотел взять отпуск в августе.', 'Я хотів би взяти відпустку в серпні.'),
+      w('Am concediu medical o săptămână.', 'Я на больничном неделю.', 'Я на лікарняному тиждень.'),
+      w('Câte zile de concediu am?', 'Сколько у меня дней отпуска?', 'Скільки в мене днів відпустки?'),
+    ],
+    expressions: [
+      w('concediu de odihnă', 'ежегодный отпуск', 'щорічна відпустка'),
+      w('concediu medical', 'больничный', 'лікарняний'),
+      w('concediu fără plată', 'отпуск за свой счёт', 'відпустка за власний рахунок'),
+      w('zi liberă', 'выходной, отгул', 'вихідний, відгул'),
+    ],
+    remember: bi(
+      'Внимание: **concediat** — это «уволенный», а не «в отпуске». В отпуске — **în concediu**.',
+      'Увага: **concediat** — це «звільнений», а не «у відпустці». У відпустці — **în concediu**.',
+    ),
+    practice: [
+      task('Я в отпуске.', 'Я у відпустці.', ['Sunt în concediu']),
+      task('Больничный.', 'Лікарняний.', ['Concediu medical', 'Concediul medical']),
+      task('Сколько у меня дней отпуска?', 'Скільки в мене днів відпустки?', ['Câte zile de concediu am', 'Câte zile de concediu mai am']),
+    ],
+  },
+  {
+    id: 'anunt-sef',
+    kind: 'topic',
+    theme: 'work',
+    ro: 'Întârzii puțin.',
+    tr: bi('предупредить начальника', 'попередити начальника'),
+    meaning: bi(
+      'Короткие сообщения начальнику или коллегам: опаздываю, заболел, уйду пораньше. Их удобно отправить в мессенджере.',
+      'Короткі повідомлення начальнику чи колегам: запізнююся, захворів, піду раніше. Їх зручно надіслати в месенджері.',
+    ),
+    examples: [
+      w('Bună dimineața, întârzii zece minute.', 'Доброе утро, опаздываю на десять минут.', 'Доброго ранку, запізнююся на десять хвилин.'),
+      w('Sunt bolnav, azi nu pot veni.', 'Я заболел, сегодня не смогу прийти.', 'Я захворів, сьогодні не зможу прийти.'),
+      w('Pot să plec mai devreme azi?', 'Можно мне сегодня уйти пораньше?', 'Можна мені сьогодні піти раніше?'),
+      w('Am o programare la doctor.', 'У меня запись к врачу.', 'У мене запис до лікаря.'),
+    ],
+    expressions: [
+      w('șeful', 'начальник', 'начальник'),
+      w('colegii', 'коллеги', 'колеги'),
+      w('mai devreme', 'пораньше', 'раніше'),
+      w('a-și da demisia', 'уволиться (по своему желанию)', 'звільнитися (за власним бажанням)'),
+    ],
+    remember: bi(
+      'На сколько опаздываю — без предлога: **întârzii zece minute**. Уволиться самому — **îmi dau demisia**, уволить — **a concedia**.',
+      'На скільки запізнююся — без прийменника: **întârzii zece minute**. Звільнитися самому — **îmi dau demisia**, звільнити — **a concedia**.',
+    ),
+    practice: [
+      task('Опаздываю на десять минут.', 'Запізнююся на десять хвилин.', ['Întârzii zece minute', 'Întârzii 10 minute', 'Întârzii cu zece minute']),
+      task('Я заболел.', 'Я захворів.', ['Sunt bolnav', 'Sunt bolnavă', 'M-am îmbolnăvit']),
+      task('Можно мне уйти пораньше?', 'Можна мені піти раніше?', ['Pot să plec mai devreme', 'Pot pleca mai devreme']),
+    ],
+  },
+  {
+    id: 'acte',
+    kind: 'word',
+    theme: 'docs',
+    ro: 'acte',
+    tr: bi('документы', 'документи'),
+    meaning: bi(
+      'Главное слово в любом учреждении: «Ce acte trebuie?» — «Какие документы нужны?». Один документ — un act.',
+      'Головне слово в будь-якій установі: «Ce acte trebuie?» — «Які документи потрібні?». Один документ — un act.',
+    ),
+    examples: [
+      w('Ce acte trebuie să aduc?', 'Какие документы мне нужно принести?', 'Які документи мені треба принести?'),
+      w('Actele, vă rog.', 'Ваши документы, пожалуйста.', 'Ваші документи, будь ласка.'),
+      w('Mi-am pierdut actele.', 'Я потерял документы.', 'Я загубив документи.'),
+      w('Aveți o copie după pașaport?', 'У вас есть копия паспорта?', 'У вас є копія паспорта?'),
+    ],
+    expressions: [
+      w('act de identitate', 'удостоверение личности', 'посвідчення особи'),
+      w('buletin', 'удостоверение личности (разг.)', 'посвідчення особи (розм.)'),
+      w('copie legalizată', 'нотариальная копия', 'нотаріальна копія'),
+      w('traducere legalizată', 'заверенный перевод', 'засвідчений переклад'),
+      w('cazier judiciar', 'справка о несудимости', 'довідка про несудимість'),
+    ],
+    remember: bi(
+      'Act — **средний род**: actul, acte. «Копия чего» — **copie după**: copie după pașaport. Румынский паспорт-ID в разговоре — **buletinul**.',
+      'Act — **середній рід**: actul, acte. «Копія чого» — **copie după**: copie după pașaport. Румунське посвідчення в розмові — **buletinul**.',
+    ),
+    practice: [
+      task('Какие документы нужны?', 'Які документи потрібні?', ['Ce acte trebuie', 'Ce acte sunt necesare', 'Ce acte îmi trebuie', 'De ce acte am nevoie']),
+      task('Я потерял документы.', 'Я загубив документи.', ['Mi-am pierdut actele', 'Am pierdut actele']),
+      task('Копия паспорта.', 'Копія паспорта.', ['Copie după pașaport', 'O copie după pașaport', 'Copia pașaportului', 'Copie a pașaportului']),
+    ],
+  },
+  {
+    id: 'dosar',
+    kind: 'word',
+    theme: 'docs',
+    ro: 'dosar',
+    tr: bi('папка документов, дело', 'тека документів, справа'),
+    meaning: bi(
+      'Пакет документов, который вы сдаёте. Легендарный «dosar cu șină» — картонная папка-скоросшиватель: румынские учреждения до сих пор часто просят принести документы именно в ней.',
+      'Пакет документів, який ви здаєте. Легендарний «dosar cu șină» — картонна тека-швидкозшивач: румунські установи досі часто просять принести документи саме в ній.',
+    ),
+    examples: [
+      w('Aduceți actele într-un dosar cu șină.', 'Принесите документы в папке-скоросшивателе.', 'Принесіть документи в теці-швидкозшивачі.'),
+      w('Dosarul este complet.', 'Пакет документов полный.', 'Пакет документів повний.'),
+      w('Vă lipsește un act din dosar.', 'В вашем пакете не хватает одного документа.', 'У вашому пакеті бракує одного документа.'),
+      w('Care este numărul dosarului?', 'Какой номер дела?', 'Який номер справи?'),
+    ],
+    expressions: [
+      w('dosar cu șină', 'папка-скоросшиватель', 'тека-швидкозшивач'),
+      w('dosar complet', 'полный пакет документов', 'повний пакет документів'),
+      w('a depune dosarul', 'подать документы', 'подати документи'),
+      w('numărul dosarului', 'номер дела', 'номер справи'),
+    ],
+    remember: bi(
+      'Dosar — **средний род**: dosarul, dosare. «Мне не хватает…» — **îmi lipsește** (одного) / **îmi lipsesc** (нескольких).',
+      'Dosar — **середній рід**: dosarul, dosare. «Мені бракує…» — **îmi lipsește** (одного) / **îmi lipsesc** (кількох).',
+    ),
+    practice: [
+      task('Пакет документов полный.', 'Пакет документів повний.', ['Dosarul este complet', 'Dosarul e complet']),
+      task('Подать документы.', 'Подати документи.', ['A depune dosarul', 'Depun dosarul', 'A depune actele']),
+      task('Какой номер дела?', 'Який номер справи?', ['Care este numărul dosarului', 'Care e numărul dosarului', 'Ce număr are dosarul']),
+    ],
+  },
+  {
+    id: 'programare',
+    kind: 'word',
+    theme: 'docs',
+    ro: 'programare',
+    tr: bi('запись (на приём)', 'запис (на прийом)'),
+    meaning: bi(
+      'Запись на приём — к врачу, в миграционную службу, в банк. Во многих учреждениях без programare не принимают.',
+      'Запис на прийом — до лікаря, до міграційної служби, у банк. У багатьох установах без programare не приймають.',
+    ),
+    examples: [
+      w('Am o programare la ora zece.', 'У меня запись на десять часов.', 'У мене запис на десяту годину.'),
+      w('Cum fac o programare?', 'Как мне записаться на приём?', 'Як мені записатися на прийом?'),
+      w('Programarea se face online.', 'Запись делается онлайн.', 'Запис робиться онлайн.'),
+      w('Vreau să anulez programarea.', 'Я хочу отменить запись.', 'Я хочу скасувати запис.'),
+    ],
+    expressions: [
+      w('a face o programare', 'записаться на приём', 'записатися на прийом'),
+      w('a anula', 'отменить', 'скасувати'),
+      w('a amâna', 'перенести, отложить', 'перенести, відкласти'),
+      w('fără programare', 'без записи', 'без запису'),
+    ],
+    remember: bi(
+      'Programare — **женский род**: programarea, programări. Время — **la ora**: la ora zece, la ora două.',
+      'Programare — **жіночий рід**: programarea, programări. Час — **la ora**: la ora zece, la ora două.',
+    ),
+    practice: [
+      task('У меня запись на десять часов.', 'У мене запис на десяту годину.', ['Am o programare la ora zece', 'Am programare la ora zece', 'Am o programare la zece', 'Am programare la zece']),
+      task('Как мне записаться?', 'Як мені записатися?', ['Cum fac o programare', 'Cum pot face o programare', 'Cum mă programez']),
+      task('Я хочу отменить запись.', 'Я хочу скасувати запис.', ['Vreau să anulez programarea', 'Aș vrea să anulez programarea']),
+    ],
+  },
+  {
+    id: 'cerere',
+    kind: 'word',
+    theme: 'docs',
+    ro: 'cerere',
+    tr: bi('заявление', 'заява'),
+    meaning: bi(
+      'Заявление — на вид на жительство, на работу, на отпуск. Его заполняют (a completa), подписывают (a semna) и подают (a depune).',
+      'Заява — на посвідку на проживання, на роботу, на відпустку. Її заповнюють (a completa), підписують (a semna) і подають (a depune).',
+    ),
+    examples: [
+      w('Completați cererea, vă rog.', 'Заполните заявление, пожалуйста.', 'Заповніть заяву, будь ласка.'),
+      w('Semnați aici și aici.', 'Подпишите здесь и здесь.', 'Підпишіть тут і тут.'),
+      w('Unde depun cererea?', 'Куда подать заявление?', 'Куди подати заяву?'),
+      w('Cererea a fost aprobată.', 'Заявление одобрено.', 'Заяву схвалено.'),
+    ],
+    expressions: [
+      w('formular', 'бланк, анкета', 'бланк, анкета'),
+      w('a completa', 'заполнить', 'заповнити'),
+      w('semnătură', 'подпись', 'підпис'),
+      w('ștampilă', 'печать', 'печатка'),
+    ],
+    remember: bi(
+      'Cerere — **женский род**: cererea, cereri. От глагола **a cere** — просить, требовать. Отказ — **respinsă**, одобрение — **aprobată**.',
+      'Cerere — **жіночий рід**: cererea, cereri. Від дієслова **a cere** — просити, вимагати. Відмова — **respinsă**, схвалення — **aprobată**.',
+    ),
+    practice: [
+      task('Куда подать заявление?', 'Куди подати заяву?', ['Unde depun cererea', 'Unde se depune cererea', 'Unde pot depune cererea']),
+      task('Заполните бланк.', 'Заповніть бланк.', ['Completați formularul', 'Completați formularul, vă rog']),
+      task('Подпишите здесь.', 'Підпишіть тут.', ['Semnați aici', 'Semnați aici, vă rog']),
+    ],
+  },
+  {
+    id: 'permis',
+    kind: 'word',
+    theme: 'docs',
+    ro: 'permis',
+    tr: bi('разрешение; права', 'дозвіл; права'),
+    meaning: bi(
+      'Разрешение: permis de ședere — вид на жительство, permis de muncă — разрешение на работу, permis de conducere — водительские права.',
+      'Дозвіл: permis de ședere — посвідка на проживання, permis de muncă — дозвіл на роботу, permis de conducere — водійські права.',
+    ),
+    examples: [
+      w('Am permis de ședere.', 'У меня есть вид на жительство.', 'У мене є посвідка на проживання.'),
+      w('Permisul expiră luna viitoare.', 'Разрешение истекает в следующем месяце.', 'Дозвіл спливає наступного місяця.'),
+      w('Trebuie să prelungesc permisul.', 'Мне нужно продлить разрешение.', 'Мені треба продовжити дозвіл.'),
+      w('Aveți permis de conducere?', 'У вас есть водительские права?', 'У вас є водійські права?'),
+    ],
+    expressions: [
+      w('permis de ședere', 'вид на жительство', 'посвідка на проживання'),
+      w('permis de muncă', 'разрешение на работу', 'дозвіл на роботу'),
+      w('permis de conducere', 'водительские права', 'водійські права'),
+      w('a prelungi', 'продлить', 'продовжити'),
+    ],
+    remember: bi(
+      'Permis — **средний род**: permisul, permise. Истекает — **expiră**, срок действия — **valabil până la**…',
+      'Permis — **середній рід**: permisul, permise. Спливає — **expiră**, термін дії — **valabil până la**…',
+    ),
+    practice: [
+      task('У меня есть вид на жительство.', 'У мене є посвідка на проживання.', ['Am permis de ședere', 'Am un permis de ședere']),
+      task('Водительские права.', 'Водійські права.', ['Permis de conducere', 'Permisul de conducere']),
+      task('Мне нужно продлить разрешение.', 'Мені треба продовжити дозвіл.', ['Trebuie să prelungesc permisul', 'Trebuie să îmi prelungesc permisul', 'Trebuie să-mi prelungesc permisul']),
+    ],
+  },
+  {
+    id: 'date-personale',
+    kind: 'topic',
+    theme: 'docs',
+    ro: 'Numele și prenumele?',
+    tr: bi('личные данные в анкете', 'особисті дані в анкеті'),
+    meaning: bi(
+      'Вопросы, которые задают в любом окошке, и поля любого бланка. Nume — фамилия, prenume — имя.',
+      'Питання, які ставлять у будь-якому віконці, і поля будь-якого бланка. Nume — прізвище, prenume — ім’я.',
+    ),
+    examples: [
+      w('Numele și prenumele, vă rog.', 'Фамилия и имя, пожалуйста.', 'Прізвище та ім’я, будь ласка.'),
+      w('Care este data nașterii?', 'Какая дата рождения?', 'Яка дата народження?'),
+      w('Ce cetățenie aveți?', 'Какое у вас гражданство?', 'Яке у вас громадянство?'),
+      w('Unde locuiți?', 'Где вы живёте?', 'Де ви проживаєте?'),
+      w('Aveți un număr de telefon?', 'У вас есть номер телефона?', 'У вас є номер телефону?'),
+    ],
+    expressions: [
+      w('nume', 'фамилия', 'прізвище'),
+      w('prenume', 'имя', 'ім’я'),
+      w('data nașterii', 'дата рождения', 'дата народження'),
+      w('cetățenie', 'гражданство', 'громадянство'),
+      w('domiciliu', 'адрес регистрации', 'адреса реєстрації'),
+    ],
+    remember: bi(
+      'Внимание: **nume** — это фамилия, а имя — **prenume**. **CNP** (cod numeric personal) — личный номер, он есть и в виде на жительство.',
+      'Увага: **nume** — це прізвище, а ім’я — **prenume**. **CNP** (cod numeric personal) — особистий номер, він є й у посвідці на проживання.',
+    ),
+    practice: [
+      task('Фамилия и имя.', 'Прізвище та ім’я.', ['Numele și prenumele', 'Nume și prenume']),
+      task('Дата рождения.', 'Дата народження.', ['Data nașterii', 'Data de naștere']),
+      task('Какое у вас гражданство?', 'Яке у вас громадянство?', ['Ce cetățenie aveți', 'Care este cetățenia dumneavoastră', 'Care e cetățenia dumneavoastră']),
+    ],
+  },
+  {
+    id: 'la-ghiseu',
+    kind: 'topic',
+    theme: 'docs',
+    ro: 'La ghișeu',
+    tr: bi('в окошке учреждения', 'у віконці установи'),
+    meaning: bi(
+      'Ghișeu — окошко, стойка в учреждении, банке, на почте. Здесь фразы, которые помогают пройти очередь без стресса.',
+      'Ghișeu — віконце, стійка в установі, банку, на пошті. Тут фрази, які допомагають пройти чергу без стресу.',
+    ),
+    examples: [
+      w('Cine este ultimul la rând?', 'Кто последний в очереди?', 'Хто останній у черзі?'),
+      w('La ce ghișeu trebuie să merg?', 'К какому окошку мне подойти?', 'До якого віконця мені підійти?'),
+      w('Trebuie să plătesc o taxă?', 'Нужно заплатить пошлину?', 'Треба сплатити мито?'),
+      w('Când este gata documentul?', 'Когда будет готов документ?', 'Коли буде готовий документ?'),
+    ],
+    expressions: [
+      w('ghișeu', 'окошко, стойка', 'віконце, стійка'),
+      w('coadă', 'очередь', 'черга'),
+      w('bon de ordine', 'талон очереди', 'талон черги'),
+      w('taxă', 'пошлина, сбор', 'мито, збір'),
+    ],
+    remember: bi(
+      'Очередь — **coadă** (дословно «хвост»): stau la coadă — стою в очереди. «Кто последний?» — **Cine e ultimul?**',
+      'Черга — **coadă** (дослівно «хвіст»): stau la coadă — стою в черзі. «Хто останній?» — **Cine e ultimul?**',
+    ),
+    practice: [
+      task('Кто последний в очереди?', 'Хто останній у черзі?', ['Cine este ultimul la rând', 'Cine e ultimul la rând', 'Cine e ultimul', 'Cine este ultimul', 'Cine e ultimul la coadă']),
+      task('Я стою в очереди.', 'Я стою в черзі.', ['Stau la coadă', 'Stau la rând']),
+      task('Когда будет готов документ?', 'Коли буде готовий документ?', ['Când este gata documentul', 'Când e gata documentul', 'Când va fi gata documentul']),
     ],
   },
 ];
