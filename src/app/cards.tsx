@@ -13,8 +13,8 @@ import { day } from '../state/model';
 import { useProgress } from '../state/progress';
 
 const KINDS: CardKind[] = ['word', 'phrase', 'topic'];
-const THEMES: CardTheme[] = ['work', 'docs', 'health', 'shop', 'transport', 'home', 'bank'];
-const ICON: Record<CardKind | CardTheme, string> = { work: '💼', docs: '📄', health: '🩺', shop: '🛒', transport: '🚌', home: '🏠', bank: '🏦', word: '📝', phrase: '💬', topic: '💡' };
+const THEMES: CardTheme[] = ['work', 'docs', 'health', 'shop', 'transport', 'home', 'bank', 'food'];
+const ICON: Record<CardKind | CardTheme, string> = { work: '💼', docs: '📄', health: '🩺', shop: '🛒', transport: '🚌', home: '🏠', bank: '🏦', food: '🍽', word: '📝', phrase: '💬', topic: '💡' };
 
 type Group = CardKind | CardTheme;
 type Filter = 'all' | Group;

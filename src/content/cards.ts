@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -2917,6 +2917,296 @@ export const CARDS: LearnCard[] = [
       task('Сколько стоит обслуживание счёта?', 'Скільки коштує обслуговування рахунку?', ['Cât costă administrarea contului', 'Cât costă întreținerea contului', 'Cât e administrarea contului']),
       task('У вас есть приложение?', 'У вас є застосунок?', ['Aveți aplicație', 'Aveți o aplicație', 'Aveți aplicație pe telefon']),
       task('Отделение банка.', 'Відділення банку.', ['Sucursală', 'Sucursala', 'Agenție', 'Agenția']),
+    ],
+  },
+  {
+    id: 'rezervare',
+    kind: 'phrase',
+    theme: 'food',
+    ro: 'Am o rezervare.',
+    tr: bi('у меня бронь', 'у мене бронювання'),
+    meaning: bi(
+      'С этого начинается вечер в ресторане. Если брони нет — спросите, есть ли свободный столик. Летом многие сидят на террасе.',
+      'З цього починається вечір у ресторані. Якщо бронювання немає — спитайте, чи є вільний столик. Улітку багато хто сидить на терасі.',
+    ),
+    examples: [
+      w('Am o rezervare pe numele Popescu.', 'У меня бронь на имя Попеску.', 'У мене бронювання на ім’я Попеску.'),
+      w('Aveți o masă liberă pentru doi?', 'Есть свободный столик на двоих?', 'Є вільний столик на двох?'),
+      w('Putem sta la terasă?', 'Можно сесть на террасе?', 'Можна сісти на терасі?'),
+      w('Cât trebuie să așteptăm?', 'Сколько нужно ждать?', 'Скільки треба чекати?'),
+    ],
+    expressions: [
+      w('rezervare', 'бронь', 'бронювання'),
+      w('pe numele', 'на имя', 'на ім’я'),
+      w('terasă', 'терраса, летняя площадка', 'тераса, літній майданчик'),
+      w('masă liberă', 'свободный столик', 'вільний столик'),
+    ],
+    remember: bi(
+      'На имя — **pe numele**: pe numele meu (на моё имя). Забронировать — **a rezerva**: aș vrea să rezerv o masă.',
+      'На ім’я — **pe numele**: pe numele meu (на моє ім’я). Забронювати — **a rezerva**: aș vrea să rezerv o masă.',
+    ),
+    practice: [
+      task('У меня бронь.', 'У мене бронювання.', ['Am o rezervare', 'Am rezervare']),
+      task('Есть свободный столик?', 'Є вільний столик?', ['Aveți o masă liberă', 'Aveți masă liberă', 'Aveți o masă']),
+      task('Я бы хотел забронировать столик.', 'Я хотів би забронювати столик.', ['Aș vrea să rezerv o masă', 'Aș dori să rezerv o masă', 'Vreau să rezerv o masă']),
+    ],
+  },
+  {
+    id: 'meniu',
+    kind: 'word',
+    theme: 'food',
+    ro: 'meniu',
+    tr: bi('меню', 'меню'),
+    meaning: bi(
+      'Меню. В обед многие рестораны предлагают meniul zilei — комплекс «суп + второе» по выгодной цене.',
+      'Меню. В обід багато ресторанів пропонують meniul zilei — комплекс «суп + друге» за вигідною ціною.',
+    ),
+    examples: [
+      w('Ne aduceți meniul, vă rog?', 'Принесите нам меню, пожалуйста.', 'Принесіть нам меню, будь ласка.'),
+      w('Ce ne recomandați?', 'Что вы нам посоветуете?', 'Що ви нам порадите?'),
+      w('Aveți meniul zilei?', 'У вас есть комплексный обед?', 'У вас є комплексний обід?'),
+      w('Ce aveți la desert?', 'Что у вас на десерт?', 'Що у вас на десерт?'),
+    ],
+    expressions: [
+      w('meniul zilei', 'комплексный обед', 'комплексний обід'),
+      w('felul principal', 'основное блюдо', 'основна страва'),
+      w('aperitiv', 'закуска', 'закуска'),
+      w('desert', 'десерт', 'десерт'),
+    ],
+    remember: bi(
+      'Блюда по порядку: **felul întâi** (первое, обычно ciorbă), **felul doi** (второе), **desert**. Fel — «блюдо, род».',
+      'Страви по черзі: **felul întâi** (перше, зазвичай ciorbă), **felul doi** (друге), **desert**. Fel — «страва, рід».',
+    ),
+    practice: [
+      task('Принесите меню, пожалуйста.', 'Принесіть меню, будь ласка.', ['Ne aduceți meniul, vă rog', 'Aduceți-ne meniul, vă rog', 'Meniul, vă rog', 'Îmi aduceți meniul, vă rog']),
+      task('Что вы посоветуете?', 'Що ви порадите?', ['Ce ne recomandați', 'Ce îmi recomandați', 'Ce recomandați']),
+      task('Основное блюдо.', 'Основна страва.', ['Felul principal', 'Fel principal']),
+    ],
+  },
+  {
+    id: 'as-dori',
+    kind: 'phrase',
+    theme: 'food',
+    ro: 'Aș dori…',
+    tr: bi('я бы хотел…', 'я б хотів…'),
+    meaning: bi(
+      'Вежливый способ заказать. Официант спросит «Ce doriți?» — «Что желаете?», вы отвечаете «Aș dori…» или короче «Pentru mine…».',
+      'Ввічливий спосіб замовити. Офіціант спитає «Ce doriți?» — «Що бажаєте?», ви відповідаєте «Aș dori…» або коротше «Pentru mine…».',
+    ),
+    examples: [
+      w('Aș dori o ciorbă de legume.', 'Я бы хотел овощной суп.', 'Я б хотів овочевий суп.'),
+      w('Pentru mine, același lucru.', 'Мне то же самое.', 'Мені те саме.'),
+      w('Fără ceapă, vă rog.', 'Без лука, пожалуйста.', 'Без цибулі, будь ласка.'),
+      w('Cât durează?', 'Сколько ждать?', 'Скільки чекати?'),
+    ],
+    expressions: [
+      w('ce doriți?', 'что желаете?', 'що бажаєте?'),
+      w('pentru mine', 'мне, для меня', 'мені, для мене'),
+      w('același lucru', 'то же самое', 'те саме'),
+      w('fără', 'без', 'без'),
+    ],
+    remember: bi(
+      '**Aș dori** вежливее, чем «vreau». Официант — **ospătar** или **chelner**, официантка — **ospătăriță**; позвать можно просто «Vă rog!».',
+      '**Aș dori** ввічливіше, ніж «vreau». Офіціант — **ospătar** або **chelner**, офіціантка — **ospătăriță**; покликати можна просто «Vă rog!».',
+    ),
+    practice: [
+      task('Мне то же самое.', 'Мені те саме.', ['Pentru mine, același lucru', 'Același lucru', 'Și pentru mine la fel', 'La fel']),
+      task('Без лука, пожалуйста.', 'Без цибулі, будь ласка.', ['Fără ceapă, vă rog', 'Fără ceapă']),
+      task('Я бы хотел суп.', 'Я б хотів суп.', ['Aș dori o ciorbă', 'Aș dori o supă', 'Aș vrea o ciorbă', 'Aș vrea o supă']),
+    ],
+  },
+  {
+    id: 'mancaruri',
+    kind: 'topic',
+    theme: 'food',
+    ro: 'ciorbă, sarmale, mici',
+    tr: bi('румынские блюда', 'румунські страви'),
+    meaning: bi(
+      'Что стоит попробовать: кислый суп ciorbă, голубцы sarmale, жареные колбаски mici, кукурузная каша mămăligă и пончики papanași.',
+      'Що варто скуштувати: кислий суп ciorbă, голубці sarmale, смажені ковбаски mici, кукурудзяна каша mămăligă і пампушки papanași.',
+    ),
+    examples: [
+      w('O ciorbă de burtă, vă rog.', 'Суп из рубца, пожалуйста.', 'Суп із рубця, будь ласка.'),
+      w('Sarmalele se servesc cu mămăligă.', 'Голубцы подают с мамалыгой.', 'Голубці подають із мамалигою.'),
+      w('Mici cu muștar și o bere.', 'Мици с горчицей и пиво.', 'Міці з гірчицею і пиво.'),
+      w('La desert iau papanași.', 'На десерт я возьму папанаши.', 'На десерт я візьму папанаші.'),
+    ],
+    expressions: [
+      w('ciorbă', 'кислый суп', 'кислий суп'),
+      w('mici', 'колбаски из фарша на гриле', 'ковбаски з фаршу на грилі'),
+      w('mămăligă', 'мамалыга', 'мамалига'),
+      w('papanași', 'пончики с творогом и сметаной', 'пампушки з сиром і сметаною'),
+      w('smântână', 'сметана', 'сметана'),
+    ],
+    remember: bi(
+      '**Ciorbă** — кислый суп (на квасе из отрубей — borș — или с лимоном), **supă** — обычный. Mici — всегда во множественном: un mic, doi mici, zece mici.',
+      '**Ciorbă** — кислий суп (на квасі з висівок — borș — або з лимоном), **supă** — звичайний. Mici — завжди в множині: un mic, doi mici, zece mici.',
+    ),
+    practice: [
+      task('Кислый суп.', 'Кислий суп.', ['Ciorbă', 'O ciorbă']),
+      task('Голубцы с мамалыгой.', 'Голубці з мамалигою.', ['Sarmale cu mămăligă', 'Sarmalele cu mămăligă']),
+      task('Сметана.', 'Сметана.', ['Smântână', 'Smântâna']),
+    ],
+  },
+  {
+    id: 'bauturi',
+    kind: 'topic',
+    theme: 'food',
+    ro: 'Apă plată sau minerală?',
+    tr: bi('напитки', 'напої'),
+    meaning: bi(
+      'Официант обязательно спросит про воду: plată — без газа, minerală — с газом. Дальше — вино, пиво, соки.',
+      'Офіціант обов’язково спитає про воду: plată — без газу, minerală — з газом. Далі — вино, пиво, соки.',
+    ),
+    examples: [
+      w('O apă plată, vă rog.', 'Воду без газа, пожалуйста.', 'Воду без газу, будь ласка.'),
+      w('Un pahar de vin roșu.', 'Бокал красного вина.', 'Келих червоного вина.'),
+      w('O bere la halbă.', 'Разливное пиво.', 'Розливне пиво.'),
+      w('Un suc de portocale natural.', 'Свежевыжатый апельсиновый сок.', 'Свіжовичавлений апельсиновий сік.'),
+    ],
+    expressions: [
+      w('apă plată', 'вода без газа', 'вода без газу'),
+      w('apă minerală', 'вода с газом', 'вода з газом'),
+      w('vin alb', 'белое вино', 'біле вино'),
+      w('fără gheață', 'без льда', 'без льоду'),
+    ],
+    remember: bi(
+      'Minerală по-румынски — это именно **газированная**. Вина: roșu (красное), alb (белое), rose; сухое — **sec**, полусладкое — **demidulce**.',
+      'Minerală румунською — це саме **газована**. Вина: roșu (червоне), alb (біле), rose; сухе — **sec**, напівсолодке — **demidulce**.',
+    ),
+    practice: [
+      task('Воду без газа, пожалуйста.', 'Воду без газу, будь ласка.', ['O apă plată, vă rog', 'Apă plată, vă rog', 'O apă plată']),
+      task('Бокал красного вина.', 'Келих червоного вина.', ['Un pahar de vin roșu']),
+      task('Без льда.', 'Без льоду.', ['Fără gheață']),
+    ],
+  },
+  {
+    id: 'la-cafenea',
+    kind: 'topic',
+    theme: 'food',
+    ro: 'O cafea la pachet',
+    tr: bi('в кофейне', 'у кав’ярні'),
+    meaning: bi(
+      'Кофе с собой, с молоком, без сахара. «С собой» — la pachet: так говорят и про кофе, и про еду навынос.',
+      'Кава з собою, з молоком, без цукру. «З собою» — la pachet: так кажуть і про каву, і про їжу на винос.',
+    ),
+    examples: [
+      w('O cafea cu lapte la pachet, vă rog.', 'Кофе с молоком с собой, пожалуйста.', 'Каву з молоком з собою, будь ласка.'),
+      w('Fără zahăr.', 'Без сахара.', 'Без цукру.'),
+      w('Aici sau la pachet?', 'Здесь или с собой?', 'Тут чи з собою?'),
+      w('Aveți lapte vegetal?', 'У вас есть растительное молоко?', 'У вас є рослинне молоко?'),
+    ],
+    expressions: [
+      w('la pachet', 'с собой, навынос', 'з собою, на винос'),
+      w('cafea cu lapte', 'кофе с молоком', 'кава з молоком'),
+      w('fără zahăr', 'без сахара', 'без цукру'),
+      w('cafenea', 'кофейня', 'кав’ярня'),
+    ],
+    remember: bi(
+      'Pachet — «пакет, свёрток»: **la pachet** — завернуть с собой. Большой / маленький — **mare / mic**: o cafea mare.',
+      'Pachet — «пакет, згорток»: **la pachet** — загорнути з собою. Великий / маленький — **mare / mic**: o cafea mare.',
+    ),
+    practice: [
+      task('С собой, пожалуйста.', 'З собою, будь ласка.', ['La pachet, vă rog', 'La pachet']),
+      task('Кофе с молоком.', 'Кава з молоком.', ['O cafea cu lapte', 'Cafea cu lapte']),
+      task('Без сахара.', 'Без цукру.', ['Fără zahăr']),
+    ],
+  },
+  {
+    id: 'de-post',
+    kind: 'word',
+    theme: 'food',
+    ro: 'de post',
+    tr: bi('постное', 'пісне'),
+    meaning: bi(
+      'Постная еда — без мяса, молока и яиц. Православный пост в Румынии соблюдают многие, поэтому в меню часто есть раздел «de post» — удобно и вегетарианцам.',
+      'Пісна їжа — без м’яса, молока та яєць. Православний піст у Румунії дотримують багато хто, тому в меню часто є розділ «de post» — зручно й вегетаріанцям.',
+    ),
+    examples: [
+      w('Aveți ceva de post?', 'У вас есть что-нибудь постное?', 'У вас є щось пісне?'),
+      w('Sunt vegetarian.', 'Я вегетарианец.', 'Я вегетаріанець.'),
+      w('Conține gluten?', 'Здесь есть глютен?', 'Тут є глютен?'),
+      w('Fără carne, vă rog.', 'Без мяса, пожалуйста.', 'Без м’яса, будь ласка.'),
+    ],
+    expressions: [
+      w('mâncare de post', 'постная еда', 'пісна їжа'),
+      w('vegetarian', 'вегетарианец', 'вегетаріанець'),
+      w('carne', 'мясо', 'м’ясо'),
+      w('conține', 'содержит', 'містить'),
+    ],
+    remember: bi(
+      'Post — «пост»: **a ține post** — поститься. Вегетарианка — **vegetariană**, веган — **vegan**.',
+      'Post — «піст»: **a ține post** — постити. Вегетаріанка — **vegetariană**, веган — **vegan**.',
+    ),
+    practice: [
+      task('У вас есть что-нибудь постное?', 'У вас є щось пісне?', ['Aveți ceva de post', 'Aveți mâncare de post']),
+      task('Я вегетарианец.', 'Я вегетаріанець.', ['Sunt vegetarian', 'Sunt vegetariană']),
+      task('Без мяса.', 'Без м’яса.', ['Fără carne']),
+    ],
+  },
+  {
+    id: 'am-comandat-altceva',
+    kind: 'phrase',
+    theme: 'food',
+    ro: 'Am comandat altceva.',
+    tr: bi('я заказывал другое', 'я замовляв інше'),
+    meaning: bi(
+      'Если что-то не так: принесли не то, блюдо холодное, не хватает вилки. Говорите спокойно и вежливо — обычно всё быстро исправят.',
+      'Якщо щось не так: принесли не те, страва холодна, бракує виделки. Говоріть спокійно й ввічливо — зазвичай усе швидко виправлять.',
+    ),
+    examples: [
+      w('Scuzați, am comandat altceva.', 'Простите, я заказывал другое.', 'Вибачте, я замовляв інше.'),
+      w('Mâncarea este rece.', 'Еда холодная.', 'Їжа холодна.'),
+      w('Îmi lipsește o furculiță.', 'У меня нет вилки.', 'У мене немає виделки.'),
+      w('Mai durează mult?', 'Ещё долго ждать?', 'Ще довго чекати?'),
+    ],
+    expressions: [
+      w('a comanda', 'заказывать', 'замовляти'),
+      w('furculiță', 'вилка', 'виделка'),
+      w('cuțit', 'нож', 'ніж'),
+      w('lingură', 'ложка', 'ложка'),
+      w('șervețel', 'салфетка', 'серветка'),
+    ],
+    remember: bi(
+      '«Мне не хватает…» — **îmi lipsește** (одного) / **îmi lipsesc** (нескольких). Altceva — «что-то другое», altcineva — «кто-то другой».',
+      '«Мені бракує…» — **îmi lipsește** (одного) / **îmi lipsesc** (кількох). Altceva — «щось інше», altcineva — «хтось інший».',
+    ),
+    practice: [
+      task('Я заказывал другое.', 'Я замовляв інше.', ['Am comandat altceva', 'Eu am comandat altceva']),
+      task('Еда холодная.', 'Їжа холодна.', ['Mâncarea este rece', 'Mâncarea e rece']),
+      task('У меня нет вилки.', 'У мене немає виделки.', ['Îmi lipsește o furculiță', 'Nu am furculiță', 'N-am furculiță']),
+    ],
+  },
+  {
+    id: 'nota',
+    kind: 'word',
+    theme: 'food',
+    ro: 'nota',
+    tr: bi('счёт в ресторане', 'рахунок у ресторані'),
+    meaning: bi(
+      '«Nota, vă rog!» — «Счёт, пожалуйста!». Чаевые — bacșiș; обычно оставляют около десяти процентов, если в счёте их нет.',
+      '«Nota, vă rog!» — «Рахунок, будь ласка!». Чайові — bacșiș; зазвичай залишають близько десяти відсотків, якщо в рахунку їх немає.',
+    ),
+    examples: [
+      w('Nota, vă rog!', 'Счёт, пожалуйста!', 'Рахунок, будь ласка!'),
+      w('Putem plăti separat?', 'Можно заплатить отдельно?', 'Можна заплатити окремо?'),
+      w('Bacșișul este inclus?', 'Чаевые включены?', 'Чайові включені?'),
+      w('Plătesc eu, vă invit.', 'Я плачу, я вас приглашаю.', 'Я плачу, я вас запрошую.'),
+    ],
+    expressions: [
+      w('notă de plată', 'счёт', 'рахунок'),
+      w('bacșiș', 'чаевые', 'чайові'),
+      w('separat', 'отдельно', 'окремо'),
+      w('împreună', 'вместе', 'разом'),
+    ],
+    remember: bi(
+      'Notă — «записка, оценка, счёт»: в ресторане — **nota**. «Кто платит, тот приглашает»: **vă invit** — значит, счёт за вами.',
+      'Notă — «записка, оцінка, рахунок»: у ресторані — **nota**. «Хто платить, той запрошує»: **vă invit** — отже, рахунок за вами.',
+    ),
+    practice: [
+      task('Счёт, пожалуйста!', 'Рахунок, будь ласка!', ['Nota, vă rog', 'Nota de plată, vă rog', 'Ne aduceți nota, vă rog']),
+      task('Можно заплатить отдельно?', 'Можна заплатити окремо?', ['Putem plăti separat', 'Plătim separat']),
+      task('Чаевые включены?', 'Чайові включені?', ['Bacșișul este inclus', 'Bacșișul e inclus', 'E inclus bacșișul']),
     ],
   },
 ];
