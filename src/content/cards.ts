@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel' | 'post' | 'school';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel' | 'post' | 'school' | 'leisure';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -4362,6 +4362,295 @@ export const CARDS: LearnCard[] = [
       task('Сегодня он не придёт, он заболел.', 'Сьогодні він не прийде, він захворів.', ['Azi nu vine, e bolnav', 'Astăzi nu vine, e bolnav', 'Azi nu vine, este bolnav']),
       task('Справка от врача.', 'Довідка від лікаря.', ['Scutire medicală', 'Scutirea medicală', 'O scutire medicală']),
       task('Что сегодня задали?', 'Що сьогодні задали?', ['Ce teme au avut azi', 'Ce teme au azi', 'Ce au avut de făcut azi']),
+    ],
+  },
+  {
+    id: 'fotbal',
+    kind: 'word',
+    theme: 'leisure',
+    ro: 'fotbal',
+    tr: bi('футбол', 'футбол'),
+    meaning: bi(
+      'Главный спорт в Румынии. С ним — матч, счёт, гол и вечный вопрос «кто играет?».',
+      'Головний спорт у Румунії. З ним — матч, рахунок, гол і вічне питання «хто грає?».',
+    ),
+    examples: [
+      w('Te uiți la meci diseară?', 'Будешь смотреть матч вечером?', 'Дивитимешся матч увечері?'),
+      w('Cine joacă azi?', 'Кто сегодня играет?', 'Хто сьогодні грає?'),
+      w('Am câștigat cu doi la unu!', 'Мы выиграли два — один!', 'Ми виграли два — один!'),
+      w('A fost egal, unu la unu.', 'Была ничья, один — один.', 'Була нічия, один — один.'),
+    ],
+    expressions: [
+      w('meci', 'матч', 'матч'),
+      w('gol', 'гол', 'гол'),
+      w('egal', 'ничья', 'нічия'),
+      w('echipă', 'команда', 'команда'),
+      w('suporter', 'болельщик', 'уболівальник'),
+    ],
+    remember: bi(
+      'Счёт читают через **la**: doi **la** unu (2:1), zero **la** zero. «Смотреть матч» — **a se uita la meci**.',
+      'Рахунок читають через **la**: doi **la** unu (2:1), zero **la** zero. «Дивитися матч» — **a se uita la meci**.',
+    ),
+    practice: [
+      task('Кто сегодня играет?', 'Хто сьогодні грає?', ['Cine joacă azi', 'Cine joacă astăzi']),
+      task('Мы выиграли два — один!', 'Ми виграли два — один!', ['Am câștigat cu doi la unu', 'Am câștigat doi la unu']),
+      task('Ничья.', 'Нічия.', ['Egal', 'E egal', 'Meci egal']),
+    ],
+  },
+  {
+    id: 'joci-si-tu',
+    kind: 'phrase',
+    theme: 'leisure',
+    ro: 'Joci și tu?',
+    tr: bi('ты тоже играешь?', 'ти теж граєш?'),
+    meaning: bi(
+      'Так зовут в игру — в футбол во дворе, в теннис, в настольные игры. A juca — «играть» и в спорт, и в игры.',
+      'Так кличуть у гру — у футбол на подвір’ї, у теніс, у настільні ігри. A juca — «грати» і в спорт, і в ігри.',
+    ),
+    examples: [
+      w('Jucăm fotbal duminică, joci și tu?', 'В воскресенье играем в футбол, ты с нами?', 'У неділю граємо у футбол, ти з нами?'),
+      w('Îți place să joci tenis?', 'Тебе нравится играть в теннис?', 'Тобі подобається грати в теніс?'),
+      w('Ne mai trebuie un jucător.', 'Нам не хватает одного игрока.', 'Нам бракує одного гравця.'),
+      w('Jucăm cărți sau șah?', 'Играем в карты или в шахматы?', 'Граємо в карти чи в шахи?'),
+    ],
+    expressions: [
+      w('a juca', 'играть', 'грати'),
+      w('jucător', 'игрок', 'гравець'),
+      w('tenis', 'теннис', 'теніс'),
+      w('șah', 'шахматы', 'шахи'),
+    ],
+    remember: bi(
+      'Во что играем — **без предлога**: joc fotbal, joc tenis, joc șah. Не «joc în fotbal»!',
+      'У що граємо — **без прийменника**: joc fotbal, joc tenis, joc șah. Не «joc în fotbal»!',
+    ),
+    practice: [
+      task('Ты тоже играешь?', 'Ти теж граєш?', ['Joci și tu', 'Și tu joci']),
+      task('Играем в футбол в воскресенье.', 'Граємо у футбол у неділю.', ['Jucăm fotbal duminică', 'Duminică jucăm fotbal']),
+      task('Шахматы.', 'Шахи.', ['Șah', 'Șahul']),
+    ],
+  },
+  {
+    id: 'sala',
+    kind: 'word',
+    theme: 'leisure',
+    ro: 'sală',
+    tr: bi('спортзал', 'спортзал'),
+    meaning: bi(
+      'Зал вообще, но «merg la sală» почти всегда значит «иду в спортзал». Рядом — абонемент, тренер, тренировка.',
+      'Зала взагалі, але «merg la sală» майже завжди означає «іду в спортзал». Поруч — абонемент, тренер, тренування.',
+    ),
+    examples: [
+      w('Merg la sală de trei ori pe săptămână.', 'Я хожу в зал три раза в неделю.', 'Я ходжу в зал тричі на тиждень.'),
+      w('Cât costă abonamentul la sală?', 'Сколько стоит абонемент в зал?', 'Скільки коштує абонемент у зал?'),
+      w('Am un antrenor personal.', 'У меня есть персональный тренер.', 'У мене є персональний тренер.'),
+      w('Azi am făcut un antrenament greu.', 'Сегодня у меня была тяжёлая тренировка.', 'Сьогодні в мене було важке тренування.'),
+    ],
+    expressions: [
+      w('a face sport', 'заниматься спортом', 'займатися спортом'),
+      w('antrenor', 'тренер', 'тренер'),
+      w('antrenament', 'тренировка', 'тренування'),
+      w('abonament la sală', 'абонемент в зал', 'абонемент у зал'),
+    ],
+    remember: bi(
+      '«Заниматься спортом» — **a face sport** («делать спорт»): fac sport dimineața. Сколько раз — **de trei ori pe săptămână**.',
+      '«Займатися спортом» — **a face sport** («робити спорт»): fac sport dimineața. Скільки разів — **de trei ori pe săptămână**.',
+    ),
+    practice: [
+      task('Я хожу в спортзал.', 'Я ходжу в спортзал.', ['Merg la sală', 'Mă duc la sală']),
+      task('Я занимаюсь спортом.', 'Я займаюся спортом.', ['Fac sport']),
+      task('Тренер.', 'Тренер.', ['Antrenor', 'Antrenorul']),
+    ],
+  },
+  {
+    id: 'plimbare',
+    kind: 'phrase',
+    theme: 'leisure',
+    ro: 'Hai la o plimbare!',
+    tr: bi('пойдём погуляем!', 'ходімо погуляємо!'),
+    meaning: bi(
+      'Прогулка — в парке, по набережной, на велосипеде. Самый простой способ провести вечер и потренировать румынский.',
+      'Прогулянка — у парку, набережною, на велосипеді. Найпростіший спосіб провести вечір і потренувати румунську.',
+    ),
+    examples: [
+      w('Hai la o plimbare prin parc!', 'Пойдём погуляем в парке!', 'Ходімо погуляємо в парку!'),
+      w('Mergem cu bicicleta pe malul lacului.', 'Катаемся на велосипеде вдоль озера.', 'Катаємося на велосипеді вздовж озера.'),
+      w('Ieșim cu câinele la plimbare.', 'Выходим погулять с собакой.', 'Виходимо погуляти із собакою.'),
+      w('E prea frig pentru o plimbare.', 'Слишком холодно для прогулки.', 'Надто холодно для прогулянки.'),
+    ],
+    expressions: [
+      w('a se plimba', 'гулять', 'гуляти'),
+      w('parc', 'парк', 'парк'),
+      w('bicicletă', 'велосипед', 'велосипед'),
+      w('pe jos', 'пешком', 'пішки'),
+    ],
+    remember: bi(
+      'Гулять — **a se plimba**: mă plimb, ne plimbăm. «По парку» — **prin** parc (prin — «по, через»).',
+      'Гуляти — **a se plimba**: mă plimb, ne plimbăm. «Парком» — **prin** parc (prin — «по, через»).',
+    ),
+    practice: [
+      task('Пойдём погуляем!', 'Ходімо погуляємо!', ['Hai la o plimbare', 'Hai să ne plimbăm', 'Hai la plimbare']),
+      task('Мы гуляем в парке.', 'Ми гуляємо в парку.', ['Ne plimbăm prin parc', 'Ne plimbăm în parc']),
+      task('На велосипеде.', 'На велосипеді.', ['Cu bicicleta', 'Pe bicicletă']),
+    ],
+  },
+  {
+    id: 'gratar',
+    kind: 'phrase',
+    theme: 'leisure',
+    ro: 'Facem un grătar?',
+    tr: bi('пожарим шашлыки?', 'посмажимо шашлики?'),
+    meaning: bi(
+      'Любимый румынский отдых на выходных: гриль на природе или во дворе. «Mergem la iarbă verde» — «выезжаем на природу», дословно «на зелёную траву».',
+      'Улюблений румунський відпочинок на вихідних: гриль на природі чи на подвір’ї. «Mergem la iarbă verde» — «виїжджаємо на природу», дослівно «на зелену траву».',
+    ),
+    examples: [
+      w('Ce faci în weekend?', 'Что делаешь на выходных?', 'Що робиш на вихідних?'),
+      w('Facem un grătar la noi în curte.', 'Жарим шашлыки у нас во дворе.', 'Смажимо шашлики в нас на подвір’ї.'),
+      w('Duminică mergem la iarbă verde.', 'В воскресенье едем на природу.', 'У неділю їдемо на природу.'),
+      w('Eu aduc micii și berea.', 'Я принесу мици и пиво.', 'Я принесу міці й пиво.'),
+    ],
+    expressions: [
+      w('grătar', 'гриль, шашлыки', 'гриль, шашлики'),
+      w('la iarbă verde', 'на природу, на пикник', 'на природу, на пікнік'),
+      w('curte', 'двор', 'подвір’я'),
+      w('weekend', 'выходные', 'вихідні'),
+    ],
+    remember: bi(
+      'Weekend пишут и говорят по-английски: **în weekend** — на выходных. Первое мая в Румынии — главный день для grătar.',
+      'Weekend пишуть і кажуть по-англійськи: **în weekend** — на вихідних. Перше травня в Румунії — головний день для grătar.',
+    ),
+    practice: [
+      task('Что делаешь на выходных?', 'Що робиш на вихідних?', ['Ce faci în weekend', 'Ce faci weekendul ăsta', 'Ce faci la sfârșit de săptămână']),
+      task('Пожарим шашлыки?', 'Посмажимо шашлики?', ['Facem un grătar', 'Facem grătar']),
+      task('Едем на природу.', 'Їдемо на природу.', ['Mergem la iarbă verde', 'Mergem în natură']),
+    ],
+  },
+  {
+    id: 'inot',
+    kind: 'word',
+    theme: 'leisure',
+    ro: 'a înota',
+    tr: bi('плавать', 'плавати'),
+    meaning: bi(
+      'Плавать — в бассейне (piscină), в море или на ștrand — большом открытом бассейне с пляжем, куда летом ходит весь город.',
+      'Плавати — у басейні (piscină), у морі або на ștrand — великому відкритому басейні з пляжем, куди влітку ходить усе місто.',
+    ),
+    examples: [
+      w('Știi să înoți?', 'Ты умеешь плавать?', 'Ти вмієш плавати?'),
+      w('Mergem la ștrand sâmbătă.', 'В субботу идём в открытый бассейн.', 'У суботу йдемо у відкритий басейн.'),
+      w('Nu uita costumul de baie!', 'Не забудь купальник!', 'Не забудь купальник!'),
+      w('Apa e rece azi.', 'Вода сегодня холодная.', 'Вода сьогодні холодна.'),
+    ],
+    expressions: [
+      w('piscină', 'бассейн', 'басейн'),
+      w('ștrand', 'открытый бассейн с пляжем', 'відкритий басейн із пляжем'),
+      w('costum de baie', 'купальник, плавки', 'купальник, плавки'),
+      w('a face plajă', 'загорать', 'засмагати'),
+    ],
+    remember: bi(
+      '«Уметь» — **a ști să**: știu să înot — я умею плавать. Загорать — **a face plajă** («делать пляж»).',
+      '«Уміти» — **a ști să**: știu să înot — я вмію плавати. Засмагати — **a face plajă** («робити пляж»).',
+    ),
+    practice: [
+      task('Ты умеешь плавать?', 'Ти вмієш плавати?', ['Știi să înoți']),
+      task('Я умею плавать.', 'Я вмію плавати.', ['Știu să înot']),
+      task('Бассейн.', 'Басейн.', ['Piscină', 'Piscina']),
+    ],
+  },
+  {
+    id: 'cinema',
+    kind: 'word',
+    theme: 'leisure',
+    ro: 'cinema',
+    tr: bi('кино', 'кіно'),
+    meaning: bi(
+      'Кинотеатр. Приятная деталь для изучающих: в Румынии фильмы обычно не дублируют, а показывают с субтитрами. Дублируют в основном мультфильмы.',
+      'Кінотеатр. Приємна деталь для тих, хто вчить мову: у Румунії фільми зазвичай не дублюють, а показують із субтитрами. Дублюють здебільшого мультфільми.',
+    ),
+    examples: [
+      w('Ce filme rulează săptămâna asta?', 'Какие фильмы идут на этой неделе?', 'Які фільми йдуть цього тижня?'),
+      w('Două bilete pentru ora opt, vă rog.', 'Два билета на восемь, пожалуйста.', 'Два квитки на восьму, будь ласка.'),
+      w('Filmul e subtitrat în română.', 'Фильм с румынскими субтитрами.', 'Фільм із румунськими субтитрами.'),
+      w('Ne uităm la un film acasă?', 'Посмотрим фильм дома?', 'Подивимося фільм удома?'),
+    ],
+    expressions: [
+      w('film', 'фильм', 'фільм'),
+      w('subtitrat', 'с субтитрами', 'із субтитрами'),
+      w('dublat', 'дублированный', 'дубльований'),
+      w('desene animate', 'мультфильмы', 'мультфільми'),
+    ],
+    remember: bi(
+      '«Фильм идёт» — **filmul rulează**. Смотреть фильм — **a se uita la un film** (с la!).',
+      '«Фільм іде» — **filmul rulează**. Дивитися фільм — **a se uita la un film** (з la!).',
+    ),
+    practice: [
+      task('Какие фильмы идут?', 'Які фільми йдуть?', ['Ce filme rulează', 'Ce filme sunt']),
+      task('Посмотрим фильм?', 'Подивимося фільм?', ['Ne uităm la un film', 'Vedem un film']),
+      task('Мультфильмы.', 'Мультфільми.', ['Desene animate']),
+    ],
+  },
+  {
+    id: 'spectacol',
+    kind: 'word',
+    theme: 'leisure',
+    ro: 'spectacol',
+    tr: bi('спектакль, шоу', 'вистава, шоу'),
+    meaning: bi(
+      'Любое представление: спектакль, концерт, шоу. Летом в городах много фестивалей под открытым небом.',
+      'Будь-яке представлення: вистава, концерт, шоу. Улітку в містах багато фестивалів просто неба.',
+    ),
+    examples: [
+      w('Mergem la teatru diseară.', 'Вечером идём в театр.', 'Увечері йдемо в театр.'),
+      w('Am luat bilete la concert.', 'Я взял билеты на концерт.', 'Я взяв квитки на концерт.'),
+      w('Spectacolul începe la ora șapte.', 'Спектакль начинается в семь.', 'Вистава починається о сьомій.'),
+      w('În august e un festival mare în oraș.', 'В августе в городе большой фестиваль.', 'У серпні в місті великий фестиваль.'),
+    ],
+    expressions: [
+      w('teatru', 'театр', 'театр'),
+      w('concert', 'концерт', 'концерт'),
+      w('festival', 'фестиваль', 'фестиваль'),
+      w('intrare liberă', 'вход свободный', 'вхід вільний'),
+    ],
+    remember: bi(
+      'Билет куда — **bilet la**: bilet la teatru, bilete la concert. «Вход свободный» на афише — **intrare liberă**.',
+      'Квиток куди — **bilet la**: bilet la teatru, bilete la concert. «Вхід вільний» на афіші — **intrare liberă**.',
+    ),
+    practice: [
+      task('Билеты на концерт.', 'Квитки на концерт.', ['Bilete la concert']),
+      task('Мы идём в театр.', 'Ми йдемо в театр.', ['Mergem la teatru']),
+      task('Вход свободный.', 'Вхід вільний.', ['Intrare liberă', 'Intrarea este liberă', 'Intrarea e liberă']),
+    ],
+  },
+  {
+    id: 'hobby',
+    kind: 'topic',
+    theme: 'leisure',
+    ro: 'Ce hobby ai?',
+    tr: bi('хобби и увлечения', 'хобі й захоплення'),
+    meaning: bi(
+      'Как рассказать, чем вы любите заниматься в свободное время: читать, готовить, рыбачить, рисовать.',
+      'Як розповісти, чим ви любите займатися у вільний час: читати, готувати, рибалити, малювати.',
+    ),
+    examples: [
+      w('Ce hobby ai?', 'Какое у тебя хобби?', 'Яке в тебе хобі?'),
+      w('Îmi place să gătesc.', 'Я люблю готовить.', 'Я люблю готувати.'),
+      w('Tata merge la pescuit în fiecare sâmbătă.', 'Папа каждую субботу ездит на рыбалку.', 'Тато щосуботи їздить на риболовлю.'),
+      w('În timpul liber cânt la chitară.', 'В свободное время я играю на гитаре.', 'У вільний час я граю на гітарі.'),
+    ],
+    expressions: [
+      w('pescuit', 'рыбалка', 'риболовля'),
+      w('a desena', 'рисовать', 'малювати'),
+      w('a cânta la chitară', 'играть на гитаре', 'грати на гітарі'),
+      w('a citi', 'читать', 'читати'),
+    ],
+    remember: bi(
+      'На инструменте не «играют», а «поют»: **a cânta la** chitară, la pian. «Я люблю…» — **îmi place să** + глагол.',
+      'На інструменті не «грають», а «співають»: **a cânta la** chitară, la pian. «Я люблю…» — **îmi place să** + дієслово.',
+    ),
+    practice: [
+      task('Какое у тебя хобби?', 'Яке в тебе хобі?', ['Ce hobby ai', 'Care e hobby-ul tău', 'Care este hobby-ul tău']),
+      task('Я люблю готовить.', 'Я люблю готувати.', ['Îmi place să gătesc']),
+      task('Я играю на гитаре.', 'Я граю на гітарі.', ['Cânt la chitară']),
     ],
   },
 ];
