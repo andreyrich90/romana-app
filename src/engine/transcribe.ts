@@ -157,7 +157,7 @@ function word(w: string, lang: Lang): string {
 /** Hyphenated clitics read as one word (n-am → «нам», văzut-o → «вэзуто»); compounds keep the hyphen. */
 function joinClitics(w: string): string {
   return w.replace(/([a-zăâîșțşţ]+)-([a-zăâîșțşţ]+)/g, (m, left: string, right: string) => {
-    if (!(left.length <= 2 || (right === 'o' && left.length > 4))) return m;
+    if (!(left.length <= 2 || right === 'o')) return m;
     // mi-ar, ți-ar, i-ar: the i only softens («мьяр», «цьяр», «яр»); GLIDE marks it for word().
     if (left.endsWith('i') && isVowel(right[0])) return left.slice(0, -1) + GLIDE + right;
     return left + right;
