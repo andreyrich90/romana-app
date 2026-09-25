@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social' | 'travel' | 'post';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -3817,6 +3817,262 @@ export const CARDS: LearnCard[] = [
       task('Мой багаж потерялся.', 'Мій багаж загубився.', ['Mi s-a pierdut bagajul', 'Mi-am pierdut bagajul', 'Bagajul meu s-a pierdut']),
       task('Где камера хранения?', 'Де камера схову?', ['Unde este camera de bagaje', 'Unde e camera de bagaje']),
       task('Чемодан.', 'Валіза.', ['Valiză', 'Valiza', 'O valiză']),
+    ],
+  },
+  {
+    id: 'posta',
+    kind: 'word',
+    theme: 'post',
+    ro: 'poștă',
+    tr: bi('почта', 'пошта'),
+    meaning: bi(
+      'Почта — и отделение (oficiul poștal), и сама служба: Poșta Română. Туда ходят отправить письмо, посылку, получить заказное.',
+      'Пошта — і відділення (oficiul poștal), і сама служба: Poșta Română. Туди ходять надіслати лист, посилку, отримати рекомендований.',
+    ),
+    examples: [
+      w('Unde este cel mai apropiat oficiu poștal?', 'Где ближайшее почтовое отделение?', 'Де найближче поштове відділення?'),
+      w('Vreau să trimit o scrisoare recomandată.', 'Я хочу отправить заказное письмо.', 'Я хочу надіслати рекомендований лист.'),
+      w('Aveți plicuri și timbre?', 'У вас есть конверты и марки?', 'У вас є конверти й марки?'),
+      w('Am primit o scrisoare de la bancă.', 'Мне пришло письмо из банка.', 'Мені прийшов лист із банку.'),
+    ],
+    expressions: [
+      w('scrisoare', 'письмо', 'лист'),
+      w('plic', 'конверт', 'конверт'),
+      w('timbru', 'марка', 'марка'),
+      w('cutie poștală', 'почтовый ящик', 'поштова скринька'),
+    ],
+    remember: bi(
+      'Poștă — **женский род**: poșta. «Заказное» — **recomandată** (о письме): o scrisoare recomandată. Письмо — scrisoare, мн. **scrisori**.',
+      'Poștă — **жіночий рід**: poșta. «Рекомендований» — **recomandată** (про лист): o scrisoare recomandată. Лист — scrisoare, мн. **scrisori**.',
+    ),
+    practice: [
+      task('Где ближайшая почта?', 'Де найближча пошта?', ['Unde este cel mai apropiat oficiu poștal', 'Unde e cel mai apropiat oficiu poștal', 'Unde e cea mai apropiată poștă', 'Unde este cea mai apropiată poștă', 'Unde este poșta', 'Unde e poșta']),
+      task('Заказное письмо.', 'Рекомендований лист.', ['Scrisoare recomandată', 'O scrisoare recomandată']),
+      task('Конверт.', 'Конверт.', ['Plic', 'Un plic']),
+    ],
+  },
+  {
+    id: 'colet',
+    kind: 'word',
+    theme: 'post',
+    ro: 'colet',
+    tr: bi('посылка', 'посилка'),
+    meaning: bi(
+      'Посылка. Её взвешивают, спрашивают, что внутри и куда. Хрупкое помечают fragil.',
+      'Посилка. Її зважують, питають, що всередині й куди. Крихке позначають fragil.',
+    ),
+    examples: [
+      w('Vreau să trimit un colet în Ucraina.', 'Я хочу отправить посылку в Украину.', 'Я хочу надіслати посилку в Україну.'),
+      w('Cât cântărește?', 'Сколько весит?', 'Скільки важить?'),
+      w('Cât costă transportul?', 'Сколько стоит доставка?', 'Скільки коштує доставка?'),
+      w('Ce conține coletul?', 'Что в посылке?', 'Що в посилці?'),
+    ],
+    expressions: [
+      w('fragil', 'хрупкое', 'крихке'),
+      w('cutie', 'коробка', 'коробка'),
+      w('greutate', 'вес', 'вага'),
+      w('destinatar', 'получатель', 'одержувач'),
+      w('expeditor', 'отправитель', 'відправник'),
+    ],
+    remember: bi(
+      'Colet — **средний род**: coletul, colete. «Сколько весит?» — **Cât cântărește?** (a cântări — весить, взвешивать).',
+      'Colet — **середній рід**: coletul, colete. «Скільки важить?» — **Cât cântărește?** (a cântări — важити, зважувати).',
+    ),
+    practice: [
+      task('Я хочу отправить посылку.', 'Я хочу надіслати посилку.', ['Vreau să trimit un colet', 'Aș vrea să trimit un colet']),
+      task('Сколько весит?', 'Скільки важить?', ['Cât cântărește']),
+      task('Хрупкое.', 'Крихке.', ['Fragil']),
+    ],
+  },
+  {
+    id: 'adresa',
+    kind: 'topic',
+    theme: 'post',
+    ro: 'bloc, scară, apartament',
+    tr: bi('как пишется адрес', 'як пишеться адреса'),
+    meaning: bi(
+      'Румынский адрес в многоквартирном доме длинный: улица, номер, блок, подъезд, этаж, квартира. На бланках всё сокращают.',
+      'Румунська адреса в багатоквартирному будинку довга: вулиця, номер, блок, під’їзд, поверх, квартира. На бланках усе скорочують.',
+    ),
+    examples: [
+      w('Strada Florilor, numărul cinci.', 'Улица Цветов, дом пять.', 'Вулиця Квітів, будинок п’ять.'),
+      w('Blocul A, scara doi, etajul trei, apartamentul doisprezece.', 'Блок А, подъезд два, этаж три, квартира двенадцать.', 'Блок А, під’їзд два, поверх три, квартира дванадцять.'),
+      w('Care este codul poștal?', 'Какой почтовый индекс?', 'Який поштовий індекс?'),
+      w('Interfonul nu merge, sunați-mă.', 'Домофон не работает, позвоните мне.', 'Домофон не працює, зателефонуйте мені.'),
+    ],
+    expressions: [
+      w('str. — strada', 'ул. — улица', 'вул. — вулиця'),
+      w('bl. — blocul', 'блок, дом', 'блок, будинок'),
+      w('sc. — scara', 'подъезд', 'під’їзд'),
+      w('ap. — apartamentul', 'кв. — квартира', 'кв. — квартира'),
+      w('cod poștal', 'почтовый индекс', 'поштовий індекс'),
+    ],
+    remember: bi(
+      'Порядок как на конверте: **Str.** Florilor **nr.** 5, **bl.** A, **sc.** 2, **et.** 3, **ap.** 12, город, **cod poștal**. Домофон — **interfon**.',
+      'Порядок як на конверті: **Str.** Florilor **nr.** 5, **bl.** A, **sc.** 2, **et.** 3, **ap.** 12, місто, **cod poștal**. Домофон — **interfon**.',
+    ),
+    practice: [
+      task('Почтовый индекс.', 'Поштовий індекс.', ['Cod poștal', 'Codul poștal']),
+      task('Подъезд.', 'Під’їзд.', ['Scara', 'Scară']),
+      task('Домофон не работает.', 'Домофон не працює.', ['Interfonul nu merge', 'Interfonul nu funcționează', 'Nu merge interfonul']),
+    ],
+  },
+  {
+    id: 'curier',
+    kind: 'word',
+    theme: 'post',
+    ro: 'curier',
+    tr: bi('курьер', 'кур’єр'),
+    meaning: bi(
+      'Курьерская доставка в Румынии очень популярна: курьер обычно звонит перед приездом. Номер отслеживания называют AWB.',
+      'Кур’єрська доставка в Румунії дуже популярна: кур’єр зазвичай телефонує перед приїздом. Номер відстеження називають AWB.',
+    ),
+    examples: [
+      w('Curierul vine între zece și douăsprezece.', 'Курьер приедет между десятью и двенадцатью.', 'Кур’єр приїде між десятою й дванадцятою.'),
+      w('Sunați-mă când ajungeți.', 'Позвоните мне, когда подъедете.', 'Зателефонуйте мені, коли під’їдете.'),
+      w('Puteți lăsa coletul la vecin?', 'Можете оставить посылку у соседа?', 'Можете залишити посилку в сусіда?'),
+      w('Am numărul AWB.', 'У меня есть номер отслеживания.', 'У мене є номер відстеження.'),
+    ],
+    expressions: [
+      w('firmă de curierat', 'курьерская служба', 'кур’єрська служба'),
+      w('livrare', 'доставка', 'доставка'),
+      w('AWB', 'номер отслеживания (накладная)', 'номер відстеження (накладна)'),
+      w('a livra', 'доставить', 'доставити'),
+    ],
+    remember: bi(
+      'AWB читается «а-вэ-бэ». Доставить — **a livra**: coletul a fost livrat — посылка доставлена.',
+      'AWB читається «а-ве-бе». Доставити — **a livra**: coletul a fost livrat — посилку доставлено.',
+    ),
+    practice: [
+      task('Позвоните мне, когда подъедете.', 'Зателефонуйте мені, коли під’їдете.', ['Sunați-mă când ajungeți', 'Sunați-mă când ajungeți, vă rog']),
+      task('Оставьте посылку у соседа.', 'Залиште посилку в сусіда.', ['Lăsați coletul la vecin', 'Puteți lăsa coletul la vecin']),
+      task('Доставка.', 'Доставка.', ['Livrare', 'Livrarea']),
+    ],
+  },
+  {
+    id: 'ramburs',
+    kind: 'word',
+    theme: 'post',
+    ro: 'ramburs',
+    tr: bi('оплата при получении', 'оплата при отриманні'),
+    meaning: bi(
+      'Плата курьеру при получении — очень распространённый в Румынии способ оплаты интернет-заказов. Платят наличными или картой курьеру.',
+      'Оплата кур’єру при отриманні — дуже поширений у Румунії спосіб оплати інтернет-замовлень. Платять готівкою або карткою кур’єру.',
+    ),
+    examples: [
+      w('Plata se face ramburs.', 'Оплата при получении.', 'Оплата при отриманні.'),
+      w('Pot plăti cu cardul la curier?', 'Можно заплатить курьеру картой?', 'Можна заплатити кур’єру карткою?'),
+      w('Am comandat online, cu plata la livrare.', 'Я заказал онлайн с оплатой при получении.', 'Я замовив онлайн з оплатою при отриманні.'),
+    ],
+    expressions: [
+      w('plata ramburs', 'наложенный платёж', 'накладений платіж'),
+      w('plata la livrare', 'оплата при доставке', 'оплата при доставці'),
+      w('comandă online', 'онлайн-заказ', 'онлайн-замовлення'),
+      w('plătit cu cardul', 'оплачено картой', 'оплачено карткою'),
+    ],
+    remember: bi(
+      '**Ramburs** не меняется: plata ramburs, trimit ramburs. Заказ — **comandă**, заказать — **a comanda**.',
+      '**Ramburs** не змінюється: plata ramburs, trimit ramburs. Замовлення — **comandă**, замовити — **a comanda**.',
+    ),
+    practice: [
+      task('Оплата при получении.', 'Оплата при отриманні.', ['Plata ramburs', 'Plata la livrare', 'Plata se face ramburs', 'Ramburs']),
+      task('Можно заплатить курьеру картой?', 'Можна заплатити кур’єру карткою?', ['Pot plăti cu cardul la curier', 'Pot să plătesc cu cardul la curier', 'Pot plăti cu cardul']),
+      task('Онлайн-заказ.', 'Онлайн-замовлення.', ['Comandă online', 'O comandă online', 'Comanda online']),
+    ],
+  },
+  {
+    id: 'locker',
+    kind: 'phrase',
+    theme: 'post',
+    ro: 'Coletul e în locker.',
+    tr: bi('посылка в постамате', 'посилка в поштоматі'),
+    meaning: bi(
+      'Постаматы стоят у магазинов и заправок. Приходит сообщение с кодом — вводите его или сканируете в приложении, и дверца открывается.',
+      'Поштомати стоять біля магазинів і заправок. Приходить повідомлення з кодом — вводите його або скануєте в застосунку, і дверцята відчиняються.',
+    ),
+    examples: [
+      w('Am primit un cod prin SMS.', 'Мне пришёл код по СМС.', 'Мені прийшов код через СМС.'),
+      w('Coletul e în locker până joi.', 'Посылка лежит в постамате до четверга.', 'Посилка лежить у поштоматі до четверга.'),
+      w('Ușa lockerului nu se deschide.', 'Дверца постамата не открывается.', 'Дверцята поштомата не відчиняються.'),
+    ],
+    expressions: [
+      w('locker', 'постамат', 'поштомат'),
+      w('cod', 'код', 'код'),
+      w('a ridica', 'забрать (посылку)', 'забрати (посилку)'),
+      w('termen', 'срок', 'термін'),
+    ],
+    remember: bi(
+      'Забрать посылку — **a ridica coletul** (дословно «поднять»). Если не забрать в срок — **în termen**, посылка вернётся отправителю.',
+      'Забрати посилку — **a ridica coletul** (дослівно «підняти»). Якщо не забрати вчасно — **în termen**, посилка повернеться відправнику.',
+    ),
+    practice: [
+      task('Посылка в постамате.', 'Посилка в поштоматі.', ['Coletul e în locker', 'Coletul este în locker']),
+      task('Забрать посылку.', 'Забрати посилку.', ['A ridica coletul', 'Ridic coletul', 'Să ridic coletul']),
+      task('Мне пришёл код.', 'Мені прийшов код.', ['Am primit un cod', 'Am primit codul']),
+    ],
+  },
+  {
+    id: 'unde-e-coletul',
+    kind: 'topic',
+    theme: 'post',
+    ro: 'Unde e coletul meu?',
+    tr: bi('где моя посылка?', 'де моя посилка?'),
+    meaning: bi(
+      'Статусы отслеживания и вопросы в службу поддержки, если посылка задерживается.',
+      'Статуси відстеження й питання до служби підтримки, якщо посилка затримується.',
+    ),
+    examples: [
+      w('Unde e coletul meu? Nu a ajuns încă.', 'Где моя посылка? Она ещё не пришла.', 'Де моя посилка? Вона ще не прийшла.'),
+      w('Coletul este în tranzit.', 'Посылка в пути.', 'Посилка в дорозі.'),
+      w('Coletul a fost livrat.', 'Посылка доставлена.', 'Посилку доставлено.'),
+      w('Livrarea a eșuat.', 'Доставка не удалась.', 'Доставка не вдалася.'),
+    ],
+    expressions: [
+      w('în tranzit', 'в пути', 'у дорозі'),
+      w('livrat', 'доставлено', 'доставлено'),
+      w('în depozit', 'на складе', 'на складі'),
+      w('întârziat', 'задерживается', 'затримується'),
+    ],
+    remember: bi(
+      'Статус «доставлено» — **a fost livrat** (пассив). «Ещё не пришла» — **nu a ajuns încă**.',
+      'Статус «доставлено» — **a fost livrat** (пасив). «Ще не прийшла» — **nu a ajuns încă**.',
+    ),
+    practice: [
+      task('Где моя посылка?', 'Де моя посилка?', ['Unde e coletul meu', 'Unde este coletul meu']),
+      task('Посылка в пути.', 'Посилка в дорозі.', ['Coletul este în tranzit', 'Coletul e în tranzit', 'Coletul e pe drum', 'Coletul este pe drum']),
+      task('Посылка ещё не пришла.', 'Посилка ще не прийшла.', ['Coletul nu a ajuns încă', 'Coletul n-a ajuns încă', 'Nu a ajuns încă coletul']),
+    ],
+  },
+  {
+    id: 'nu-am-fost-acasa',
+    kind: 'phrase',
+    theme: 'post',
+    ro: 'Nu am fost acasă.',
+    tr: bi('меня не было дома', 'мене не було вдома'),
+    meaning: bi(
+      'Если курьер или почтальон не застал вас: в ящике оставляют извещение (aviz). Дальше — забрать самому или договориться о новой доставке.',
+      'Якщо кур’єр або листоноша не застав вас: у скриньці залишають повідомлення (aviz). Далі — забрати самому або домовитися про нову доставку.',
+    ),
+    examples: [
+      w('Am găsit un aviz în cutia poștală.', 'Я нашёл извещение в почтовом ящике.', 'Я знайшов повідомлення в поштовій скриньці.'),
+      w('De unde pot ridica coletul?', 'Где я могу забрать посылку?', 'Де я можу забрати посилку?'),
+      w('Puteți să-l livrați din nou mâine?', 'Можете доставить его ещё раз завтра?', 'Можете доставити її ще раз завтра?'),
+      w('Poate să-l ridice altcineva?', 'Может ли его забрать другой человек?', 'Чи може її забрати інша людина?'),
+    ],
+    expressions: [
+      w('aviz', 'извещение', 'повідомлення'),
+      w('poștaș', 'почтальон', 'листоноша'),
+      w('din nou', 'снова, ещё раз', 'знову, ще раз'),
+      w('împuternicire', 'доверенность', 'довіреність'),
+    ],
+    remember: bi(
+      '«Снова» — **din nou**: sunați din nou. Чтобы посылку забрал другой человек, обычно нужна **împuternicire** — доверенность.',
+      '«Знову» — **din nou**: sunați din nou. Щоб посилку забрала інша людина, зазвичай потрібна **împuternicire** — довіреність.',
+    ),
+    practice: [
+      task('Меня не было дома.', 'Мене не було вдома.', ['Nu am fost acasă', 'N-am fost acasă', 'Nu eram acasă']),
+      task('Где я могу забрать посылку?', 'Де я можу забрати посилку?', ['De unde pot ridica coletul', 'Unde pot ridica coletul', 'De unde pot să ridic coletul']),
+      task('Ещё раз.', 'Ще раз.', ['Din nou', 'Încă o dată']),
     ],
   },
 ];
