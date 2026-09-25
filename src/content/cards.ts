@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -1987,6 +1987,488 @@ export const CARDS: LearnCard[] = [
       task('Три раза в день.', 'Тричі на день.', ['De trei ori pe zi']),
       task('После еды.', 'Після їжі.', ['După masă', 'După mâncare']),
       task('Как их принимать?', 'Як їх приймати?', ['Cum se iau', 'Cum le iau']),
+    ],
+  },
+  {
+    id: 'alimentara',
+    kind: 'word',
+    theme: 'shop',
+    ro: 'alimentară',
+    tr: bi('продуктовый магазин', 'продуктовий магазин'),
+    meaning: bi(
+      'Небольшой продуктовый у дома — alimentara. Рядом: supermarket, brutărie (пекарня), măcelărie (мясная лавка), chioșc (киоск).',
+      'Невеликий продуктовий біля дому — alimentara. Поруч: supermarket, brutărie (пекарня), măcelărie (м’ясна крамниця), chioșc (кіоск).',
+    ),
+    examples: [
+      w('Mă duc până la alimentară.', 'Я схожу в продуктовый.', 'Я збігаю в продуктовий.'),
+      w('Unde este cel mai apropiat supermarket?', 'Где ближайший супермаркет?', 'Де найближчий супермаркет?'),
+      w('Pâinea de la brutărie e caldă.', 'Хлеб из пекарни ещё тёплый.', 'Хліб із пекарні ще теплий.'),
+      w('Mai avem nevoie de lapte și ouă.', 'Нам ещё нужны молоко и яйца.', 'Нам ще потрібні молоко та яйця.'),
+    ],
+    expressions: [
+      w('brutărie', 'пекарня', 'пекарня'),
+      w('măcelărie', 'мясная лавка', 'м’ясна крамниця'),
+      w('cumpărături', 'покупки', 'покупки'),
+      w('coș', 'корзина', 'кошик'),
+    ],
+    remember: bi(
+      '«Ходить за покупками» — **a face cumpărături**. «Схожу до…» — **mă duc până la…**, «до ближайшего» — **cel mai apropiat**.',
+      '«Ходити по покупки» — **a face cumpărături**. «Збігаю до…» — **mă duc până la…**, «найближчий» — **cel mai apropiat**.',
+    ),
+    practice: [
+      task('Я схожу в продуктовый.', 'Я збігаю в продуктовий.', ['Mă duc până la alimentară', 'Mă duc la alimentară', 'Merg la alimentară']),
+      task('Где ближайший супермаркет?', 'Де найближчий супермаркет?', ['Unde este cel mai apropiat supermarket', 'Unde e cel mai apropiat supermarket']),
+      task('Ходить за покупками.', 'Ходити по покупки.', ['A face cumpărături', 'Fac cumpărături']),
+    ],
+  },
+  {
+    id: 'la-casa',
+    kind: 'topic',
+    theme: 'shop',
+    ro: 'La casă',
+    tr: bi('на кассе', 'на касі'),
+    meaning: bi(
+      'Пять вопросов, которые кассир задаст почти наверняка: карта или наличные, пакет, карта лояльности, чек.',
+      'П’ять питань, які касир поставить майже напевно: картка чи готівка, пакет, картка лояльності, чек.',
+    ),
+    examples: [
+      w('Plătiți cash sau cu cardul?', 'Наличными или картой?', 'Готівкою чи карткою?'),
+      w('Cu cardul, vă rog.', 'Картой, пожалуйста.', 'Карткою, будь ласка.'),
+      w('Vreți o pungă?', 'Вам нужен пакет?', 'Вам потрібен пакет?'),
+      w('Aveți card de fidelitate?', 'У вас есть карта лояльности?', 'У вас є картка лояльності?'),
+      w('Doriți bonul?', 'Чек нужен?', 'Чек потрібен?'),
+    ],
+    expressions: [
+      w('pungă', 'пакет', 'пакет'),
+      w('bon', 'чек', 'чек'),
+      w('card de fidelitate', 'карта лояльности', 'картка лояльності'),
+      w('casieră', 'кассирша', 'касирка'),
+    ],
+    remember: bi(
+      '**Casă** — и «дом», и «касса»: la casă — на кассе. Пакет в магазине обычно платный, поэтому кассир и спрашивает.',
+      '**Casă** — і «будинок», і «каса»: la casă — на касі. Пакет у магазині зазвичай платний, тому касир і питає.',
+    ),
+    practice: [
+      task('Картой, пожалуйста.', 'Карткою, будь ласка.', ['Cu cardul, vă rog', 'Cu cardul']),
+      task('Пакет не нужен.', 'Пакет не потрібен.', ['Nu vreau pungă', 'Fără pungă', 'Nu am nevoie de pungă', 'Nu, mulțumesc']),
+      task('Наличными.', 'Готівкою.', ['Cash', 'Numerar', 'Cu bani cash', 'În numerar']),
+    ],
+  },
+  {
+    id: 'reducere',
+    kind: 'word',
+    theme: 'shop',
+    ro: 'reducere',
+    tr: bi('скидка', 'знижка'),
+    meaning: bi(
+      'Скидка. «Со скидкой» — la reducere. На ценниках ищите ofertă, promoție и лучшее слово магазина — gratis.',
+      'Знижка. «Зі знижкою» — la reducere. На цінниках шукайте ofertă, promoție і найкраще слово магазину — gratis.',
+    ),
+    examples: [
+      w('Este la reducere?', 'Это со скидкой?', 'Це зі знижкою?'),
+      w('Azi e reducere de treizeci la sută.', 'Сегодня скидка тридцать процентов.', 'Сьогодні знижка тридцять відсотків.'),
+      w('Al doilea produs e gratis.', 'Второй товар бесплатно.', 'Другий товар безкоштовно.'),
+      w('E prea scump pentru mine.', 'Это слишком дорого для меня.', 'Це задорого для мене.'),
+    ],
+    expressions: [
+      w('la reducere', 'со скидкой', 'зі знижкою'),
+      w('ofertă', 'акция, предложение', 'акція, пропозиція'),
+      w('ieftin', 'дешёвый', 'дешевий'),
+      w('scump', 'дорогой', 'дорогий'),
+    ],
+    remember: bi(
+      'Reducere — **женский род**: reducerea, reduceri. «Слишком» — **prea**: prea scump, prea mare.',
+      'Reducere — **жіночий рід**: reducerea, reduceri. «Занадто» — **prea**: prea scump, prea mare.',
+    ),
+    practice: [
+      task('Это со скидкой?', 'Це зі знижкою?', ['Este la reducere', 'E la reducere', 'Este redus', 'E redus']),
+      task('Слишком дорого.', 'Задорого.', ['Prea scump', 'E prea scump', 'Este prea scump']),
+      task('Дешёвый.', 'Дешевий.', ['Ieftin']),
+    ],
+  },
+  {
+    id: 'piata',
+    kind: 'word',
+    theme: 'shop',
+    ro: 'piață',
+    tr: bi('рынок', 'ринок'),
+    meaning: bi(
+      'Рынок — за овощами, фруктами, сыром от фермеров. Там всё продают на вес: kilogramul, jumătate de kilogram.',
+      'Ринок — по овочі, фрукти, сир від фермерів. Там усе продають на вагу: kilogramul, jumătate de kilogram.',
+    ),
+    examples: [
+      w('Un kilogram de roșii, vă rog.', 'Килограмм помидоров, пожалуйста.', 'Кілограм помідорів, будь ласка.'),
+      w('Cât costă kilogramul?', 'Сколько стоит килограмм?', 'Скільки коштує кілограм?'),
+      w('Jumătate de kilogram de brânză.', 'Полкило сыра.', 'Пів кіло сиру.'),
+      w('Sunt de la țară?', 'Это деревенские?', 'Це сільські?'),
+    ],
+    expressions: [
+      w('proaspăt', 'свежий', 'свіжий'),
+      w('de casă', 'домашний', 'домашній'),
+      w('o bucată', 'одна штука', 'одна штука'),
+      w('o legătură', 'пучок', 'пучок'),
+    ],
+    remember: bi(
+      'Сколько чего — через **de**: un kilogram **de** roșii, o sticlă **de** apă. Piață — ещё и «площадь» в городе: Piața Unirii.',
+      'Скільки чого — через **de**: un kilogram **de** roșii, o sticlă **de** apă. Piață — ще й «площа» в місті: Piața Unirii.',
+    ),
+    practice: [
+      task('Килограмм помидоров, пожалуйста.', 'Кілограм помідорів, будь ласка.', ['Un kilogram de roșii, vă rog', 'Un kilogram de roșii', 'Un kil de roșii, vă rog']),
+      task('Сколько стоит килограмм?', 'Скільки коштує кілограм?', ['Cât costă kilogramul', 'Cât e kilogramul', 'Cât costă un kilogram']),
+      task('Свежий.', 'Свіжий.', ['Proaspăt']),
+    ],
+  },
+  {
+    id: 'ma-uit-doar',
+    kind: 'phrase',
+    theme: 'shop',
+    ro: 'Mă uit doar.',
+    tr: bi('я просто смотрю', 'я просто дивлюся'),
+    meaning: bi(
+      'Ответ продавцу, который спросил «Vă pot ajuta?». Рядом — всё, что нужно в магазине одежды: примерить, размер, примерочная.',
+      'Відповідь продавцю, який спитав «Vă pot ajuta?». Поруч — усе, що треба в магазині одягу: приміряти, розмір, примірювальна.',
+    ),
+    examples: [
+      w('Vă pot ajuta cu ceva? — Mă uit doar, mersi.', 'Вам помочь? — Я просто смотрю, спасибо.', 'Вам допомогти? — Я просто дивлюся, дякую.'),
+      w('Pot să-l probez?', 'Можно его примерить?', 'Можна його приміряти?'),
+      w('Aveți o mărime mai mare?', 'У вас есть размер побольше?', 'У вас є розмір більший?'),
+      w('Unde este cabina de probă?', 'Где примерочная?', 'Де примірювальна?'),
+    ],
+    expressions: [
+      w('mărime', 'размер', 'розмір'),
+      w('cabina de probă', 'примерочная', 'примірювальна'),
+      w('a proba', 'примерять', 'приміряти'),
+      w('îmi vine bine', 'мне хорошо сидит', 'мені добре сидить'),
+    ],
+    remember: bi(
+      'A se uita — «смотреть, глядеть»: **mă uit** (я смотрю), **uită-te!** (посмотри!). Мало — **e mic**, велико — **e mare**.',
+      'A se uita — «дивитися»: **mă uit** (я дивлюся), **uită-te!** (подивися!). Замало — **e mic**, завелике — **e mare**.',
+    ),
+    practice: [
+      task('Я просто смотрю.', 'Я просто дивлюся.', ['Mă uit doar', 'Doar mă uit', 'Mă uit doar, mersi', 'Mă uit doar, mulțumesc']),
+      task('Можно его примерить?', 'Можна його приміряти?', ['Pot să-l probez', 'Pot să îl probez', 'Îl pot proba']),
+      task('Где примерочная?', 'Де примірювальна?', ['Unde este cabina de probă', 'Unde e cabina de probă', 'Unde sunt cabinele de probă']),
+    ],
+  },
+  {
+    id: 'retur',
+    kind: 'word',
+    theme: 'shop',
+    ro: 'retur',
+    tr: bi('возврат товара', 'повернення товару'),
+    meaning: bi(
+      'Возврат покупки. Обычно нужен чек — bonul. Можно вернуть деньги (banii înapoi) или обменять (a schimba).',
+      'Повернення покупки. Зазвичай потрібен чек — bonul. Можна повернути гроші (banii înapoi) або обміняти (a schimba).',
+    ),
+    examples: [
+      w('Vreau să returnez produsul.', 'Я хочу вернуть товар.', 'Я хочу повернути товар.'),
+      w('Aveți bonul?', 'У вас есть чек?', 'У вас є чек?'),
+      w('Se poate schimba cu altă mărime?', 'Можно обменять на другой размер?', 'Можна обміняти на інший розмір?'),
+      w('Produsul are un defect.', 'У товара брак.', 'Товар має брак.'),
+    ],
+    expressions: [
+      w('a returna', 'вернуть (товар)', 'повернути (товар)'),
+      w('a schimba', 'обменять', 'обміняти'),
+      w('banii înapoi', 'деньги назад', 'гроші назад'),
+      w('garanție', 'гарантия', 'гарантія'),
+    ],
+    remember: bi(
+      'Retur — **средний род**: returul, retururi. «Вернуть деньги» — **a da banii înapoi**: Îmi dați banii înapoi?',
+      'Retur — **середній рід**: returul, retururi. «Повернути гроші» — **a da banii înapoi**: Îmi dați banii înapoi?',
+    ),
+    practice: [
+      task('Я хочу вернуть товар.', 'Я хочу повернути товар.', ['Vreau să returnez produsul', 'Aș vrea să returnez produsul', 'Vreau să-l returnez']),
+      task('Можно обменять?', 'Можна обміняти?', ['Se poate schimba', 'Pot să-l schimb', 'Pot să îl schimb']),
+      task('Гарантия.', 'Гарантія.', ['Garanție', 'Garanția']),
+    ],
+  },
+  {
+    id: 'deschis-inchis',
+    kind: 'topic',
+    theme: 'shop',
+    ro: 'Deschis / Închis',
+    tr: bi('надписи на дверях', 'написи на дверях'),
+    meaning: bi(
+      'Таблички, которые видишь каждый день: открыто, закрыто, от себя, на себя, вход, выход. И вопрос о часах работы.',
+      'Таблички, які бачиш щодня: відчинено, зачинено, від себе, на себе, вхід, вихід. І питання про години роботи.',
+    ),
+    examples: [
+      w('La ce oră închideți?', 'Во сколько вы закрываетесь?', 'О котрій ви зачиняєтеся?'),
+      w('Suntem deschiși de luni până vineri.', 'Мы открыты с понедельника по пятницу.', 'Ми відчинені з понеділка по п’ятницю.'),
+      w('Duminică e închis.', 'В воскресенье закрыто.', 'У неділю зачинено.'),
+      w('Intrarea e prin spate.', 'Вход с обратной стороны.', 'Вхід з іншого боку.'),
+    ],
+    expressions: [
+      w('împingeți', 'от себя', 'від себе'),
+      w('trageți', 'на себя', 'на себе'),
+      w('intrare', 'вход', 'вхід'),
+      w('ieșire', 'выход', 'вихід'),
+    ],
+    remember: bi(
+      'С какого по какой — **de… până…**: de luni până vineri. Время: **La ce oră deschideți / închideți?**',
+      'З якого по який — **de… până…**: de luni până vineri. Час: **La ce oră deschideți / închideți?**',
+    ),
+    practice: [
+      task('Во сколько вы закрываетесь?', 'О котрій ви зачиняєтеся?', ['La ce oră închideți', 'Când închideți']),
+      task('Открыто.', 'Відчинено.', ['Deschis']),
+      task('Выход.', 'Вихід.', ['Ieșire', 'Ieșirea']),
+    ],
+  },
+  {
+    id: 'bilet',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'bilet',
+    tr: bi('билет', 'квиток'),
+    meaning: bi(
+      'Билет на автобус, поезд, в кино. В городском транспорте билет или карту нужно прикладывать к валидатору — a valida.',
+      'Квиток на автобус, потяг, у кіно. У міському транспорті квиток чи картку треба прикладати до валідатора — a valida.',
+    ),
+    examples: [
+      w('Un bilet dus-întors, vă rog.', 'Билет туда-обратно, пожалуйста.', 'Квиток туди й назад, будь ласка.'),
+      w('Unde pot cumpăra un bilet?', 'Где можно купить билет?', 'Де можна купити квиток?'),
+      w('Nu uitați să validați biletul.', 'Не забудьте прокомпостировать билет.', 'Не забудьте прокомпостувати квиток.'),
+      w('Am abonament lunar.', 'У меня месячный проездной.', 'У мене місячний проїзний.'),
+    ],
+    expressions: [
+      w('dus-întors', 'туда и обратно', 'туди й назад'),
+      w('abonament', 'проездной', 'проїзний'),
+      w('controlor', 'контролёр', 'контролер'),
+      w('amendă', 'штраф', 'штраф'),
+    ],
+    remember: bi(
+      'Bilet — **средний род**: biletul, bilete. В одну сторону — **doar dus**. Во многих городах можно просто приложить банковскую карту к валидатору.',
+      'Bilet — **середній рід**: biletul, bilete. В один бік — **doar dus**. У багатьох містах можна просто прикласти банківську картку до валідатора.',
+    ),
+    practice: [
+      task('Билет туда-обратно, пожалуйста.', 'Квиток туди й назад, будь ласка.', ['Un bilet dus-întors, vă rog', 'Un bilet dus-întors', 'Bilet dus-întors, vă rog']),
+      task('Где можно купить билет?', 'Де можна купити квиток?', ['Unde pot cumpăra un bilet', 'Unde pot să cumpăr un bilet', 'De unde pot cumpăra un bilet', 'Unde se cumpără biletele']),
+      task('Проездной.', 'Проїзний.', ['Abonament', 'Un abonament', 'Abonamentul']),
+    ],
+  },
+  {
+    id: 'statia',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'stație',
+    tr: bi('остановка', 'зупинка'),
+    meaning: bi(
+      'Остановка автобуса, трамвая, троллейбуса, станция метро. «Где остановка?» — Unde este stația?',
+      'Зупинка автобуса, трамвая, тролейбуса, станція метро. «Де зупинка?» — Unde este stația?',
+    ),
+    examples: [
+      w('Unde este stația de autobuz?', 'Где автобусная остановка?', 'Де автобусна зупинка?'),
+      w('Ce autobuz merge la gară?', 'Какой автобус идёт до вокзала?', 'Який автобус їде до вокзалу?'),
+      w('La ce stație cobor?', 'На какой остановке мне выходить?', 'На якій зупинці мені виходити?'),
+      w('Mai sunt trei stații.', 'Ещё три остановки.', 'Ще три зупинки.'),
+    ],
+    expressions: [
+      w('stația de autobuz', 'автобусная остановка', 'автобусна зупинка'),
+      w('stația de metrou', 'станция метро', 'станція метро'),
+      w('tramvai', 'трамвай', 'трамвай'),
+      w('troleibuz', 'троллейбус', 'тролейбус'),
+    ],
+    remember: bi(
+      'Stație — **женский род**: stația, stații. Садиться — **a urca**, выходить — **a coborî**: urc în autobuz, cobor la gară.',
+      'Stație — **жіночий рід**: stația, stații. Сідати — **a urca**, виходити — **a coborî**: urc în autobuz, cobor la gară.',
+    ),
+    practice: [
+      task('Где автобусная остановка?', 'Де автобусна зупинка?', ['Unde este stația de autobuz', 'Unde e stația de autobuz']),
+      task('Какой автобус идёт до вокзала?', 'Який автобус їде до вокзалу?', ['Ce autobuz merge la gară', 'Care autobuz merge la gară']),
+      task('На какой остановке мне выходить?', 'На якій зупинці мені виходити?', ['La ce stație cobor', 'La ce stație trebuie să cobor', 'Unde cobor']),
+    ],
+  },
+  {
+    id: 'cobor',
+    kind: 'phrase',
+    theme: 'transport',
+    ro: 'Coborâți la următoarea?',
+    tr: bi('вы выходите на следующей?', 'ви виходите на наступній?'),
+    meaning: bi(
+      'Так спрашивают в переполненном автобусе, чтобы пробраться к двери. Ответ: «Da» — или вас пропустят.',
+      'Так питають у переповненому автобусі, щоб пробратися до дверей. Відповідь: «Da» — або вас пропустять.',
+    ),
+    examples: [
+      w('Coborâți la următoarea?', 'Вы выходите на следующей?', 'Ви виходите на наступній?'),
+      w('Cobor la următoarea stație.', 'Я выхожу на следующей остановке.', 'Я виходжу на наступній зупинці.'),
+      w('Mă scuzați, permiteți-mi să trec.', 'Извините, разрешите пройти.', 'Вибачте, дозвольте пройти.'),
+      w('Am ratat stația.', 'Я проехал свою остановку.', 'Я проїхав свою зупинку.'),
+    ],
+    expressions: [
+      w('a coborî', 'выходить (из транспорта)', 'виходити (з транспорту)'),
+      w('a urca', 'садиться (в транспорт)', 'сідати (у транспорт)'),
+      w('următoarea', 'следующая', 'наступна'),
+      w('mă scuzați', 'извините', 'вибачте'),
+    ],
+    remember: bi(
+      'A coborî: **cobor** (я выхожу), **cobori** (ты), **coborâți** (вы). Следующий — **următorul** (м.), следующая — **următoarea** (ж.).',
+      'A coborî: **cobor** (я виходжу), **cobori** (ти), **coborâți** (ви). Наступний — **următorul** (ч.), наступна — **următoarea** (ж.).',
+    ),
+    practice: [
+      task('Вы выходите на следующей?', 'Ви виходите на наступній?', ['Coborâți la următoarea', 'Coborâți la următoarea stație']),
+      task('Я выхожу на следующей.', 'Я виходжу на наступній.', ['Cobor la următoarea', 'Cobor la următoarea stație']),
+      task('Разрешите пройти.', 'Дозвольте пройти.', ['Permiteți-mi să trec', 'Mă scuzați', 'Permiteți', 'Pot să trec']),
+    ],
+  },
+  {
+    id: 'gara',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'gară',
+    tr: bi('вокзал', 'вокзал'),
+    meaning: bi(
+      'Железнодорожный вокзал. Поезда в Румынии — это CFR и частные перевозчики. На табло ищите linia — путь, с которого уходит поезд.',
+      'Залізничний вокзал. Потяги в Румунії — це CFR і приватні перевізники. На табло шукайте linia — колію, з якої відходить потяг.',
+    ),
+    examples: [
+      w('De la ce linie pleacă trenul?', 'С какого пути отправляется поезд?', 'З якої колії відправляється потяг?'),
+      w('Trenul are o întârziere de douăzeci de minute.', 'Поезд опаздывает на двадцать минут.', 'Потяг запізнюється на двадцять хвилин.'),
+      w('În ce vagon am loc?', 'В каком вагоне моё место?', 'У якому вагоні моє місце?'),
+      w('Trenul spre Brașov a plecat.', 'Поезд на Брашов уже ушёл.', 'Потяг на Брашов уже пішов.'),
+    ],
+    expressions: [
+      w('tren', 'поезд', 'потяг'),
+      w('linia', 'путь (на вокзале)', 'колія (на вокзалі)'),
+      w('vagon', 'вагон', 'вагон'),
+      w('întârziere', 'опоздание, задержка', 'запізнення, затримка'),
+    ],
+    remember: bi(
+      'Gară — **женский род**: gara, gări. Автовокзал — **autogară**. Куда идёт поезд — **spre**: trenul spre Cluj.',
+      'Gară — **жіночий рід**: gara, gări. Автовокзал — **autogară**. Куди йде потяг — **spre**: trenul spre Cluj.',
+    ),
+    practice: [
+      task('С какого пути отправляется поезд?', 'З якої колії відправляється потяг?', ['De la ce linie pleacă trenul', 'De pe ce linie pleacă trenul']),
+      task('Поезд опаздывает.', 'Потяг запізнюється.', ['Trenul are întârziere', 'Trenul întârzie']),
+      task('Автовокзал.', 'Автовокзал.', ['Autogară', 'Autogara']),
+    ],
+  },
+  {
+    id: 'taxi',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'taxi',
+    tr: bi('такси', 'таксі'),
+    meaning: bi(
+      'Такси — вызывают по телефону или через приложение. Главное: назвать адрес, спросить цену и сказать, где остановиться.',
+      'Таксі — викликають телефоном або через застосунок. Головне: назвати адресу, спитати ціну й сказати, де зупинитися.',
+    ),
+    examples: [
+      w('Duceți-mă la adresa asta, vă rog.', 'Отвезите меня по этому адресу, пожалуйста.', 'Відвезіть мене за цією адресою, будь ласка.'),
+      w('Cât costă până la aeroport?', 'Сколько стоит до аэропорта?', 'Скільки коштує до аеропорту?'),
+      w('Opriți aici, vă rog.', 'Остановите здесь, пожалуйста.', 'Зупиніть тут, будь ласка.'),
+      w('Păstrați restul.', 'Сдачи не нужно.', 'Решти не треба.'),
+    ],
+    expressions: [
+      w('a chema un taxi', 'вызвать такси', 'викликати таксі'),
+      w('adresa', 'адрес', 'адреса'),
+      w('opriți', 'остановите', 'зупиніть'),
+      w('păstrați restul', 'сдачи не нужно', 'решти не треба'),
+    ],
+    remember: bi(
+      'Просьбы к водителю — на «вы»: **duceți-mă** (отвезите меня), **opriți** (остановите), **așteptați** (подождите).',
+      'Прохання до водія — на «ви»: **duceți-mă** (відвезіть мене), **opriți** (зупиніть), **așteptați** (зачекайте).',
+    ),
+    practice: [
+      task('Сколько стоит до аэропорта?', 'Скільки коштує до аеропорту?', ['Cât costă până la aeroport', 'Cât e până la aeroport']),
+      task('Остановите здесь, пожалуйста.', 'Зупиніть тут, будь ласка.', ['Opriți aici, vă rog', 'Opriți aici', 'Puteți opri aici']),
+      task('Сдачи не нужно.', 'Решти не треба.', ['Păstrați restul']),
+    ],
+  },
+  {
+    id: 'drept-inainte',
+    kind: 'topic',
+    theme: 'transport',
+    ro: 'Drept înainte',
+    tr: bi('как объяснить дорогу', 'як пояснити дорогу'),
+    meaning: bi(
+      'Налево, направо, прямо, на светофоре, за углом — всё, чтобы спросить дорогу и понять ответ.',
+      'Ліворуч, праворуч, прямо, на світлофорі, за рогом — усе, щоб спитати дорогу й зрозуміти відповідь.',
+    ),
+    examples: [
+      w('Mergeți drept înainte.', 'Идите прямо.', 'Ідіть прямо.'),
+      w('La semafor faceți la stânga.', 'На светофоре поверните налево.', 'На світлофорі поверніть ліворуч.'),
+      w('E după colț, pe dreapta.', 'Это за углом, справа.', 'Це за рогом, праворуч.'),
+      w('E departe de aici?', 'Это далеко отсюда?', 'Це далеко звідси?'),
+    ],
+    expressions: [
+      w('la stânga', 'налево', 'ліворуч'),
+      w('la dreapta', 'направо', 'праворуч'),
+      w('semafor', 'светофор', 'світлофор'),
+      w('colț', 'угол', 'ріг'),
+      w('aproape', 'близко', 'близько'),
+    ],
+    remember: bi(
+      'Повернуть — **a face la stânga / la dreapta** («сделать налево»). Слева / справа — **pe stânga / pe dreapta**.',
+      'Повернути — **a face la stânga / la dreapta** («зробити ліворуч»). Зліва / справа — **pe stânga / pe dreapta**.',
+    ),
+    practice: [
+      task('Идите прямо.', 'Ідіть прямо.', ['Mergeți drept înainte', 'Mergeți înainte', 'Drept înainte']),
+      task('Поверните налево.', 'Поверніть ліворуч.', ['Faceți la stânga', 'Luați-o la stânga', 'Virați la stânga']),
+      task('Это далеко?', 'Це далеко?', ['E departe', 'Este departe']),
+    ],
+  },
+  {
+    id: 'aeroport',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'aeroport',
+    tr: bi('аэропорт', 'аеропорт'),
+    meaning: bi(
+      'Аэропорт: регистрация, багаж, посадка. Главные слова на табло — zbor (рейс), poarta (выход) и întârziat (задержан).',
+      'Аеропорт: реєстрація, багаж, посадка. Головні слова на табло — zbor (рейс), poarta (вихід) і întârziat (затримано).',
+    ),
+    examples: [
+      w('Zborul are întârziere.', 'Рейс задерживается.', 'Рейс затримується.'),
+      w('La ce poartă este îmbarcarea?', 'У какого выхода посадка?', 'Біля якого виходу посадка?'),
+      w('Am doar bagaj de mână.', 'У меня только ручная кладь.', 'У мене лише ручна поклажа.'),
+      w('Pașaportul și cartea de îmbarcare, vă rog.', 'Паспорт и посадочный талон, пожалуйста.', 'Паспорт і посадковий талон, будь ласка.'),
+    ],
+    expressions: [
+      w('zbor', 'рейс, полёт', 'рейс, політ'),
+      w('poarta', 'выход на посадку', 'вихід на посадку'),
+      w('bagaj de mână', 'ручная кладь', 'ручна поклажа'),
+      w('îmbarcare', 'посадка', 'посадка'),
+    ],
+    remember: bi(
+      'Aeroport и zbor — **средний род**: aeroportul, zborul. Прилёт — **sosire**, вылет — **plecare**.',
+      'Aeroport і zbor — **середній рід**: aeroportul, zborul. Приліт — **sosire**, виліт — **plecare**.',
+    ),
+    practice: [
+      task('Рейс задерживается.', 'Рейс затримується.', ['Zborul are întârziere', 'Zborul întârzie', 'Zborul este întârziat', 'Zborul e întârziat']),
+      task('Ручная кладь.', 'Ручна поклажа.', ['Bagaj de mână', 'Bagajul de mână']),
+      task('Прилёт.', 'Приліт.', ['Sosire', 'Sosirea', 'Sosiri']),
+    ],
+  },
+  {
+    id: 'benzinarie',
+    kind: 'word',
+    theme: 'transport',
+    ro: 'benzinărie',
+    tr: bi('заправка', 'заправка'),
+    meaning: bi(
+      'Заправка. На колонке выбираете benzină или motorină (дизель), потом платите на кассе, назвав номер колонки — pompa.',
+      'Заправка. На колонці обираєте benzină або motorină (дизель), потім платите на касі, назвавши номер колонки — pompa.',
+    ),
+    examples: [
+      w('Unde e cea mai apropiată benzinărie?', 'Где ближайшая заправка?', 'Де найближча заправка?'),
+      w('Pompa numărul trei, vă rog.', 'Колонка номер три, пожалуйста.', 'Колонка номер три, будь ласка.'),
+      w('Unde pot să parchez?', 'Где можно припарковаться?', 'Де можна припаркуватися?'),
+      w('Parcarea este cu plată.', 'Парковка платная.', 'Паркування платне.'),
+    ],
+    expressions: [
+      w('motorină', 'дизель', 'дизель'),
+      w('plinul', 'полный бак', 'повний бак'),
+      w('parcare', 'парковка', 'паркування'),
+      w('rovinietă', 'виньетка (дорожный сбор)', 'віньєтка (дорожній збір)'),
+    ],
+    remember: bi(
+      'Для дорог за городом в Румынии нужна **rovinieta** — электронная виньетка, её покупают онлайн или на заправке.',
+      'Для доріг за містом у Румунії потрібна **rovinieta** — електронна віньєтка, її купують онлайн або на заправці.',
+    ),
+    practice: [
+      task('Где ближайшая заправка?', 'Де найближча заправка?', ['Unde e cea mai apropiată benzinărie', 'Unde este cea mai apropiată benzinărie']),
+      task('Где можно припарковаться?', 'Де можна припаркуватися?', ['Unde pot să parchez', 'Unde pot parca', 'Unde pot să parchez mașina']),
+      task('Дизель.', 'Дизель.', ['Motorină', 'Motorina']),
     ],
   },
 ];
