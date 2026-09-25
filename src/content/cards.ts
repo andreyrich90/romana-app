@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food';
+export type CardTheme = 'work' | 'docs' | 'health' | 'shop' | 'transport' | 'home' | 'bank' | 'food' | 'social';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -3207,6 +3207,294 @@ export const CARDS: LearnCard[] = [
       task('Счёт, пожалуйста!', 'Рахунок, будь ласка!', ['Nota, vă rog', 'Nota de plată, vă rog', 'Ne aduceți nota, vă rog']),
       task('Можно заплатить отдельно?', 'Можна заплатити окремо?', ['Putem plăti separat', 'Plătim separat']),
       task('Чаевые включены?', 'Чайові включені?', ['Bacșișul este inclus', 'Bacșișul e inclus', 'E inclus bacșișul']),
+    ],
+  },
+  {
+    id: 'ce-faci-diseara',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Ce faci diseară?',
+    tr: bi('что делаешь вечером?', 'що робиш увечері?'),
+    meaning: bi(
+      'Так начинают звать куда-нибудь. Дальше — предложить, договориться о времени и месте.',
+      'Так починають кликати кудись. Далі — запропонувати, домовитися про час і місце.',
+    ),
+    examples: [
+      w('Ieșim la o bere diseară?', 'Сходим вечером на пиво?', 'Підемо ввечері на пиво?'),
+      w('Ai timp sâmbătă?', 'У тебя есть время в субботу?', 'У тебе є час у суботу?'),
+      w('Ne vedem la șapte în centru.', 'Встречаемся в семь в центре.', 'Зустрічаємося о сьомій у центрі.'),
+      w('Te sun eu mai târziu.', 'Я тебе позже позвоню.', 'Я тобі пізніше подзвоню.'),
+    ],
+    expressions: [
+      w('diseară', 'сегодня вечером', 'сьогодні ввечері'),
+      w('a ieși', 'выйти, сходить (куда-то)', 'вийти, сходити (кудись)'),
+      w('ne vedem', 'встречаемся, увидимся', 'зустрічаємося, побачимося'),
+      w('mai târziu', 'позже', 'пізніше'),
+    ],
+    remember: bi(
+      '**Diseară** — «сегодня вечером», **mâine seară** — «завтра вечером». Во сколько — **la**: la șapte, la opt și jumătate.',
+      '**Diseară** — «сьогодні ввечері», **mâine seară** — «завтра ввечері». О котрій — **la**: la șapte, la opt și jumătate.',
+    ),
+    practice: [
+      task('Что делаешь вечером?', 'Що робиш увечері?', ['Ce faci diseară', 'Ce faci în seara asta']),
+      task('У тебя есть время в субботу?', 'У тебе є час у суботу?', ['Ai timp sâmbătă', 'Ești liber sâmbătă', 'Ești liberă sâmbătă']),
+      task('Я тебе позже позвоню.', 'Я тобі пізніше подзвоню.', ['Te sun eu mai târziu', 'Te sun mai târziu']),
+    ],
+  },
+  {
+    id: 'vino-pe-la-noi',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Vino pe la noi!',
+    tr: bi('заходи к нам!', 'заходь до нас!'),
+    meaning: bi(
+      'Приглашение в гости. Румыны гостеприимны: гостя (musafir) усаживают за стол, а если принести подарок, хозяева скажут «Nu trebuia!» — «Не стоило!».',
+      'Запрошення в гості. Румуни гостинні: гостя (musafir) садять за стіл, а якщо принести подарунок, господарі скажуть «Nu trebuia!» — «Не варто було!».',
+    ),
+    examples: [
+      w('Vino pe la noi sâmbătă, la masă.', 'Приходи к нам в субботу на обед.', 'Приходь до нас у суботу на обід.'),
+      w('Ce să aduc?', 'Что мне принести?', 'Що мені принести?'),
+      w('Nu trebuia, mulțumim!', 'Не стоило, спасибо!', 'Не варто було, дякуємо!'),
+      w('Fă-te comod!', 'Располагайся!', 'Влаштовуйся зручно!'),
+    ],
+    expressions: [
+      w('musafir', 'гость', 'гість'),
+      w('gazdă', 'хозяин, хозяйка (дома)', 'господар, господиня'),
+      w('la noi', 'к нам, у нас', 'до нас, у нас'),
+      w('în vizită', 'в гостях', 'у гостях'),
+    ],
+    remember: bi(
+      '**Pe la** — «заглянуть, по пути»: treci pe la mine — заходи ко мне. Вежливо и нескольким — **veniți pe la noi**.',
+      '**Pe la** — «зазирнути, по дорозі»: treci pe la mine — заходь до мене. Ввічливо й кільком — **veniți pe la noi**.',
+    ),
+    practice: [
+      task('Заходи к нам!', 'Заходь до нас!', ['Vino pe la noi', 'Treci pe la noi', 'Vino la noi']),
+      task('Что мне принести?', 'Що мені принести?', ['Ce să aduc']),
+      task('Не стоило!', 'Не варто було!', ['Nu trebuia']),
+    ],
+  },
+  {
+    id: 'felicitari',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Felicitări!',
+    tr: bi('поздравляю!', 'вітаю!'),
+    meaning: bi(
+      'Поздравление с любым успехом. А для свадьбы, новоселья и новой работы у румын есть свои особые пожелания.',
+      'Привітання з будь-яким успіхом. А для весілля, новосілля й нової роботи в румунів є свої особливі побажання.',
+    ),
+    examples: [
+      w('Felicitări pentru noul loc de muncă!', 'Поздравляю с новой работой!', 'Вітаю з новою роботою!'),
+      w('Casă de piatră!', 'Совет да любовь! (на свадьбе)', 'Злагоди й любові! (на весіллі)'),
+      w('Să fie într-un ceas bun!', 'В добрый час! (на новое дело)', 'У добрий час! (на нову справу)'),
+      w('Să vă trăiască!', 'Пусть живёт и растёт! (о ребёнке)', 'Хай живе й росте! (про дитину)'),
+    ],
+    expressions: [
+      w('felicitări', 'поздравляю', 'вітаю'),
+      w('casă de piatră', 'крепкой семьи (свадьба)', 'міцної родини (весілля)'),
+      w('multă baftă', 'удачи', 'удачі'),
+      w('să fie într-un ceas bun', 'в добрый час', 'у добрий час'),
+    ],
+    remember: bi(
+      '**Casă de piatră** — дословно «каменный дом»: пожелание молодым, чтобы семья была прочной. С чем поздравляем — **pentru**: felicitări pentru examen.',
+      '**Casă de piatră** — дослівно «кам’яний дім»: побажання молодятам, щоб родина була міцною. З чим вітаємо — **pentru**: felicitări pentru examen.',
+    ),
+    practice: [
+      task('Поздравляю!', 'Вітаю!', ['Felicitări', 'Felicitările mele']),
+      task('Совет да любовь! (на свадьбе)', 'Злагоди й любові! (на весіллі)', ['Casă de piatră']),
+      task('В добрый час!', 'У добрий час!', ['Să fie într-un ceas bun', 'Într-un ceas bun']),
+    ],
+  },
+  {
+    id: 'scuze-de-deranj',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Scuze de deranj…',
+    tr: bi('извините за беспокойство…', 'вибачте за турботу…'),
+    meaning: bi(
+      'С этого начинают почти любой разговор с соседом: попросить соль, сделать музыку тише, забрать посылку.',
+      'З цього починають майже будь-яку розмову із сусідом: попросити сіль, зробити музику тихіше, забрати посилку.',
+    ),
+    examples: [
+      w('Scuze de deranj, aveți puțină sare?', 'Извините за беспокойство, у вас не найдётся соли?', 'Вибачте за турботу, у вас не знайдеться солі?'),
+      w('Puteți să dați muzica mai încet?', 'Можете сделать музыку потише?', 'Можете зробити музику тихіше?'),
+      w('Am primit un colet pentru dumneavoastră.', 'Мне пришла посылка для вас.', 'Мені прийшла посилка для вас.'),
+      w('Vă deranjează dacă fumez pe balcon?', 'Вам не мешает, если я курю на балконе?', 'Вам не заважає, якщо я курю на балконі?'),
+    ],
+    expressions: [
+      w('deranj', 'беспокойство', 'турбота, незручність'),
+      w('a deranja', 'мешать, беспокоить', 'заважати, турбувати'),
+      w('colet', 'посылка', 'посилка'),
+      w('mai încet', 'потише', 'тихіше'),
+    ],
+    remember: bi(
+      '**Vă deranjează?** — «Вам мешает?», ответ «Nu, deloc» — «Нет, нисколько». «Сделать тише» — **a da mai încet**.',
+      '**Vă deranjează?** — «Вам заважає?», відповідь «Nu, deloc» — «Ні, анітрохи». «Зробити тихіше» — **a da mai încet**.',
+    ),
+    practice: [
+      task('Извините за беспокойство.', 'Вибачте за турботу.', ['Scuze de deranj', 'Scuzați deranjul', 'Scuzați-mă de deranj', 'Iertați-mă de deranj']),
+      task('Можете сделать потише?', 'Можете зробити тихіше?', ['Puteți să dați mai încet', 'Puteți da mai încet', 'Puteți să dați muzica mai încet']),
+      task('Нет, нисколько.', 'Ні, анітрохи.', ['Nu, deloc', 'Deloc']),
+    ],
+  },
+  {
+    id: 'de-unde-sunteti',
+    kind: 'topic',
+    theme: 'social',
+    ro: 'De unde sunteți?',
+    tr: bi('разговор при знакомстве', 'розмова під час знайомства'),
+    meaning: bi(
+      'Вопросы, которые вам зададут новые соседи и знакомые. Удобно знать заранее и ответ, и встречный вопрос.',
+      'Питання, які вам поставлять нові сусіди й знайомі. Зручно знати заздалегідь і відповідь, і зустрічне питання.',
+    ),
+    examples: [
+      w('De unde sunteți? — Din Ucraina.', 'Откуда вы? — Из Украины.', 'Звідки ви? — З України.'),
+      w('De cât timp locuiți aici?', 'Как давно вы здесь живёте?', 'Відколи ви тут живете?'),
+      w('Vă place în România?', 'Вам нравится в Румынии?', 'Вам подобається в Румунії?'),
+      w('Vorbiți foarte bine românește!', 'Вы очень хорошо говорите по-румынски!', 'Ви дуже добре говорите румунською!'),
+    ],
+    expressions: [
+      w('din Ucraina', 'из Украины', 'з України'),
+      w('din Moldova', 'из Молдовы', 'з Молдови'),
+      w('de un an', 'уже год', 'уже рік'),
+      w('încă învăț', 'я ещё учу', 'я ще вчу'),
+    ],
+    remember: bi(
+      'Откуда — **din** + страна с артиклем: din Ucraina, din Rusia, din Italia. «Уже год» — **de un an**: locuiesc aici de un an.',
+      'Звідки — **din** + країна з артиклем: din Ucraina, din Rusia, din Italia. «Уже рік» — **de un an**: locuiesc aici de un an.',
+    ),
+    practice: [
+      task('Откуда вы?', 'Звідки ви?', ['De unde sunteți', 'De unde ești']),
+      task('Я живу здесь уже год.', 'Я живу тут уже рік.', ['Locuiesc aici de un an', 'Stau aici de un an', 'Locuiesc aici de un an de zile']),
+      task('Я ещё учу румынский.', 'Я ще вчу румунську.', ['Încă învăț română', 'Încă învăț limba română', 'Învăț încă româna']),
+    ],
+  },
+  {
+    id: 'misto',
+    kind: 'topic',
+    theme: 'social',
+    ro: 'mișto, nașpa',
+    tr: bi('разговорные словечки', 'розмовні слівця'),
+    meaning: bi(
+      'Слова, которые вы услышите у друзей, но не в учебнике: mișto — классно, nașpa — отстой, pe bune? — серьёзно?',
+      'Слова, які ви почуєте в друзів, але не в підручнику: mișto — класно, nașpa — відстій, pe bune? — серйозно?',
+    ),
+    examples: [
+      w('Ce mișto e aici!', 'Как тут классно!', 'Як тут класно!'),
+      w('Filmul a fost nașpa.', 'Фильм был отстойный.', 'Фільм був відстійний.'),
+      w('Pe bune? Nu se poate!', 'Серьёзно? Не может быть!', 'Серйозно? Не може бути!'),
+      w('Ce tare!', 'Круто!', 'Круто!'),
+    ],
+    expressions: [
+      w('mișto', 'классно, клёвый', 'класно, класний'),
+      w('nașpa', 'отстой, плохо', 'відстій, погано'),
+      w('pe bune', 'серьёзно, по-настоящему', 'серйозно, по-справжньому'),
+      w('frate', 'брат, братан', 'брате, братан'),
+    ],
+    remember: bi(
+      'Эти слова — только для своих. С незнакомыми и старшими лучше **frumos**, **grozav** (замечательно), **rău** (плохо).',
+      'Ці слова — тільки для своїх. З незнайомими й старшими краще **frumos**, **grozav** (чудово), **rău** (погано).',
+    ),
+    practice: [
+      task('Как тут классно!', 'Як тут класно!', ['Ce mișto e aici', 'Ce mișto este aici', 'E mișto aici']),
+      task('Серьёзно?', 'Серйозно?', ['Pe bune', 'Serios']),
+      task('Не может быть!', 'Не може бути!', ['Nu se poate', 'Nu pot să cred']),
+    ],
+  },
+  {
+    id: 'ne-auzim',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Ne auzim!',
+    tr: bi('созвонимся!', 'зідзвонимося!'),
+    meaning: bi(
+      'Дословно «услышимся» — так прощаются, когда договариваются созвониться или списаться. Рядом — как обменяться контактами.',
+      'Дослівно «почуємося» — так прощаються, коли домовляються зідзвонитися чи списатися. Поруч — як обмінятися контактами.',
+    ),
+    examples: [
+      w('Ne auzim mâine, bine?', 'Созвонимся завтра, хорошо?', 'Зідзвонимося завтра, добре?'),
+      w('Îmi dai numărul tău?', 'Дашь мне свой номер?', 'Даси мені свій номер?'),
+      w('Ai WhatsApp?', 'У тебя есть WhatsApp?', 'У тебе є WhatsApp?'),
+      w('Scrie-mi un mesaj când ajungi.', 'Напиши мне, когда доберёшься.', 'Напиши мені, коли доберешся.'),
+    ],
+    expressions: [
+      w('a suna', 'звонить', 'дзвонити'),
+      w('mesaj', 'сообщение', 'повідомлення'),
+      w('numărul de telefon', 'номер телефона', 'номер телефону'),
+      w('ne scriem', 'спишемся', 'спишемося'),
+    ],
+    remember: bi(
+      '**Ne auzim** — созвонимся, **ne vedem** — увидимся, **ne scriem** — спишемся. Всё через ne — «друг друга».',
+      '**Ne auzim** — зідзвонимося, **ne vedem** — побачимося, **ne scriem** — спишемося. Усе через ne — «одне одного».',
+    ),
+    practice: [
+      task('Созвонимся!', 'Зідзвонимося!', ['Ne auzim', 'Vorbim']),
+      task('Дашь мне свой номер?', 'Даси мені свій номер?', ['Îmi dai numărul tău', 'Îmi dai numărul', 'Îmi dai numărul de telefon']),
+      task('Напиши мне, когда доберёшься.', 'Напиши мені, коли доберешся.', ['Scrie-mi un mesaj când ajungi', 'Scrie-mi când ajungi', 'Dă-mi un mesaj când ajungi']),
+    ],
+  },
+  {
+    id: 'imprumuta',
+    kind: 'word',
+    theme: 'social',
+    ro: 'a împrumuta',
+    tr: bi('одолжить; занять', 'позичити'),
+    meaning: bi(
+      'Одно слово на обе стороны: и «дать взаймы», и «взять взаймы». Кто кому — видно по местоимению: îmi împrumuți? — одолжишь мне?',
+      'Одне слово на обидва боки: і «дати в борг», і «взяти в борг». Хто кому — видно з займенника: îmi împrumuți? — позичиш мені?',
+    ),
+    examples: [
+      w('Îmi împrumuți o bormașină?', 'Одолжишь мне дрель?', 'Позичиш мені дриль?'),
+      w('Ți-l dau înapoi mâine.', 'Я тебе завтра верну.', 'Я тобі завтра поверну.'),
+      w('Mi-a împrumutat bani un prieten.', 'Друг одолжил мне денег.', 'Друг позичив мені грошей.'),
+      w('Mă poți ajuta puțin?', 'Можешь мне немного помочь?', 'Можеш мені трохи допомогти?'),
+    ],
+    expressions: [
+      w('a da înapoi', 'вернуть, отдать обратно', 'повернути, віддати назад'),
+      w('a ajuta', 'помочь', 'допомогти'),
+      w('o favoare', 'одолжение, услуга', 'послуга'),
+      w('datorie', 'долг', 'борг'),
+    ],
+    remember: bi(
+      '**Îmi împrumuți?** — одолжишь мне? **Îți împrumut** — я тебе одолжу. Вежливо попросить об услуге — **Îmi puteți face o favoare?**',
+      '**Îmi împrumuți?** — позичиш мені? **Îți împrumut** — я тобі позичу. Ввічливо попросити про послугу — **Îmi puteți face o favoare?**',
+    ),
+    practice: [
+      task('Одолжишь мне дрель?', 'Позичиш мені дриль?', ['Îmi împrumuți o bormașină', 'Îmi împrumuți bormașina', 'Poți să-mi împrumuți o bormașină']),
+      task('Я тебе завтра верну.', 'Я тобі завтра поверну.', ['Ți-l dau înapoi mâine', 'Ți-o dau înapoi mâine', 'Ți-l dau mâine înapoi', 'Ți-o dau mâine înapoi']),
+      task('Можешь мне помочь?', 'Можеш мені допомогти?', ['Mă poți ajuta', 'Poți să mă ajuți', 'Mă ajuți']),
+    ],
+  },
+  {
+    id: 'condoleante',
+    kind: 'phrase',
+    theme: 'social',
+    ro: 'Sincere condoleanțe.',
+    tr: bi('искренние соболезнования', 'щирі співчуття'),
+    meaning: bi(
+      'Слова, которые нужны в трудную минуту: выразить соболезнование, поддержать, предложить помощь.',
+      'Слова, які потрібні у важку хвилину: висловити співчуття, підтримати, запропонувати допомогу.',
+    ),
+    examples: [
+      w('Sincere condoleanțe, îmi pare nespus de rău.', 'Искренние соболезнования, мне безмерно жаль.', 'Щирі співчуття, мені безмежно шкода.'),
+      w('Dumnezeu să-l ierte!', 'Царствие ему небесное!', 'Царство йому небесне!'),
+      w('Sunt alături de tine.', 'Я рядом с тобой.', 'Я поруч із тобою.'),
+      w('Cu ce te pot ajuta?', 'Чем я могу помочь?', 'Чим я можу допомогти?'),
+    ],
+    expressions: [
+      w('condoleanțe', 'соболезнования', 'співчуття'),
+      w('alături de', 'рядом с', 'поруч із'),
+      w('înmormântare', 'похороны', 'похорон'),
+      w('Dumnezeu s-o ierte', 'царствие ей небесное', 'царство їй небесне'),
+    ],
+    remember: bi(
+      'О мужчине — **Dumnezeu să-l ierte**, о женщине — **Dumnezeu s-o ierte**. Если не знаете, что сказать, достаточно «Îmi pare rău. Sunt alături de tine».',
+      'Про чоловіка — **Dumnezeu să-l ierte**, про жінку — **Dumnezeu s-o ierte**. Якщо не знаєте, що сказати, достатньо «Îmi pare rău. Sunt alături de tine».',
+    ),
+    practice: [
+      task('Искренние соболезнования.', 'Щирі співчуття.', ['Sincere condoleanțe', 'Condoleanțe', 'Condoleanțele mele']),
+      task('Я рядом с тобой.', 'Я поруч із тобою.', ['Sunt alături de tine', 'Sunt lângă tine']),
+      task('Чем я могу помочь?', 'Чим я можу допомогти?', ['Cu ce te pot ajuta', 'Cum te pot ajuta', 'Cu ce vă pot ajuta', 'Cum vă pot ajuta']),
     ],
   },
 ];
