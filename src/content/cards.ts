@@ -7,7 +7,7 @@ import type { Bi, Word } from './types';
  */
 export type CardKind = 'word' | 'phrase' | 'topic';
 /** Practical cards grouped by situation; the library shows each theme as its own section. */
-export type CardTheme = 'work' | 'docs';
+export type CardTheme = 'work' | 'docs' | 'health';
 
 export type CardTask = { q: Bi; answers: string[]; shown: string };
 
@@ -1600,6 +1600,393 @@ export const CARDS: LearnCard[] = [
       task('Кто последний в очереди?', 'Хто останній у черзі?', ['Cine este ultimul la rând', 'Cine e ultimul la rând', 'Cine e ultimul', 'Cine este ultimul', 'Cine e ultimul la coadă']),
       task('Я стою в очереди.', 'Я стою в черзі.', ['Stau la coadă', 'Stau la rând']),
       task('Когда будет готов документ?', 'Коли буде готовий документ?', ['Când este gata documentul', 'Când e gata documentul', 'Când va fi gata documentul']),
+    ],
+  },
+  {
+    id: 'ma-doare',
+    kind: 'phrase',
+    theme: 'health',
+    ro: 'Mă doare…',
+    tr: bi('у меня болит…', 'у мене болить…'),
+    meaning: bi(
+      'Главная фраза у врача. Дословно «меня болит»: кто болит — то, что болит, а «меня» — mă.',
+      'Головна фраза в лікаря. Дослівно «мене болить»: болить те, що болить, а «мене» — mă.',
+    ),
+    examples: [
+      w('Mă doare capul.', 'У меня болит голова.', 'У мене болить голова.'),
+      w('Mă doare gâtul.', 'У меня болит горло.', 'У мене болить горло.'),
+      w('Mă doare burta.', 'У меня болит живот.', 'У мене болить живіт.'),
+      w('Mă dor dinții.', 'У меня болят зубы.', 'У мене болять зуби.'),
+      w('Unde vă doare?', 'Где у вас болит?', 'Де у вас болить?'),
+    ],
+    expressions: [
+      w('mă doare spatele', 'болит спина', 'болить спина'),
+      w('mă doare urechea', 'болит ухо', 'болить вухо'),
+      w('durere', 'боль', 'біль'),
+      w('te doare?', 'тебе больно?', 'тобі боляче?'),
+    ],
+    remember: bi(
+      'Одно болит — **doare**, несколько — **dor**: mă doare capul, mă **dor** picioarele. Кого: mă (меня), te (тебя), îl / o (его / её), vă (вас).',
+      'Одне болить — **doare**, кілька — **dor**: mă doare capul, mă **dor** picioarele. Кого: mă (мене), te (тебе), îl / o (його / її), vă (вас).',
+    ),
+    practice: [
+      task('У меня болит голова.', 'У мене болить голова.', ['Mă doare capul']),
+      task('У меня болят зубы.', 'У мене болять зуби.', ['Mă dor dinții']),
+      task('Где у вас болит?', 'Де у вас болить?', ['Unde vă doare', 'Unde te doare']),
+    ],
+  },
+  {
+    id: 'simptome',
+    kind: 'topic',
+    theme: 'health',
+    ro: 'Am febră.',
+    tr: bi('симптомы', 'симптоми'),
+    meaning: bi(
+      'Как описать, что с вами: температура, кашель, простуда, тошнота. Почти всё строится через am (у меня есть) или mi-e (мне).',
+      'Як описати, що з вами: температура, кашель, застуда, нудота. Майже все будується через am (у мене є) або mi-e (мені).',
+    ),
+    examples: [
+      w('Am febră de ieri.', 'У меня температура со вчерашнего дня.', 'У мене температура від учора.'),
+      w('Am răcit.', 'Я простыл.', 'Я застудився.'),
+      w('Tușesc toată noaptea.', 'Я кашляю всю ночь.', 'Я кашляю всю ніч.'),
+      w('Mi-e rău.', 'Мне плохо.', 'Мені погано.'),
+      w('Am greață și amețeli.', 'Меня тошнит и кружится голова.', 'Мене нудить і паморочиться голова.'),
+    ],
+    expressions: [
+      w('febră', 'температура, жар', 'температура, жар'),
+      w('tuse', 'кашель', 'кашель'),
+      w('răceală', 'простуда', 'застуда'),
+      w('greață', 'тошнота', 'нудота'),
+      w('nas înfundat', 'заложенный нос', 'закладений ніс'),
+    ],
+    remember: bi(
+      '«Со вчерашнего дня» — **de ieri**, «уже три дня» — **de trei zile**. Mi-e rău — «мне плохо», а mi-e bine — «мне хорошо».',
+      '«Від учора» — **de ieri**, «уже три дні» — **de trei zile**. Mi-e rău — «мені погано», а mi-e bine — «мені добре».',
+    ),
+    practice: [
+      task('У меня температура.', 'У мене температура.', ['Am febră', 'Am temperatură']),
+      task('Я простыл.', 'Я застудився.', ['Am răcit', 'Sunt răcit', 'Sunt răcită']),
+      task('Мне плохо.', 'Мені погано.', ['Mi-e rău', 'Nu mă simt bine', 'Îmi este rău']),
+    ],
+  },
+  {
+    id: 'la-cabinet',
+    kind: 'topic',
+    theme: 'health',
+    ro: 'Ce vă supără?',
+    tr: bi('что спросит врач', 'що спитає лікар'),
+    meaning: bi(
+      'Вопросы и просьбы, которые вы услышите в кабинете. Если узнать их заранее, приём пройдёт спокойнее.',
+      'Питання й прохання, які ви почуєте в кабінеті. Якщо знати їх заздалегідь, прийом мине спокійніше.',
+    ),
+    examples: [
+      w('Ce vă supără?', 'Что вас беспокоит?', 'Що вас турбує?'),
+      w('De când aveți durerea?', 'С какого времени у вас боль?', 'Відколи у вас біль?'),
+      w('Respirați adânc.', 'Глубоко вдохните.', 'Глибоко вдихніть.'),
+      w('Luați vreun medicament?', 'Вы принимаете какие-нибудь лекарства?', 'Ви приймаєте якісь ліки?'),
+      w('Sunteți alergic la ceva?', 'У вас есть на что-то аллергия?', 'У вас є на щось алергія?'),
+    ],
+    expressions: [
+      w('cabinet', 'кабинет врача', 'кабінет лікаря'),
+      w('consultație', 'осмотр, консультация', 'огляд, консультація'),
+      w('tensiunea', 'давление', 'тиск'),
+      w('diagnostic', 'диагноз', 'діагноз'),
+    ],
+    remember: bi(
+      'A supăra — «сердить» и «беспокоить»: **Ce vă supără?** — что вас беспокоит. Ответ: «Mă doare…», «Am…».',
+      'A supăra — «сердити» і «турбувати»: **Ce vă supără?** — що вас турбує. Відповідь: «Mă doare…», «Am…».',
+    ),
+    practice: [
+      task('Что вас беспокоит?', 'Що вас турбує?', ['Ce vă supără', 'Ce vă deranjează']),
+      task('Глубоко вдохните.', 'Глибоко вдихніть.', ['Respirați adânc']),
+      task('Давление.', 'Тиск.', ['Tensiunea', 'Tensiune', 'Tensiunea arterială']),
+    ],
+  },
+  {
+    id: 'medic-de-familie',
+    kind: 'word',
+    theme: 'health',
+    ro: 'medic de familie',
+    tr: bi('семейный врач', 'сімейний лікар'),
+    meaning: bi(
+      'В Румынии всё начинается с семейного врача: он лечит, выписывает рецепты и даёт направление (trimitere) к специалисту.',
+      'У Румунії все починається з сімейного лікаря: він лікує, виписує рецепти й дає направлення (trimitere) до спеціаліста.',
+    ),
+    examples: [
+      w('Vreau să mă înscriu la un medic de familie.', 'Я хочу прикрепиться к семейному врачу.', 'Я хочу записатися до сімейного лікаря.'),
+      w('Am nevoie de o trimitere la cardiolog.', 'Мне нужно направление к кардиологу.', 'Мені потрібне направлення до кардіолога.'),
+      w('Medicul are program după-amiaza.', 'Врач принимает после обеда.', 'Лікар приймає після обіду.'),
+    ],
+    expressions: [
+      w('trimitere', 'направление', 'направлення'),
+      w('specialist', 'узкий специалист', 'вузький спеціаліст'),
+      w('a se înscrie', 'записаться, прикрепиться', 'записатися, прикріпитися'),
+      w('dentist', 'стоматолог', 'стоматолог'),
+    ],
+    remember: bi(
+      'Врач — и **medic**, и **doctor**, оба слова обычны. Обращение: **domnule doctor**, **doamna doctor**.',
+      'Лікар — і **medic**, і **doctor**, обидва слова звичайні. Звертання: **domnule doctor**, **doamna doctor**.',
+    ),
+    practice: [
+      task('Семейный врач.', 'Сімейний лікар.', ['Medic de familie', 'Medicul de familie']),
+      task('Мне нужно направление.', 'Мені потрібне направлення.', ['Am nevoie de o trimitere', 'Am nevoie de trimitere', 'Îmi trebuie o trimitere']),
+      task('Стоматолог.', 'Стоматолог.', ['Dentist', 'Dentistul', 'Medic dentist', 'Stomatolog']),
+    ],
+  },
+  {
+    id: 'analize',
+    kind: 'word',
+    theme: 'health',
+    ro: 'analize',
+    tr: bi('анализы', 'аналізи'),
+    meaning: bi(
+      'Анализы — всегда во множественном: a face analize — сдать анализы. Кровь часто сдают натощак — pe nemâncate.',
+      'Аналізи — завжди в множині: a face analize — здати аналізи. Кров часто здають натще — pe nemâncate.',
+    ),
+    examples: [
+      w('Trebuie să fac analize de sânge.', 'Мне нужно сдать анализ крови.', 'Мені треба здати аналіз крові.'),
+      w('Veniți pe nemâncate.', 'Приходите натощак.', 'Приходьте натще.'),
+      w('Când sunt gata rezultatele?', 'Когда будут готовы результаты?', 'Коли будуть готові результати?'),
+      w('Analizele sunt bune.', 'Анализы хорошие.', 'Аналізи добрі.'),
+    ],
+    expressions: [
+      w('analize de sânge', 'анализ крови', 'аналіз крові'),
+      w('pe nemâncate', 'натощак', 'натще'),
+      w('rezultatele', 'результаты', 'результати'),
+      w('radiografie', 'рентген', 'рентген'),
+    ],
+    remember: bi(
+      'Analiză — **женский род**, во мн. — analize. «Сдать анализы» — не «a da», а **a face analize** («сделать анализы»).',
+      'Analiză — **жіночий рід**, у мн. — analize. «Здати аналізи» — не «a da», а **a face analize** («зробити аналізи»).',
+    ),
+    practice: [
+      task('Мне нужно сдать анализ крови.', 'Мені треба здати аналіз крові.', ['Trebuie să fac analize de sânge', 'Trebuie să îmi fac analizele de sânge', 'Trebuie să-mi fac analizele de sânge']),
+      task('Натощак.', 'Натще.', ['Pe nemâncate', 'Pe stomacul gol']),
+      task('Когда будут готовы результаты?', 'Коли будуть готові результати?', ['Când sunt gata rezultatele', 'Când vor fi gata rezultatele']),
+    ],
+  },
+  {
+    id: 'alergie',
+    kind: 'word',
+    theme: 'health',
+    ro: 'alergie',
+    tr: bi('аллергия', 'алергія'),
+    meaning: bi(
+      'Об аллергии важно уметь сказать сразу — врачу, в аптеке, в ресторане. «У меня аллергия на…» — sunt alergic la…',
+      'Про алергію важливо вміти сказати одразу — лікарю, в аптеці, у ресторані. «У мене алергія на…» — sunt alergic la…',
+    ),
+    examples: [
+      w('Sunt alergic la penicilină.', 'У меня аллергия на пенициллин.', 'У мене алергія на пеніцилін.'),
+      w('Sunt alergică la nuci.', 'У меня аллергия на орехи.', 'У мене алергія на горіхи.'),
+      w('Am o alergie de sezon.', 'У меня сезонная аллергия.', 'У мене сезонна алергія.'),
+    ],
+    expressions: [
+      w('alergic la', 'аллергия на (о мужчине)', 'алергія на (про чоловіка)'),
+      w('alergică la', 'аллергия на (о женщине)', 'алергія на (про жінку)'),
+      w('polen', 'пыльца', 'пилок'),
+      w('mâncărime', 'зуд', 'свербіж'),
+    ],
+    remember: bi(
+      'По-румынски говорят «я аллергичен»: мужчина — **sunt alergic**, женщина — **sunt alergică**. На что — **la**.',
+      'Румунською кажуть «я алергічний»: чоловік — **sunt alergic**, жінка — **sunt alergică**. На що — **la**.',
+    ),
+    practice: [
+      task('У меня аллергия на пенициллин.', 'У мене алергія на пеніцилін.', ['Sunt alergic la penicilină', 'Sunt alergică la penicilină', 'Am alergie la penicilină']),
+      task('У меня аллергия на орехи.', 'У мене алергія на горіхи.', ['Sunt alergic la nuci', 'Sunt alergică la nuci', 'Am alergie la nuci']),
+      task('Пыльца.', 'Пилок.', ['Polen', 'Polenul']),
+    ],
+  },
+  {
+    id: 'asigurat',
+    kind: 'word',
+    theme: 'health',
+    ro: 'asigurat',
+    tr: bi('застрахован', 'застрахований'),
+    meaning: bi(
+      'Первый вопрос в поликлинике: Sunteți asigurat? — Вы застрахованы? Если вы работаете по договору, страховку платят с зарплаты.',
+      'Перше питання в поліклініці: Sunteți asigurat? — Ви застраховані? Якщо ви працюєте за договором, страховку сплачують із зарплати.',
+    ),
+    examples: [
+      w('Sunteți asigurat?', 'Вы застрахованы?', 'Ви застраховані?'),
+      w('Da, lucrez cu contract de muncă.', 'Да, я работаю по трудовому договору.', 'Так, я працюю за трудовим договором.'),
+      w('Aveți cardul de sănătate?', 'У вас есть карта медицинского страхования?', 'У вас є картка медичного страхування?'),
+      w('Consultația costă o sută de lei.', 'Приём стоит сто лей.', 'Прийом коштує сто лей.'),
+    ],
+    expressions: [
+      w('asigurare medicală', 'медицинская страховка', 'медичне страхування'),
+      w('cardul de sănătate', 'карта медстрахования', 'картка медичного страхування'),
+      w('gratuit', 'бесплатно', 'безкоштовно'),
+      w('clinică privată', 'частная клиника', 'приватна клініка'),
+    ],
+    remember: bi(
+      'Asigurat (м.), **asigurată** (ж.). В частной клинике страховку не спрашивают, но платите вы сами — **contra cost** (платно).',
+      'Asigurat (ч.), **asigurată** (ж.). У приватній клініці страховку не питають, але платите ви самі — **contra cost** (платно).',
+    ),
+    practice: [
+      task('Вы застрахованы?', 'Ви застраховані?', ['Sunteți asigurat', 'Sunteți asigurată', 'Ești asigurat']),
+      task('Бесплатно.', 'Безкоштовно.', ['Gratuit', 'Gratis']),
+      task('Частная клиника.', 'Приватна клініка.', ['Clinică privată', 'Clinica privată', 'O clinică privată']),
+    ],
+  },
+  {
+    id: 'urgenta',
+    kind: 'phrase',
+    theme: 'health',
+    ro: 'Sunați la 112!',
+    tr: bi('звоните 112!', 'телефонуйте 112!'),
+    meaning: bi(
+      '112 — единый номер экстренной помощи в Румынии и во всём ЕС: скорая, полиция, пожарные. Звонок бесплатный.',
+      '112 — єдиний номер екстреної допомоги в Румунії та в усьому ЄС: швидка, поліція, пожежники. Дзвінок безкоштовний.',
+    ),
+    examples: [
+      w('Chemați o ambulanță!', 'Вызовите скорую!', 'Викличте швидку!'),
+      w('Ajutor!', 'Помогите!', 'Допоможіть!'),
+      w('A leșinat.', 'Он потерял сознание.', 'Він знепритомнів.'),
+      w('Unde este spitalul?', 'Где больница?', 'Де лікарня?'),
+    ],
+    expressions: [
+      w('ambulanța', 'скорая помощь', 'швидка допомога'),
+      w('spital', 'больница', 'лікарня'),
+      w('urgență', 'срочный случай; приёмный покой', 'невідкладний випадок; приймальне відділення'),
+      w('m-am lovit', 'я ударился', 'я вдарився'),
+    ],
+    remember: bi(
+      'Приёмное отделение больницы — **UPU** (Unitatea de Primiri Urgențe), в разговоре просто **Urgențe**: am fost la Urgențe.',
+      'Приймальне відділення лікарні — **UPU** (Unitatea de Primiri Urgențe), у розмові просто **Urgențe**: am fost la Urgențe.',
+    ),
+    practice: [
+      task('Вызовите скорую!', 'Викличте швидку!', ['Chemați o ambulanță', 'Chemați ambulanța', 'Sunați la ambulanță']),
+      task('Помогите!', 'Допоможіть!', ['Ajutor']),
+      task('Где больница?', 'Де лікарня?', ['Unde este spitalul', 'Unde e spitalul']),
+    ],
+  },
+  {
+    id: 'farmacie',
+    kind: 'word',
+    theme: 'health',
+    ro: 'farmacie',
+    tr: bi('аптека', 'аптека'),
+    meaning: bi(
+      'Аптека. Farmacistul — фармацевт, он часто подскажет лекарство без рецепта. Ночью работают аптеки non-stop.',
+      'Аптека. Farmacistul — фармацевт, він часто підкаже ліки без рецепта. Уночі працюють аптеки non-stop.',
+    ),
+    examples: [
+      w('Unde este o farmacie?', 'Где здесь аптека?', 'Де тут аптека?'),
+      w('Aveți ceva pentru durerea de cap?', 'У вас есть что-нибудь от головной боли?', 'У вас є щось від головного болю?'),
+      w('Se eliberează fără rețetă?', 'Это отпускается без рецепта?', 'Це відпускається без рецепта?'),
+      w('E o farmacie non-stop aproape?', 'Рядом есть круглосуточная аптека?', 'Поруч є цілодобова аптека?'),
+    ],
+    expressions: [
+      w('farmacist', 'фармацевт', 'фармацевт'),
+      w('non-stop', 'круглосуточно', 'цілодобово'),
+      w('fără rețetă', 'без рецепта', 'без рецепта'),
+      w('ceva pentru', 'что-нибудь от', 'щось від'),
+    ],
+    remember: bi(
+      '«От чего?» по-румынски — **pentru** («для»): ceva **pentru** tuse — что-нибудь от кашля. Не «de la»!',
+      '«Від чого?» румунською — **pentru** («для»): ceva **pentru** tuse — щось від кашлю. Не «de la»!',
+    ),
+    practice: [
+      task('Где здесь аптека?', 'Де тут аптека?', ['Unde este o farmacie', 'Unde e o farmacie', 'Unde este farmacia', 'Unde e farmacia']),
+      task('У вас есть что-нибудь от кашля?', 'У вас є щось від кашлю?', ['Aveți ceva pentru tuse']),
+      task('Без рецепта.', 'Без рецепта.', ['Fără rețetă']),
+    ],
+  },
+  {
+    id: 'reteta',
+    kind: 'word',
+    theme: 'health',
+    ro: 'rețetă',
+    tr: bi('рецепт', 'рецепт'),
+    meaning: bi(
+      'И рецепт от врача, и кулинарный рецепт. С рецептом компенсированным (compensată) часть цены платит страховка.',
+      'І рецепт від лікаря, і кулінарний рецепт. З компенсованим рецептом (compensată) частину ціни платить страховка.',
+    ),
+    examples: [
+      w('Doctorul mi-a dat o rețetă.', 'Врач выписал мне рецепт.', 'Лікар виписав мені рецепт.'),
+      w('Medicamentul se dă doar cu rețetă.', 'Лекарство отпускается только по рецепту.', 'Ліки відпускаються тільки за рецептом.'),
+      w('Rețeta este compensată.', 'Рецепт льготный.', 'Рецепт пільговий.'),
+      w('Rețeta e valabilă o lună.', 'Рецепт действует месяц.', 'Рецепт дійсний місяць.'),
+    ],
+    expressions: [
+      w('cu rețetă', 'по рецепту', 'за рецептом'),
+      w('rețetă compensată', 'льготный рецепт', 'пільговий рецепт'),
+      w('a prescrie', 'выписать, назначить', 'виписати, призначити'),
+      w('valabilă', 'действительна', 'дійсна'),
+    ],
+    remember: bi(
+      'Rețetă — **женский род**: rețeta, rețete. «Выписать рецепт» в разговоре — **a da o rețetă**, официально — a prescrie.',
+      'Rețetă — **жіночий рід**: rețeta, rețete. «Виписати рецепт» у розмові — **a da o rețetă**, офіційно — a prescrie.',
+    ),
+    practice: [
+      task('Врач выписал мне рецепт.', 'Лікар виписав мені рецепт.', ['Doctorul mi-a dat o rețetă', 'Medicul mi-a dat o rețetă', 'Doctorul mi-a prescris o rețetă', 'Medicul mi-a prescris o rețetă']),
+      task('Только по рецепту.', 'Тільки за рецептом.', ['Doar cu rețetă', 'Numai cu rețetă']),
+      task('Льготный рецепт.', 'Пільговий рецепт.', ['Rețetă compensată', 'Rețeta compensată', 'O rețetă compensată']),
+    ],
+  },
+  {
+    id: 'medicament',
+    kind: 'word',
+    theme: 'health',
+    ro: 'medicament',
+    tr: bi('лекарство', 'ліки'),
+    meaning: bi(
+      'Лекарство вообще. А конкретно — pastile (таблетки), sirop (сироп), picături (капли), unguent (мазь), plasture (пластырь).',
+      'Ліки загалом. А конкретно — pastile (таблетки), sirop (сироп), picături (краплі), unguent (мазь), plasture (пластир).',
+    ),
+    examples: [
+      w('Ce medicamente luați?', 'Какие лекарства вы принимаете?', 'Які ліки ви приймаєте?'),
+      w('Aveți un sirop pentru copii?', 'У вас есть сироп для детей?', 'У вас є сироп для дітей?'),
+      w('Îmi trebuie niște picături de nas.', 'Мне нужны капли в нос.', 'Мені потрібні краплі в ніс.'),
+      w('Dați-mi un plasture, vă rog.', 'Дайте мне пластырь, пожалуйста.', 'Дайте мені пластир, будь ласка.'),
+    ],
+    expressions: [
+      w('pastile', 'таблетки', 'таблетки'),
+      w('sirop de tuse', 'сироп от кашля', 'сироп від кашлю'),
+      w('picături', 'капли', 'краплі'),
+      w('unguent', 'мазь', 'мазь'),
+      w('plasture', 'пластырь', 'пластир'),
+    ],
+    remember: bi(
+      'Medicament — **средний род**: medicamentul, medicamente. «Принимать лекарство» — **a lua** (брать): iau pastile.',
+      'Medicament — **середній рід**: medicamentul, medicamente. «Приймати ліки» — **a lua** (брати): iau pastile.',
+    ),
+    practice: [
+      task('Какие лекарства вы принимаете?', 'Які ліки ви приймаєте?', ['Ce medicamente luați']),
+      task('Сироп от кашля.', 'Сироп від кашлю.', ['Sirop de tuse', 'Sirop pentru tuse', 'Un sirop de tuse', 'Un sirop pentru tuse']),
+      task('Таблетки.', 'Таблетки.', ['Pastile', 'Pastilele', 'Comprimate', 'Tablete']),
+    ],
+  },
+  {
+    id: 'cum-se-iau',
+    kind: 'topic',
+    theme: 'health',
+    ro: 'Cum se iau?',
+    tr: bi('как принимать лекарство', 'як приймати ліки'),
+    meaning: bi(
+      'Что скажет фармацевт или что написано на упаковке: сколько раз в день, до или после еды, сколько дней.',
+      'Що скаже фармацевт або що написано на упаковці: скільки разів на день, до чи після їжі, скільки днів.',
+    ),
+    examples: [
+      w('Luați o pastilă de trei ori pe zi.', 'Принимайте по таблетке три раза в день.', 'Приймайте по таблетці тричі на день.'),
+      w('După masă, cu un pahar de apă.', 'После еды, запивая стаканом воды.', 'Після їжі, запиваючи склянкою води.'),
+      w('Timp de o săptămână.', 'В течение недели.', 'Протягом тижня.'),
+      w('Nu se ia pe stomacul gol.', 'Не принимать натощак.', 'Не приймати натще.'),
+    ],
+    expressions: [
+      w('de două ori pe zi', 'два раза в день', 'двічі на день'),
+      w('înainte de masă', 'до еды', 'до їжі'),
+      w('după masă', 'после еды', 'після їжі'),
+      w('seara la culcare', 'вечером перед сном', 'увечері перед сном'),
+    ],
+    remember: bi(
+      '«Раз» — **dată**, во мн. — **ori**: o dată, de două ori, de trei ori. «В день» — **pe zi**, «в течение» — **timp de**.',
+      '«Раз» — **dată**, у мн. — **ori**: o dată, de două ori, de trei ori. «На день» — **pe zi**, «протягом» — **timp de**.',
+    ),
+    practice: [
+      task('Три раза в день.', 'Тричі на день.', ['De trei ori pe zi']),
+      task('После еды.', 'Після їжі.', ['După masă', 'După mâncare']),
+      task('Как их принимать?', 'Як їх приймати?', ['Cum se iau', 'Cum le iau']),
     ],
   },
 ];

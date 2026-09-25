@@ -71,7 +71,7 @@ export default function CardScreen() {
           <View style={[s.trChip, { backgroundColor: c.blueSoft }]}>
             <Text style={[s.trChipText, { color: c.blue }]}>= {card.tr[lang]}</Text>
           </View>
-          {card.kind !== 'topic' && <WalletButton ro={card.ro.replace(/[.!?]$/, '')} />}
+          {card.kind !== 'topic' && <WalletButton ro={card.ro.replace(/[.!?…]+$/, '')} />}
         </View>
       </View>
 

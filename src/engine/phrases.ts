@@ -62,7 +62,7 @@ function build(): Map<string, PhraseInfo> {
     }
   // Cards come after the course, so a course translation wins where both have one.
   for (const card of CARDS) {
-    add(card.ro.replace(/[.!?]$/, ''), card.tr);
+    add(card.ro.replace(/[.!?…]+$/, ''), card.tr);
     for (const w of [...card.examples, ...card.expressions]) add(w.ro, w.tr);
     if (card.quote) add(card.quote.ro, card.quote.tr);
   }
