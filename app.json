@@ -57,6 +57,13 @@
     ],
     "scheme": "romana",
     "description": "Румынский язык с нуля: короткие уроки с объяснениями на русском и украинском.",
-    "primaryColor": "#2446A8"
+    "primaryColor": "#2446A8",
+    "owner": "proseajobsromanas-team",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "662f16d9-a0c0-4ced-bfb2-7b9343a906a4"
+      }
+    }
   }
 }
