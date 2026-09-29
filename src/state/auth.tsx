@@ -55,7 +55,7 @@ function classify(message: string | undefined): AuthError {
 const fail = (message?: string): Result => ({ ok: false, error: classify(message) });
 
 /** Query and fragment parameters of the URL Google's round trip ends on. */
-function paramsOf(url: string): Record<string, string> {
+export function paramsOf(url: string): Record<string, string> {
   const out: Record<string, string> = {};
   const parts = url.split(/[?#]/).slice(1);
   for (const part of parts) {

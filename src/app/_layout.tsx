@@ -26,6 +26,7 @@ export default function RootLayout() {
               <Stack.Screen name="account" />
               <Stack.Screen name="privacy" />
               <Stack.Screen name="delete-account" />
+              <Stack.Screen name="auth-callback" options={{ animation: 'none' }} />
             </Stack>
           </PhraseProvider>
         </ProgressProvider>
