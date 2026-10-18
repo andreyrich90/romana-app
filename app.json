@@ -53,7 +53,16 @@
           }
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "scheme": "romana",
     "description": "Румынский язык с нуля: короткие уроки с объяснениями на русском и украинском.",
