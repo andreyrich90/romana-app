@@ -1,4 +1,5 @@
 import { CARDS } from '../content/cards';
+import { CITIZENSHIP } from '../content/citizenship';
 import { COURSE } from '../content/course';
 import { GLOSSARY, type GlossEntry } from '../content/glossary';
 import type { Bi, Lang } from '../content/types';
@@ -25,41 +26,40 @@ function build(): Map<string, PhraseInfo> {
     const had = map.get(k) ?? {};
     map.set(k, { tr: had.tr ?? tr, say: had.say ?? say });
   };
-  for (const unit of COURSE)
-    for (const meta of unit.lessons) {
-      const lesson = meta.lesson;
-      if (!lesson) continue;
-      for (const w of lesson.words) add(w.ro, w.tr);
-      for (const ex of lesson.exercises) {
-        switch (ex.kind) {
-          case 'intro':
-          case 'listen':
-            add(ex.ro, ex.tr);
-            break;
-          case 'pickNative':
-            add(ex.q, ex.correct);
-            break;
-          case 'pickRo':
-            add(ex.correct, ex.q);
-            break;
-          case 'tiles':
-          case 'type':
-            add(ex.shown, ex.q);
-            break;
-          case 'match':
-            for (const p of ex.pairs) add(p.ro, p.tr);
-            break;
-          case 'tip':
-            for (const r of ex.rows) {
-              const ru = r.tr.ru.match(SAY);
-              const ua = r.tr.ua.match(SAY);
-              if (ru && ua) add(r.ro, { ru: ru[1], ua: ua[1] }, { ru: ru[2], ua: ua[2] });
-              else add(r.ro, r.tr);
-            }
-            break;
-        }
+  const lessons = [...COURSE.flatMap((u) => u.lessons.map((m) => m.lesson)), ...CITIZENSHIP];
+  for (const lesson of lessons) {
+    if (!lesson) continue;
+    for (const w of lesson.words) add(w.ro, w.tr);
+    for (const ex of lesson.exercises) {
+      switch (ex.kind) {
+        case 'intro':
+        case 'listen':
+          add(ex.ro, ex.tr);
+          break;
+        case 'pickNative':
+          add(ex.q, ex.correct);
+          break;
+        case 'pickRo':
+          add(ex.correct, ex.q);
+          break;
+        case 'tiles':
+        case 'type':
+          add(ex.shown, ex.q);
+          break;
+        case 'match':
+          for (const p of ex.pairs) add(p.ro, p.tr);
+          break;
+        case 'tip':
+          for (const r of ex.rows) {
+            const ru = r.tr.ru.match(SAY);
+            const ua = r.tr.ua.match(SAY);
+            if (ru && ua) add(r.ro, { ru: ru[1], ua: ua[1] }, { ru: ru[2], ua: ua[2] });
+            else add(r.ro, r.tr);
+          }
+          break;
       }
     }
+  }
   // Cards come after the course, so a course translation wins where both have one.
   for (const card of CARDS) {
     add(card.ro.replace(/[.!?…]+$/, ''), card.tr);

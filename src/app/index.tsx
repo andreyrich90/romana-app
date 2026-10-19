@@ -191,6 +191,24 @@ export default function Home() {
               </Pressable>
             ))}
           </View>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/citizenship')}
+            style={({ pressed }) => [
+              s.practice,
+              { backgroundColor: c.surface, borderColor: c.line },
+              pressed && { transform: [{ translateY: 2 }] },
+            ]}
+          >
+            <Text style={s.practiceIcon}>🇷🇴</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[s.practiceTitle, { color: c.ink }]}>
+                {t.czHome}
+                {pay.premium ? '' : ' · 💎'}
+              </Text>
+              <Text style={[s.practiceSub, { color: c.muted }]}>{t.czHomeSub}</Text>
+            </View>
+          </Pressable>
           {pay.available && !pay.premium && (
             <Pressable
               accessibilityRole="button"

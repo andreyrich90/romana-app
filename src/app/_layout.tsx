@@ -25,6 +25,7 @@ export default function RootLayout() {
                 <Stack.Screen name="words" />
                 <Stack.Screen name="cards" />
                 <Stack.Screen name="premium" />
+                <Stack.Screen name="citizenship" />
                 <Stack.Screen name="card/[id]" />
                 <Stack.Screen name="account" />
                 <Stack.Screen name="privacy" />

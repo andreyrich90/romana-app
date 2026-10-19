@@ -3,6 +3,7 @@
  * Run after adding lessons: npx tsx scripts/check-glossary.ts
  */
 import { CARDS } from '../src/content/cards';
+import { CITIZENSHIP } from '../src/content/citizenship';
 import { COURSE } from '../src/content/course';
 import { GLOSSARY } from '../src/content/glossary';
 import type { Exercise } from '../src/content/types';
@@ -37,6 +38,14 @@ for (const unit of COURSE)
           const k = w.toLowerCase();
           if (!Object.prototype.hasOwnProperty.call(GLOSSARY, k) && !/^\d+$/.test(k) && !missing.has(k)) missing.set(k, `${meta.id}: ${phrase}`);
         }
+
+for (const lesson of CITIZENSHIP)
+  for (const ex of lesson.exercises)
+    for (const phrase of tappable(ex))
+      for (const w of wordsIn(phrase)) {
+        const k = w.toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(GLOSSARY, k) && !/^\d+$/.test(k) && !missing.has(k)) missing.set(k, `${lesson.id}: ${phrase}`);
+      }
 
 for (const card of CARDS)
   for (const phrase of [card.ro, ...card.examples.map((w) => w.ro), ...card.expressions.map((w) => w.ro), ...(card.quote ? [card.quote.ro] : [])])

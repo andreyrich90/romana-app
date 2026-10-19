@@ -10,7 +10,7 @@ import { usePremium } from '../state/premium';
 import { useProgress } from '../state/progress';
 
 /** Why the learner landed here: a locked lesson, card or the day's second practice. */
-type Reason = 'lesson' | 'card' | 'practice';
+type Reason = 'lesson' | 'card' | 'practice' | 'citizenship';
 
 /** The paywall: what Premium opens, the plans with Play's own prices, restore and manage. */
 export default function PremiumScreen() {
@@ -22,7 +22,7 @@ export default function PremiumScreen() {
   const [chosen, setChosen] = useState('premium_yearly');
   const goBack = () => (router.canGoBack() ? router.back() : router.replace('/'));
   const selected = p.plans.find((x) => x.id === chosen) ?? p.plans[0];
-  const lock = reason === 'lesson' ? t.lockLesson : reason === 'card' ? t.lockCard : reason === 'practice' ? t.lockPractice : null;
+  const lock = reason === 'lesson' ? t.lockLesson : reason === 'card' ? t.lockCard : reason === 'practice' ? t.lockPractice : reason === 'citizenship' ? t.lockCitizenship : null;
 
   const planName = (id: string) => (id === 'premium_yearly' ? t.planYearly : id === 'premium_monthly' ? t.planMonthly : t.planLifetime);
   const planNote = (id: string) => (id === 'premium_yearly' ? t.perYear : id === 'premium_monthly' ? t.perMonth : t.once);

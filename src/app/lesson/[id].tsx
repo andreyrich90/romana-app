@@ -9,6 +9,7 @@ import { TapText } from '../../components/PhraseSheet';
 import { ExerciseView } from '../../components/exercises/ExerciseView';
 import { Button, SpeakButton, Title } from '../../components/ui';
 import { findCard } from '../../content/cards';
+import { findCitizenship, isCitizenship } from '../../content/citizenship';
 import { findLesson } from '../../content/course';
 import type { Lesson } from '../../content/types';
 import { check, isGraded, reveal, type Answer, type Verdict } from '../../engine/check';
@@ -29,6 +30,7 @@ export default function LessonScreen() {
   if (id === PRACTICE_ID) return <PracticeScreen />;
   if (id === WALLET_ID) return <WalletScreen />;
   if (isCardSession(id)) return <CardScreen id={id} />;
+  if (isCitizenship(id)) return <CitizenshipLesson id={id} />;
   return <CourseLesson id={id} />;
 }
 
@@ -79,7 +81,18 @@ function PracticeScreen() {
   return <Player key={attempt} lesson={lesson} onRestart={again} />;
 }
 
-function ToPremium({ reason }: { reason: 'lesson' | 'card' | 'practice' }) {
+/** Citizenship lessons are Premium as a whole. */
+function CitizenshipLesson({ id }: { id: string }) {
+  const lesson = findCitizenship(id);
+  const { ready, premium } = usePremium();
+  const [attempt, setAttempt] = useState(0);
+  if (!lesson) return <Missing />;
+  if (!ready) return null;
+  if (!premium) return <ToPremium reason="citizenship" />;
+  return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
+}
+
+function ToPremium({ reason }: { reason: 'lesson' | 'card' | 'practice' | 'citizenship' }) {
   return <Redirect href={{ pathname: '/premium', params: { reason } }} />;
 }
 
