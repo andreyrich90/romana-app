@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DailyGoal } from '../components/DailyGoal';
 import { DayCard } from '../components/DayCard';
+import { GetTheApp } from '../components/GetTheApp';
 import { cardOfDay } from '../content/cards';
 import { Button } from '../components/ui';
 import { COURSE, isUnlocked, lessonIndex } from '../content/course';
@@ -125,6 +126,7 @@ export default function Home() {
 
       <ScrollView ref={scroller} contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}>
         <View style={s.today}>
+          <GetTheApp />
           <DailyGoal />
           <DayCard card={cardOfDay(day(new Date()))} />
           <Pressable

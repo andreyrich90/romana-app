@@ -13,6 +13,7 @@ A Duolingo-style app for learning Romanian. Explanations are in Russian (`ru`) a
 - **Daily goal and streak**: XP is counted per local day in `xpByDay`; the streak grows on the day the goal is first reached, not on any lesson. Missed days are covered by freezes (one per 7 streak days, at most `MAX_FREEZES`). **Spaced repetition**: every graded answer calls `recordAnswer("lessonId#index", ok)`, which moves the exercise between Leitner boxes (`INTERVALS`). Exercise keys are positional, so reordering exercises inside a finished lesson reshuffles its review history — append instead.
 - **Auth** (`src/state/auth.tsx`) is email + password. `src/lib/supabase.ts` exports `null` when `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` are missing; every account feature must keep working as guest mode in that case. Account deletion (`delete_my_account` RPC) is required by the App Store — do not remove it.
 - `EXPO_PUBLIC_*` values are inlined at build time; after changing them locally, export with `--clear` or Metro serves the old bundle.
+- **Site → store**: `src/components/GetTheApp.tsx` shows a dismissible "on Google Play" card on the home screen, on the web only and not on iPhones (nothing to install there yet); `PLAY_URL` is the store link.
 - Speech is `expo-speech` with `ro-RO`; quality depends on the device's installed voices.
 
 Package installs in this environment need `EXPO_OFFLINE=1 npx expo install <pkg>` (the Expo API is not reachable). `react` and `react-dom` must stay on the same exact version.

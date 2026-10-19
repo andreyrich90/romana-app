@@ -179,6 +179,9 @@ const ru = {
     unknown: 'Что-то пошло не так. Попробуйте ещё раз.',
     cancelled: 'Вход отменён.',
   },
+  getApp: 'Română есть в Google Play',
+  getAppSub: 'Уроки с телефона, даже без интернета.',
+  getAppHide: 'Скрыть',
 };
 
 type Dict = typeof ru;
@@ -353,6 +356,9 @@ const ua: Dict = {
     unknown: 'Щось пішло не так. Спробуйте ще раз.',
     cancelled: 'Вхід скасовано.',
   },
+  getApp: 'Română є в Google Play',
+  getAppSub: 'Уроки з телефона, навіть без інтернету.',
+  getAppHide: 'Сховати',
 };
 
 export const UI: Record<Lang, Dict> = { ru, ua };
