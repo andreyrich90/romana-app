@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { router, useLocalSearchParams } from 'expo-router';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,17 +8,20 @@ import { DailyGoal } from '../../components/DailyGoal';
 import { TapText } from '../../components/PhraseSheet';
 import { ExerciseView } from '../../components/exercises/ExerciseView';
 import { Button, SpeakButton, Title } from '../../components/ui';
+import { findCard } from '../../content/cards';
 import { findLesson } from '../../content/course';
 import type { Lesson } from '../../content/types';
 import { check, isGraded, reveal, type Answer, type Verdict } from '../../engine/check';
 import { current, isFinished, isOut, reduce, result, startSession, type Session } from '../../engine/session';
 import { buildPractice, exerciseKey, PRACTICE_ID } from '../../engine/practice';
 import { buildWalletPractice, WALLET_ID } from '../../engine/walletPractice';
-import { cardSession, isCardSession } from '../../engine/cardPractice';
+import { CARD_PREFIX, cardSession, isCardSession } from '../../engine/cardPractice';
+import { isCardFree, isPremiumLesson, practiceAllowed } from '../../engine/premium';
 import { lessonPool } from '../../engine/wordBank';
 import { day, walletWords } from '../../state/model';
 import { speak } from '../../lib/speech';
 import { usePalette } from '../../lib/theme';
+import { usePremium } from '../../state/premium';
 import { useProgress } from '../../state/progress';
 
 export default function LessonScreen() {
@@ -44,9 +47,13 @@ function WalletScreen() {
 
 /** A card's practice, reshuffled on each attempt. */
 function CardScreen({ id }: { id: string }) {
+  const { ready, premium } = usePremium();
   const [attempt, setAttempt] = useState(0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lesson = useMemo(() => cardSession(id), [id, attempt]);
+  const card = findCard(id.slice(CARD_PREFIX.length));
+  if (!ready) return null;
+  if (!premium && card && !isCardFree(card, day(new Date()))) return <ToPremium reason="card" />;
   if (!lesson) return <Missing />;
   return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
 }
@@ -54,15 +61,26 @@ function CardScreen({ id }: { id: string }) {
 /** Practice is assembled once when opened, from what is due at that moment. */
 function PracticeScreen() {
   const { progress } = useProgress();
+  const { ready, premium, practiceDay } = usePremium();
   const [attempt, setAttempt] = useState(0);
+  // Decided once on entry: finishing this session marks today, which must not throw the learner off the results.
+  const [allowed, setAllowed] = useState<boolean | null>(null);
+  if (allowed === null && ready) setAllowed(premium || practiceAllowed(practiceDay, day(new Date())));
   const lesson = useMemo(
     () => buildPractice(progress.completed, progress.recall, day(new Date())),
     // A new attempt rebuilds the session; answers during it must not reshuffle it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [attempt],
   );
+  if (allowed === null) return null;
+  if (!allowed) return <ToPremium reason="practice" />;
   if (!lesson) return <Missing />;
-  return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
+  const again = () => (premium ? setAttempt((n) => n + 1) : router.replace({ pathname: '/premium', params: { reason: 'practice' } }));
+  return <Player key={attempt} lesson={lesson} onRestart={again} />;
+}
+
+function ToPremium({ reason }: { reason: 'lesson' | 'card' | 'practice' }) {
+  return <Redirect href={{ pathname: '/premium', params: { reason } }} />;
 }
 
 function Missing() {
@@ -78,9 +96,14 @@ function Missing() {
 
 function CourseLesson({ id }: { id: string }) {
   const lesson = findLesson(id);
+  const { progress } = useProgress();
+  const { ready, premium } = usePremium();
   // Restarting remounts the player, which is the simplest way to reset its reducer.
   const [attempt, setAttempt] = useState(0);
   if (!lesson) return <Missing />;
+  if (!ready) return null;
+  // Lessons finished before Premium existed stay open for repeats.
+  if (!premium && isPremiumLesson(id) && !(id in progress.completed)) return <ToPremium reason="lesson" />;
   return <Player key={attempt} lesson={lesson} onRestart={() => setAttempt((n) => n + 1)} />;
 }
 
@@ -88,6 +111,7 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
   const c = usePalette();
   const insets = useSafeAreaInsets();
   const { progress, t, finishSession, recordAnswer, setWordBank } = useProgress();
+  const { premium, markPractice } = usePremium();
   const lang = progress.lang;
   const pool = useMemo(() => lessonPool(lesson), [lesson]);
 
@@ -98,16 +122,17 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
 
   const step = current(session);
   const finished = isFinished(session);
-  const out = isOut(session) && session.phase === 'answering';
+  const out = !premium && isOut(session) && session.phase === 'answering';
 
   useEffect(() => {
     if (finished && !saved.current) {
       saved.current = true;
       const r = result(session);
       finishSession(lesson.id, r.xp, r.accuracy, lesson.id === PRACTICE_ID || lesson.id === WALLET_ID || isCardSession(lesson.id));
+      if (lesson.id === PRACTICE_ID) markPractice();
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     }
-  }, [finished, session, finishSession, lesson.id]);
+  }, [finished, session, finishSession, lesson.id, markPractice]);
 
   const keyOf = (index: number) => exerciseKey(lesson, index);
 
@@ -182,7 +207,7 @@ function Player({ lesson, onRestart }: { lesson: Lesson; onRestart: () => void }
         >
           <View style={[s.barFill, { width: `${pct}%`, backgroundColor: c.good }]} />
         </View>
-        <Text style={[s.hearts, { color: c.bad }]}>♥ {session.hearts}</Text>
+        <Text style={[s.hearts, { color: c.bad }]}>♥ {premium ? '∞' : session.hearts}</Text>
       </View>
 
       <ScrollView contentContainerStyle={s.body} keyboardShouldPersistTaps="handled">

@@ -8,8 +8,11 @@ import { Button, RichText, SpeakButton } from '../../components/ui';
 import { findCard } from '../../content/cards';
 import type { Word } from '../../content/types';
 import { cardSessionId } from '../../engine/cardPractice';
+import { isCardFree } from '../../engine/premium';
 import { reading } from '../../engine/phrases';
 import { usePalette } from '../../lib/theme';
+import { day } from '../../state/model';
+import { usePremium } from '../../state/premium';
 import { useProgress } from '../../state/progress';
 
 /** One card: the headline with its reading, meaning, examples, expressions, a note and practice. */
@@ -20,6 +23,7 @@ export default function CardScreen() {
   const { progress, t } = useProgress();
   const lang = progress.lang;
   const card = findCard(id);
+  const { ready, premium } = usePremium();
   const goBack = () => (router.canGoBack() ? router.back() : router.replace('/cards'));
 
   if (!card) {
@@ -28,6 +32,23 @@ export default function CardScreen() {
         <Button tone="primary" onPress={goBack}>
           ←
         </Button>
+      </View>
+    );
+  }
+
+  if (!ready) return null;
+  if (!premium && !isCardFree(card, day(new Date()))) {
+    return (
+      <View style={[s.center, { backgroundColor: c.bg, paddingHorizontal: 24, gap: 14 }]}>
+        <Text style={{ fontSize: 44 }}>💎</Text>
+        <Text style={{ color: c.ink, fontSize: 26, fontWeight: '800' }}>{card.ro}</Text>
+        <Text style={{ color: c.muted, fontSize: 16, textAlign: 'center' }}>{t.lockCard}</Text>
+        <Button tone="primary" onPress={() => router.replace({ pathname: '/premium', params: { reason: 'card' } })}>
+          {t.openPremium}
+        </Button>
+        <Pressable onPress={goBack} hitSlop={10} accessibilityRole="button">
+          <Text style={{ color: c.muted, fontWeight: '700' }}>← {t.back}</Text>
+        </Pressable>
       </View>
     );
   }

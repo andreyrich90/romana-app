@@ -97,7 +97,8 @@ export type Result = { xp: number; accuracy: number; seconds: number; perfect: b
 export function result(s: Session): Result {
   const perfect = s.missed.length === 0;
   return {
-    xp: 10 + (perfect ? 5 : 0) + s.hearts,
+    // Premium plays on past zero hearts; that must not cost XP below the base.
+    xp: 10 + (perfect ? 5 : 0) + Math.max(0, s.hearts),
     accuracy: s.graded ? Math.round((100 * (s.graded - s.missed.length)) / s.graded) : 100,
     seconds: Math.round((Date.now() - s.startedAt) / 1000),
     perfect,

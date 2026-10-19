@@ -6,6 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Title } from '../components/ui';
 import { DayCard } from '../components/DayCard';
 import { CARDS, cardOfDay, type CardKind, type CardTheme, type LearnCard } from '../content/cards';
+import { isCardFree } from '../engine/premium';
+import { usePremium } from '../state/premium';
 import type { Lang, Word } from '../content/types';
 import { bare, normalize } from '../engine/check';
 import { usePalette } from '../lib/theme';
@@ -43,6 +45,8 @@ export default function Cards() {
   const { progress, t } = useProgress();
   const lang = progress.lang;
   const today = cardOfDay(day(new Date()));
+  const { premium } = usePremium();
+  const locked = (card: LearnCard) => !premium && !isCardFree(card, day(new Date()));
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const q = fold(query.trim());
@@ -133,7 +137,11 @@ export default function Cards() {
               <Pressable
                 key={card.id}
                 accessibilityRole="button"
-                onPress={() => router.push({ pathname: '/card/[id]', params: { id: card.id } })}
+                onPress={() =>
+                  locked(card)
+                    ? router.push({ pathname: '/premium', params: { reason: 'card' } })
+                    : router.push({ pathname: '/card/[id]', params: { id: card.id } })
+                }
                 style={({ pressed }) => [
                   s.row,
                   i > 0 && { borderTopWidth: 1, borderTopColor: c.line },
@@ -149,7 +157,7 @@ export default function Cards() {
                     </Text>
                   )}
                 </View>
-                <Text style={[s.chev, { color: c.muted }]}>›</Text>
+                {locked(card) ? <Text style={s.lockIcon}>💎</Text> : <Text style={[s.chev, { color: c.muted }]}>›</Text>}
               </Pressable>
             ))}
           </View>
@@ -171,6 +179,7 @@ const s = StyleSheet.create({
   ro: { fontSize: 18, fontWeight: '800' },
   tr: { fontSize: 14, lineHeight: 19 },
   chev: { fontSize: 26, fontWeight: '600' },
+  lockIcon: { fontSize: 18 },
   via: { fontSize: 14, lineHeight: 19, marginTop: 2 },
   searchBox: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 2, borderRadius: 14, paddingHorizontal: 12 },
   searchIcon: { fontSize: 16 },

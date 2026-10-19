@@ -464,6 +464,11 @@ export function findLesson(id: string): Lesson | undefined {
   return ORDER.find((l) => l.id === id)?.lesson;
 }
 
+/** The unit a lesson belongs to. */
+export function unitOf(id: string): Unit | undefined {
+  return COURSE.find((u) => u.lessons.some((l) => l.id === id));
+}
+
 /** Position of a lesson in the course, -1 if unknown. Later lessons have larger numbers. */
 export function lessonIndex(id: string | null | undefined): number {
   return id ? ORDER.findIndex((l) => l.id === id) : -1;

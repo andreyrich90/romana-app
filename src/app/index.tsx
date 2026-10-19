@@ -11,9 +11,11 @@ import { Button } from '../components/ui';
 import { COURSE, isUnlocked, lessonIndex } from '../content/course';
 import type { Lang, LessonMeta } from '../content/types';
 import { dueCount, PRACTICE_ID } from '../engine/practice';
+import { isPremiumLesson } from '../engine/premium';
 import { usePalette } from '../lib/theme';
 import { day, walletWords } from '../state/model';
 import { useAuth } from '../state/auth';
+import { usePremium } from '../state/premium';
 import { useProgress } from '../state/progress';
 
 /** Nodes of the lesson path zig-zag like a trail, one offset per position in the unit. */
@@ -24,6 +26,7 @@ export default function Home() {
   const insets = useSafeAreaInsets();
   const { ready, progress, t, setLang } = useProgress();
   const auth = useAuth();
+  const pay = usePremium();
   const initial = auth.session?.user.email?.[0]?.toUpperCase();
   const lang = progress.lang;
   const [open, setOpen] = useState<string | null>(null);
@@ -188,6 +191,23 @@ export default function Home() {
               </Pressable>
             ))}
           </View>
+          {pay.available && !pay.premium && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push('/premium')}
+              style={({ pressed }) => [
+                s.practice,
+                { backgroundColor: c.surface, borderColor: c.blue },
+                pressed && { transform: [{ translateY: 2 }] },
+              ]}
+            >
+              <Text style={s.practiceIcon}>💎</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={[s.practiceTitle, { color: c.ink }]}>{t.homePremium}</Text>
+                <Text style={[s.practiceSub, { color: c.muted }]}>{t.homePremiumSub}</Text>
+              </View>
+            </Pressable>
+          )}
         </View>
         {COURSE.map((unit, ui) => {
           // The first unit of each level gets the filled header, so A2 visibly starts somewhere.
@@ -204,6 +224,7 @@ export default function Home() {
                   {unit.kicker
                     ? unit.kicker[lang]
                     : `${unit.level} · ${t.unit} ${COURSE.filter((u, j) => j <= ui && u.level === unit.level).length}`}
+                  {!pay.premium && (unit.level === 'B1' || unit.level === 'B2') ? ' · 💎 Premium' : ''}
                 </Text>
                 <Text style={[s.unitTitle, { color: lead ? c.onBlue : c.ink }]}>{unit.title[lang]}</Text>
                 <Text style={[s.unitRo, { color: lead ? c.onBlue : c.muted }]}>{unit.ro}</Text>
@@ -212,6 +233,8 @@ export default function Home() {
               <View style={s.path}>
                 {unit.lessons.map((l, li) => {
                   const st = status(l);
+                  // Open by progress, but behind Premium: a finished lesson stays open for repeats.
+                  const paid = !pay.premium && st !== 'done' && isPremiumLesson(l.id);
                   const bg = st === 'done' ? c.good : st === 'open' ? c.ochre : c.sunk;
                   const edge = st === 'done' ? c.goodEdge : st === 'open' ? c.ochreEdge : c.line;
                   const isOpen = open === l.id;
@@ -229,7 +252,7 @@ export default function Home() {
                         ]}
                       >
                         <Text style={[s.dotText, { color: st === 'done' || st === 'open' ? '#fff' : c.muted }]}>
-                          {st === 'done' ? '✓' : st === 'open' ? '★' : st === 'locked' ? '🔒' : li + 1}
+                          {st === 'done' ? '✓' : st === 'open' ? (paid ? '💎' : '★') : st === 'locked' ? '🔒' : li + 1}
                         </Text>
                       </Pressable>
                       <Text style={[s.nodeLabel, { color: st === 'locked' || st === 'soon' ? c.muted : c.ink }]}>
@@ -244,6 +267,19 @@ export default function Home() {
                             <Text style={{ color: c.muted }}>{t.locked}</Text>
                           ) : st === 'soon' ? (
                             <Text style={{ color: c.muted }}>{t.soon}</Text>
+                          ) : paid ? (
+                            <>
+                              <Text style={{ color: c.muted }}>{t.lockLesson}</Text>
+                              <Button
+                                tone="primary"
+                                onPress={() => {
+                                  setOpen(null);
+                                  router.push({ pathname: '/premium', params: { reason: 'lesson' } });
+                                }}
+                              >
+                                {t.openPremium}
+                              </Button>
+                            </>
                           ) : (
                             <Button
                               tone="primary"

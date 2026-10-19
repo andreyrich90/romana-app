@@ -37,6 +37,7 @@ const ru: Legal = {
         h: 'Где хранятся данные',
         p: [
           'Аккаунты и прогресс хранятся в Supabase (дата-центр во Франкфурте, ЕС). Веб-версию обслуживает Vercel, который, как любой хостинг, ведёт технические журналы запросов (например, IP-адрес) для работы и защиты сервиса.',
+          'Premium покупается через Google Play. Оплату и платёжные данные обрабатывает Google, мы их не видим и не храним; приложение получает от Google Play только сведения о том, какие покупки есть у вашего аккаунта.',
         ],
       },
       {
@@ -107,6 +108,7 @@ const ua: Legal = {
         h: 'Де зберігаються дані',
         p: [
           'Акаунти й прогрес зберігаються в Supabase (дата-центр у Франкфурті, ЄС). Вебверсію обслуговує Vercel, який, як будь-який хостинг, веде технічні журнали запитів (наприклад, IP-адресу) для роботи й захисту сервісу.',
+          'Premium купується через Google Play. Оплату й платіжні дані обробляє Google, ми їх не бачимо і не зберігаємо; застосунок отримує від Google Play лише відомості про те, які покупки має ваш акаунт.',
         ],
       },
       {
@@ -178,6 +180,7 @@ const en: Legal = {
         h: 'Where data is stored',
         p: [
           'Accounts and progress are stored with Supabase (Frankfurt data centre, EU). The web version is hosted on Vercel, which, like any host, keeps technical request logs (such as IP addresses) to run and protect the service.',
+          'Premium is bought through Google Play. Google processes the payment and payment details; we never see or store them. The app only receives from Google Play which purchases your account owns.',
         ],
       },
       {
