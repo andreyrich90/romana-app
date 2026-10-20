@@ -97,15 +97,24 @@ function Tip({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'tip' }> }
           <RichText key={i}>{p}</RichText>
         ))}
         <View>
-          {ex.rows.map((r) => (
-            <Pressable key={r.ro} onPress={() => speak(r.ro)} style={[s.row, { borderColor: c.line }]}>
-              <TapText style={[s.rowRo, { color: c.ink }]}>{r.ro}</TapText>
-              <Text style={[s.rowTr, { color: c.muted }]}>
-                {/* Rows without a hand-written reading get one from the rules. */}
-                {r.tr[lang].includes('«') ? r.tr[lang] : `${r.tr[lang]} · «${reading(r.ro, lang)}»`}
-              </Text>
-            </Pressable>
-          ))}
+          {ex.rows.map((r) => {
+            // A whole sentence beside its translation squeezes one of them into a column of
+            // single letters on a phone; long rows put the translation underneath instead.
+            const stacked = r.ro.length > 22;
+            return (
+              <Pressable
+                key={r.ro}
+                onPress={() => speak(r.ro)}
+                style={[s.row, stacked && s.rowStacked, { borderColor: c.line }]}
+              >
+                <TapText style={[s.rowRo, { color: c.ink }]}>{r.ro}</TapText>
+                <Text style={[s.rowTr, stacked && s.rowTrStacked, { color: c.muted }]}>
+                  {/* Rows without a hand-written reading get one from the rules. */}
+                  {r.tr[lang].includes('«') ? r.tr[lang] : `${r.tr[lang]} · «${reading(r.ro, lang)}»`}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
       </Card>
     </View>
@@ -404,6 +413,8 @@ const s = StyleSheet.create({
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: 12, paddingVertical: 9, borderTopWidth: 1 },
   rowRo: { fontWeight: '700', fontSize: 16 },
   rowTr: { fontSize: 15, flexShrink: 1, textAlign: 'right' },
+  rowStacked: { flexDirection: 'column', justifyContent: 'flex-start', gap: 3 },
+  rowTrStacked: { textAlign: 'left' },
   listen: { flexDirection: 'row', alignItems: 'flex-end', gap: 14 },
   ghost: { fontSize: 13, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
   options: { gap: 10 },
