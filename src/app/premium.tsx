@@ -1,9 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PLAY_URL } from '../components/GetTheApp';
+import { WebCheckout } from '../components/WebCheckout';
+import { WebPremiumUntil } from '../components/WebPremiumUntil';
 import { Button } from '../components/ui';
 import { usePalette } from '../lib/theme';
 import { usePremium } from '../state/premium';
@@ -57,23 +58,17 @@ export default function PremiumScreen() {
       {p.premium ? (
         <View style={{ gap: 10 }}>
           <Text style={[s.active, { color: c.good }]}>{t.premiumActive}</Text>
+          <WebPremiumUntil />
           {p.available && (
             <Button tone="plain" onPress={p.manage}>
               {t.manageSub}
             </Button>
           )}
         </View>
+      ) : Platform.OS === 'web' ? (
+        <WebCheckout />
       ) : !p.available ? (
-        <View style={{ gap: 10 }}>
-          <Text style={[s.note, { color: c.muted, textAlign: 'center' }]}>
-            {Platform.OS === 'web' ? t.premiumWeb : t.premiumIos}
-          </Text>
-          {Platform.OS === 'web' && (
-            <Button tone="primary" onPress={() => Linking.openURL(PLAY_URL)}>
-              Google Play
-            </Button>
-          )}
-        </View>
+        <Text style={[s.note, { color: c.muted, textAlign: 'center' }]}>{t.premiumIos}</Text>
       ) : p.loading ? (
         <View style={s.center}>
           <ActivityIndicator color={c.blue} />

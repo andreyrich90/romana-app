@@ -53,6 +53,8 @@ type Ctx = {
   buy: (id: string) => Promise<void>;
   restore: () => Promise<void>;
   manage: () => void;
+  /** Asks the server again whether the account has Premium (a gift or a web purchase). */
+  refreshGrant: () => Promise<boolean>;
   /** The day of the last finished review session, for the free one-a-day limit. */
   practiceDay: string | null;
   markPractice: () => void;
@@ -152,6 +154,15 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     };
   }, [refresh, remember]);
 
+  const refreshGrant = useCallback(async () => {
+    if (!supabase || !userId) return false;
+    const { data, error } = await supabase.rpc('has_premium_grant');
+    if (error) return false;
+    setGranted(data === true);
+    AsyncStorage.setItem(GRANT_KEY, data === true ? '1' : '0').catch(() => {});
+    return data === true;
+  }, [userId]);
+
   // A gift follows the account: asked again whenever who is signed in changes.
   useEffect(() => {
     // Before the saved session is read, "no user" only means "not known yet".
@@ -219,8 +230,8 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<Ctx>(
-    () => ({ available: !!iap, ready, premium, plans, loading, busy, error, buy, restore, manage, practiceDay, markPractice }),
-    [ready, premium, plans, loading, busy, error, buy, restore, manage, practiceDay, markPractice],
+    () => ({ available: !!iap, ready, premium, refreshGrant, plans, loading, busy, error, buy, restore, manage, practiceDay, markPractice }),
+    [ready, premium, refreshGrant, plans, loading, busy, error, buy, restore, manage, practiceDay, markPractice],
   );
   return <PremiumContext.Provider value={value}>{children}</PremiumContext.Provider>;
 }
