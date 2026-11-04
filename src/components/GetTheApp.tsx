@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { PLAY_URL } from '../lib/referral';
 import { usePalette } from '../lib/theme';
 import { useProgress } from '../state/progress';
 
-export const PLAY_URL = 'https://play.google.com/store/apps/details?id=pro.seajobs.romana';
+export { PLAY_URL };
+
 const HIDDEN_KEY = 'romana.getApp.hidden';
 
 /** The site only: Android and desktop visitors are told the app is on Google Play. iPhones get nothing to install yet. */

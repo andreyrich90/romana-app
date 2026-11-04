@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, Card, Title } from '../components/ui';
+import { myPartnerStats } from '../lib/referral';
 import { usePalette } from '../lib/theme';
 import { useAuth, type AuthError } from '../state/auth';
 import { useProgress } from '../state/progress';
@@ -22,6 +23,17 @@ export default function Account() {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<Notice>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  // Only accounts that own a partner link see the entry to its statistics.
+  const [isPartner, setIsPartner] = useState(false);
+  const signedInId = auth.session?.user.id;
+  useEffect(() => {
+    if (!signedInId) return;
+    let alive = true;
+    myPartnerStats().then((rows) => alive && setIsPartner(rows.length > 0));
+    return () => {
+      alive = false;
+    };
+  }, [signedInId]);
 
   const say = (error: AuthError) => setNotice({ tone: 'error', text: t.authErrors[error] });
   const run = async (fn: () => Promise<void>) => {
@@ -133,6 +145,11 @@ export default function Account() {
                 </Text>
               </View>
             </Card>
+            {isPartner && (
+              <Button tone="primary" onPress={() => router.push('/partner')}>
+                {t.partnerEntry}
+              </Button>
+            )}
             <Button onPress={() => run(auth.signOut)} disabled={busy}>
               {t.signOut}
             </Button>

@@ -38,6 +38,7 @@ const ru: Legal = {
         p: [
           'Аккаунты и прогресс хранятся в Supabase (дата-центр во Франкфурте, ЕС). Веб-версию обслуживает Vercel, который, как любой хостинг, ведёт технические журналы запросов (например, IP-адрес) для работы и защиты сервиса.',
           'Premium покупается через Google Play. Оплату и платёжные данные обрабатывает Google, мы их не видим и не храним; приложение получает от Google Play только сведения о том, какие покупки есть у вашего аккаунта.',
+          'Если вы пришли по партнёрской ссылке, мы сохраняем код этой ссылки и случайный идентификатор, который приложение создаёт само (не рекламный и не связанный с устройством), чтобы посчитать переход, установку, вход в аккаунт и покупку Premium. Партнёр видит только количества, без имён и адресов.',
         ],
       },
       {
@@ -109,6 +110,7 @@ const ua: Legal = {
         p: [
           'Акаунти й прогрес зберігаються в Supabase (дата-центр у Франкфурті, ЄС). Вебверсію обслуговує Vercel, який, як будь-який хостинг, веде технічні журнали запитів (наприклад, IP-адресу) для роботи й захисту сервісу.',
           'Premium купується через Google Play. Оплату й платіжні дані обробляє Google, ми їх не бачимо і не зберігаємо; застосунок отримує від Google Play лише відомості про те, які покупки має ваш акаунт.',
+          'Якщо ви прийшли за партнерським посиланням, ми зберігаємо код цього посилання й випадковий ідентифікатор, який застосунок створює сам (не рекламний і не пов’язаний із пристроєм), щоб порахувати перехід, встановлення, вхід в акаунт і покупку Premium. Партнер бачить лише кількості, без імен та адрес.',
         ],
       },
       {
@@ -181,6 +183,7 @@ const en: Legal = {
         p: [
           'Accounts and progress are stored with Supabase (Frankfurt data centre, EU). The web version is hosted on Vercel, which, like any host, keeps technical request logs (such as IP addresses) to run and protect the service.',
           'Premium is bought through Google Play. Google processes the payment and payment details; we never see or store them. The app only receives from Google Play which purchases your account owns.',
+          'If you arrived through a partner link, we keep that link\'s code and a random identifier the app creates itself (not an advertising or device identifier) to count the visit, the install, the sign-in and a Premium purchase. The partner sees only the counts, never names or addresses.',
         ],
       },
       {

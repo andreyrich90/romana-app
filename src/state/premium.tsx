@@ -3,12 +3,16 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { Linking, Platform } from 'react-native';
 
 import { LIFETIME, PRODUCT_IDS, SUBSCRIPTIONS } from '../engine/premium';
+import { trackStored } from '../lib/referral';
+import { supabase } from '../lib/supabase';
+import { useAuth } from './auth';
 import { day } from './model';
 
 /**
  * Premium is bought through Google Play Billing (expo-iap). Ownership is whatever Play
  * reports for this device's Google account; the last answer is cached so the app opens
- * as Premium offline. There is no server check: an entitlement lives only on Android.
+ * as Premium offline. Separately, an account whose e-mail is in `premium_grants` has Premium
+ * on every platform, the web included (a gift, granted by hand in the database).
  */
 type Iap = typeof import('expo-iap');
 // The native module does not exist on the web or in Expo Go; nothing here may import it there.
@@ -24,6 +28,7 @@ function safeRequire(): Iap | null {
 
 const CACHE_KEY = 'romana.premium.v1';
 const PRACTICE_KEY = 'romana.practiceDay.v1';
+const GRANT_KEY = 'romana.grant.v1';
 const PACKAGE = 'pro.seajobs.romana';
 
 export type Plan = {
@@ -58,8 +63,13 @@ const PremiumContext = createContext<Ctx | null>(null);
 const ORDER = ['premium_yearly', 'premium_monthly', LIFETIME];
 
 export function PremiumProvider({ children }: { children: ReactNode }) {
-  const [premium, setPremium] = useState(false);
+  const [bought, setBought] = useState(false);
+  const [granted, setGranted] = useState(false);
   const [ready, setReady] = useState(false);
+  const { session, ready: authReady } = useAuth();
+  const userId = session?.user.id ?? null;
+  // A gift belongs to an account: signed out, it no longer applies (until the session is read, the cache stands).
+  const premium = bought || (granted && (userId !== null || !authReady));
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(!!iap);
   const [busy, setBusy] = useState(false);
@@ -67,7 +77,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   const [practiceDay, setPracticeDay] = useState<string | null>(null);
 
   const remember = useCallback((on: boolean) => {
-    setPremium(on);
+    setBought(on);
     AsyncStorage.setItem(CACHE_KEY, on ? '1' : '0').catch(() => {});
   }, []);
 
@@ -86,9 +96,10 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   }, [remember]);
 
   useEffect(() => {
-    AsyncStorage.multiGet([CACHE_KEY, PRACTICE_KEY])
-      .then(([[, cached], [, practice]]) => {
-        if (cached === '1') setPremium(true);
+    AsyncStorage.multiGet([CACHE_KEY, PRACTICE_KEY, GRANT_KEY])
+      .then(([[, cached], [, practice], [, grant]]) => {
+        if (cached === '1') setBought(true);
+        if (grant === '1') setGranted(true);
         setPracticeDay(practice);
       })
       .catch(() => {})
@@ -100,6 +111,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       if (!PRODUCT_IDS.includes(p.productId) || p.purchaseState !== 'purchased') return;
       lib.finishTransaction({ purchase: p, isConsumable: false }).catch(() => {});
       remember(true);
+      trackStored('purchase', p.productId);
       setBusy(false);
     });
     const onError = lib.purchaseErrorListener((e) => {
@@ -139,6 +151,27 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       onError.remove();
     };
   }, [refresh, remember]);
+
+  // A gift follows the account: asked again whenever who is signed in changes.
+  useEffect(() => {
+    // Before the saved session is read, "no user" only means "not known yet".
+    if (!supabase || !authReady) return;
+    if (!userId) {
+      AsyncStorage.removeItem(GRANT_KEY).catch(() => {});
+      return;
+    }
+    let alive = true;
+    supabase
+      .rpc('has_premium_grant')
+      .then(({ data, error }) => {
+        if (!alive || error) return; // offline: keep the cached answer
+        setGranted(data === true);
+        AsyncStorage.setItem(GRANT_KEY, data === true ? '1' : '0').catch(() => {});
+      });
+    return () => {
+      alive = false;
+    };
+  }, [userId, authReady]);
 
   const buy = useCallback(
     async (id: string) => {

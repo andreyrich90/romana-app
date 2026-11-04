@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { PhraseProvider } from '../components/PhraseSheet';
+import { RefTracker } from '../components/RefTracker';
 import { usePalette } from '../lib/theme';
 import { AuthProvider } from '../state/auth';
 import { PremiumProvider } from '../state/premium';
@@ -17,6 +18,7 @@ export default function RootLayout() {
           <PremiumProvider>
             <PhraseProvider>
               <StatusBar style="auto" />
+              <RefTracker />
               <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg } }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal', gestureEnabled: false }} />
@@ -26,6 +28,8 @@ export default function RootLayout() {
                 <Stack.Screen name="cards" />
                 <Stack.Screen name="premium" />
                 <Stack.Screen name="citizenship" />
+                <Stack.Screen name="partner" />
+                <Stack.Screen name="r/[code]" options={{ animation: 'none' }} />
                 <Stack.Screen name="card/[id]" />
                 <Stack.Screen name="account" />
                 <Stack.Screen name="privacy" />
