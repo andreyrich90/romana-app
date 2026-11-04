@@ -52,8 +52,8 @@ export default function PartnerScreen() {
     Share.share({ message: link }).catch(() => {});
   };
 
-  const metric = (label: string, all: number, last: number) => (
-    <View key={label} style={[s.metric, { backgroundColor: c.surface, borderColor: c.line }]}>
+  const metric = (label: string, all: number, last: number, lastLabel: string = t.partner30, third = false) => (
+    <View key={label} style={[s.metric, third && s.third, { backgroundColor: c.surface, borderColor: c.line }]}>
       <Text style={[s.metricLabel, { color: c.muted }]}>{label}</Text>
       <View style={s.pair}>
         <View>
@@ -62,7 +62,7 @@ export default function PartnerScreen() {
         </View>
         <View>
           <Text style={[s.metricValue30, { color: c.blue }]}>{last}</Text>
-          <Text style={[s.metricSub, { color: c.muted }]}>{t.partner30}</Text>
+          <Text style={[s.metricSub, { color: c.muted }]}>{lastLabel}</Text>
         </View>
       </View>
     </View>
@@ -89,6 +89,9 @@ export default function PartnerScreen() {
   const money = (code: string | null) => {
     const mine = sales.filter((x) => code === null || x.code === code);
     const amounts = (k: 'revenue' | 'earned' | 'revenue_month' | 'earned_month') => mine.map((x) => ({ currency: x.currency, value: x[k] }));
+    // How many of each package, Google Play and the site together.
+    const count = (plan: 'month' | 'year' | 'lifetime', k: 'sold' | 'sold_month') =>
+      mine.filter((x) => planOfProduct(x.product) === plan).reduce((n, x) => n + x[k], 0);
     // One line per package and source, the links added together.
     type Line = { product: string; source: string; sold: number; soldMonth: number; revenue: { currency: string; value: number }[]; earned: { currency: string; value: number }[] };
     const lines = new Map<string, Line>();
@@ -131,6 +134,11 @@ export default function PartnerScreen() {
           <Text style={[s.metricSub, { color: c.muted }]}>
             {t.partnerRevenue}: {moneyTotal(amounts('revenue_month'))} {t.partnerMonth} · {moneyTotal(amounts('revenue'))} {t.partnerAll}
           </Text>
+        </View>
+        <View style={s.grid}>
+          {metric(t.planMonthly, count('month', 'sold'), count('month', 'sold_month'), t.partnerMonth, true)}
+          {metric(t.planYearly, count('year', 'sold'), count('year', 'sold_month'), t.partnerMonth, true)}
+          {metric(t.planLifetime, count('lifetime', 'sold'), count('lifetime', 'sold_month'), t.partnerMonth, true)}
         </View>
         <View style={[s.table, { backgroundColor: c.surface, borderColor: c.line }]}>
           <Text style={[s.metricLabel, { color: c.muted }]}>{t.partnerByPlan}</Text>
@@ -265,6 +273,7 @@ const s = StyleSheet.create({
   link: { fontSize: 16, fontWeight: '700' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   metric: { flexGrow: 1, flexBasis: '45%', borderWidth: 2, borderRadius: 16, padding: 14, gap: 2 },
+  third: { flexBasis: '30%', paddingHorizontal: 10 },
   metricLabel: { fontSize: 13, fontWeight: '700' },
   metricValue: { fontSize: 30, fontWeight: '800', fontVariant: ['tabular-nums'] },
   metricSub: { fontSize: 12 },
