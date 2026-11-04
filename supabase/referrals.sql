@@ -72,7 +72,15 @@ $$;
 revoke all on function public.ref_track(text, text, text, text) from public;
 grant execute on function public.ref_track(text, text, text, text) to anon, authenticated;
 
--- Statistics for the codes owned by the signed-in e-mail: totals and the last 30 days.
+-- Admins see every partner's statistics, not only their own codes.
+create table if not exists public.ref_admins (
+  email      text primary key,
+  created_at timestamptz not null default now()
+);
+alter table public.ref_admins enable row level security;
+
+-- Statistics for the codes owned by the signed-in e-mail (every code for an admin):
+-- totals and the last 30 days.
 create or replace function public.ref_my_stats()
 returns table (
   code text, name text,
@@ -96,6 +104,7 @@ as $$
   from public.ref_partners p
   left join public.ref_events e on e.code = p.code
   where lower(p.email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+     or exists (select 1 from public.ref_admins a where lower(a.email) = lower(coalesce(auth.jwt() ->> 'email', '')))
   group by p.code, p.name
   order by p.code;
 $$;
@@ -103,5 +112,6 @@ revoke all on function public.ref_my_stats() from public, anon;
 grant execute on function public.ref_my_stats() to authenticated;
 
 -- Examples (run by hand, with real values):
+--   insert into public.ref_admins (email) values ('admin@gmail.com') on conflict do nothing;
 --   insert into public.premium_grants (email, note) values ('someone@gmail.com', 'gift') on conflict do nothing;
 --   insert into public.ref_partners (code, email, name) values ('anna', 'anna@gmail.com', 'Anna') on conflict do nothing;
