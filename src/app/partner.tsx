@@ -40,10 +40,27 @@ export default function PartnerScreen() {
   const metric = (label: string, all: number, last: number) => (
     <View key={label} style={[s.metric, { backgroundColor: c.surface, borderColor: c.line }]}>
       <Text style={[s.metricLabel, { color: c.muted }]}>{label}</Text>
-      <Text style={[s.metricValue, { color: c.ink }]}>{all}</Text>
-      <Text style={[s.metricSub, { color: c.muted }]}>
-        {t.partner30}: {last}
-      </Text>
+      <View style={s.pair}>
+        <View>
+          <Text style={[s.metricValue, { color: c.ink }]}>{all}</Text>
+          <Text style={[s.metricSub, { color: c.muted }]}>{t.partnerAll}</Text>
+        </View>
+        <View>
+          <Text style={[s.metricValue30, { color: c.blue }]}>{last}</Text>
+          <Text style={[s.metricSub, { color: c.muted }]}>{t.partner30}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
+  // Sums over every link the account sees: for an admin, all partners together.
+  const sum = (k: keyof Omit<PartnerStats, 'code' | 'name'>) => (rows ?? []).reduce((n, r) => n + r[k], 0);
+  const grid = (g: (k: 'clicks' | 'installs' | 'signups' | 'purchases') => [number, number]) => (
+    <View style={s.grid}>
+      {metric(t.partnerInstalls, ...g('installs'))}
+      {metric(t.partnerPurchases, ...g('purchases'))}
+      {metric(t.partnerClicks, ...g('clicks'))}
+      {metric(t.partnerSignups, ...g('signups'))}
     </View>
   );
 
@@ -64,7 +81,14 @@ export default function PartnerScreen() {
       ) : rows.length === 0 ? (
         <Text style={[s.note, { color: c.muted }]}>{t.partnerNone}</Text>
       ) : (
-        rows.map((r) => {
+        <>
+        {rows.length > 1 && (
+          <View style={{ gap: 12 }}>
+            <Text style={[s.section, { color: c.ochre }]}>{t.partnerTotal}</Text>
+            {grid((k) => [sum(k), sum(`${k}_30` as const)])}
+          </View>
+        )}
+        {rows.map((r) => {
           const link = partnerLink(r.code);
           return (
             <View key={r.code} style={{ gap: 12 }}>
@@ -80,15 +104,11 @@ export default function PartnerScreen() {
                   {copied === link ? t.partnerCopied : Platform.OS === 'web' ? t.partnerCopy : t.partnerShare}
                 </Button>
               </View>
-              <View style={s.grid}>
-                {metric(t.partnerClicks, r.clicks, r.clicks_30)}
-                {metric(t.partnerInstalls, r.installs, r.installs_30)}
-                {metric(t.partnerSignups, r.signups, r.signups_30)}
-                {metric(t.partnerPurchases, r.purchases, r.purchases_30)}
-              </View>
+              {grid((k) => [r[k], r[`${k}_30` as const]])}
             </View>
           );
-        })
+        })}
+        </>
       )}
 
       {session && rows && rows.length > 0 && (
@@ -117,6 +137,9 @@ const s = StyleSheet.create({
   metricLabel: { fontSize: 13, fontWeight: '700' },
   metricValue: { fontSize: 30, fontWeight: '800', fontVariant: ['tabular-nums'] },
   metricSub: { fontSize: 12 },
+  metricValue30: { fontSize: 22, fontWeight: '800', fontVariant: ['tabular-nums'] },
+  pair: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 8 },
+  section: { fontSize: 13, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
   small: { fontSize: 13, lineHeight: 18 },
   ghostBtn: { alignSelf: 'center', paddingVertical: 10, paddingHorizontal: 8 },
   ghost: { fontSize: 13, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
