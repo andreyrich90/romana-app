@@ -22,9 +22,9 @@ export type WebPlan = {
 };
 
 export const WEB_PLANS: WebPlan[] = [
-  { id: 'year', usd: 19.99, months: 12, payUrl: null },
-  { id: 'month', usd: 2.99, months: 1, payUrl: null },
-  { id: 'lifetime', usd: 29.99, months: null, payUrl: null },
+  { id: 'year', usd: 19.99, months: 12, payUrl: 'https://buymeacoffee.com/seajobs.pro/e/595046' },
+  { id: 'month', usd: 2.99, months: 1, payUrl: 'https://buymeacoffee.com/seajobs.pro/e/595044' },
+  { id: 'lifetime', usd: 29.99, months: null, payUrl: 'https://buymeacoffee.com/seajobs.pro/e/595047' },
 ];
 
 export const WEB_SELLING = WEB_PLANS.some((p) => p.payUrl);
