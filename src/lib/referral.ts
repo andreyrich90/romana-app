@@ -62,17 +62,28 @@ export async function rememberCode(code: string) {
 
 export type RefKind = 'click' | 'install' | 'signup' | 'purchase';
 
-export async function trackRef(code: string, kind: RefKind, product?: string) {
+/**
+ * `order` is Google Play's order number (GPA.…) for a purchase: it keys the purchase, so two
+ * purchases from one phone both count, and lets an admin find it in the Play Console. The price
+ * is never sent: the database takes the list price for the product.
+ */
+export async function trackRef(code: string, kind: RefKind, product?: string, order?: string | null) {
   if (!supabase) return;
   try {
-    await supabase.rpc('ref_track', { p_code: code, p_kind: kind, p_device: await deviceId(), p_product: product ?? null });
+    await supabase.rpc('ref_track', {
+      p_code: code,
+      p_kind: kind,
+      p_device: await deviceId(),
+      p_product: product ?? null,
+      ...(order ? { p_order: order } : {}),
+    });
   } catch {}
 }
 
 /** Reports an event for the code this device came with, if it came with one. */
-export async function trackStored(kind: RefKind, product?: string) {
+export async function trackStored(kind: RefKind, product?: string, order?: string | null) {
   const code = await storedCode();
-  if (code) await trackRef(code, kind, product);
+  if (code) await trackRef(code, kind, product, order);
 }
 
 /** First start on Android: read where Google Play says the install came from, once. */
@@ -122,4 +133,54 @@ export async function myPartnerStats(): Promise<PartnerStats[]> {
     signups_30: Number(r.signups_30),
     purchases_30: Number(r.purchases_30),
   }));
+}
+
+/** One package from one source in one currency, for one link: all time and this month. */
+export type PartnerSale = {
+  code: string;
+  product: string;
+  source: 'play' | 'web';
+  currency: string;
+  sold: number;
+  revenue: number;
+  earned: number;
+  sold_month: number;
+  revenue_month: number;
+  earned_month: number;
+};
+
+/** One purchase. `order_ref` (the Play order number) comes back for admins only. */
+export type PartnerPurchase = {
+  code: string;
+  created_at: string;
+  product: string;
+  source: 'play' | 'web';
+  amount: number;
+  currency: string;
+  earned: number;
+  order_ref: string | null;
+};
+
+/** Sales by package and source for the links the signed-in account sees; empty before partner_money.sql. */
+export async function myPartnerSales(): Promise<PartnerSale[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc('ref_my_sales');
+  if (error || !Array.isArray(data)) return [];
+  return data.map((r) => ({
+    ...r,
+    sold: Number(r.sold),
+    revenue: Number(r.revenue),
+    earned: Number(r.earned),
+    sold_month: Number(r.sold_month),
+    revenue_month: Number(r.revenue_month),
+    earned_month: Number(r.earned_month),
+  }));
+}
+
+/** The latest hundred purchases for the links the signed-in account sees. */
+export async function myPartnerPurchases(): Promise<PartnerPurchase[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc('ref_my_purchases');
+  if (error || !Array.isArray(data)) return [];
+  return data.map((r) => ({ ...r, amount: Number(r.amount), earned: Number(r.earned) }));
 }

@@ -113,7 +113,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       if (!PRODUCT_IDS.includes(p.productId) || p.purchaseState !== 'purchased') return;
       lib.finishTransaction({ purchase: p, isConsumable: false }).catch(() => {});
       remember(true);
-      trackStored('purchase', p.productId);
+      trackStored('purchase', p.productId, 'transactionId' in p ? p.transactionId : null);
       setBusy(false);
     });
     const onError = lib.purchaseErrorListener((e) => {

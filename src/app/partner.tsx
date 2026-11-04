@@ -4,7 +4,16 @@ import { ActivityIndicator, Platform, Pressable, ScrollView, Share, StyleSheet, 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '../components/ui';
-import { myPartnerStats, partnerLink, type PartnerStats } from '../lib/referral';
+import { moneyTotal, planOfProduct } from '../engine/partnerMoney';
+import {
+  myPartnerPurchases,
+  myPartnerSales,
+  myPartnerStats,
+  partnerLink,
+  type PartnerPurchase,
+  type PartnerSale,
+  type PartnerStats,
+} from '../lib/referral';
 import { usePalette } from '../lib/theme';
 import { useAuth } from '../state/auth';
 import { useProgress } from '../state/progress';
@@ -16,11 +25,17 @@ export default function PartnerScreen() {
   const { t } = useProgress();
   const { session } = useAuth();
   const [rows, setRows] = useState<PartnerStats[] | null>(null);
+  const [sales, setSales] = useState<PartnerSale[]>([]);
+  const [purchases, setPurchases] = useState<PartnerPurchase[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
   const goBack = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
   const load = useCallback(() => {
-    myPartnerStats().then(setRows);
+    Promise.all([myPartnerStats(), myPartnerSales(), myPartnerPurchases()]).then(([r, sl, pu]) => {
+      setSales(sl);
+      setPurchases(pu);
+      setRows(r);
+    });
   }, []);
   useEffect(load, [load, session?.user.id]);
   const reload = () => {
@@ -64,6 +79,73 @@ export default function PartnerScreen() {
     </View>
   );
 
+  const planName = (product: string) => {
+    const plan = planOfProduct(product);
+    return plan === 'year' ? t.planYearly : plan === 'month' ? t.planMonthly : plan === 'lifetime' ? t.planLifetime : product;
+  };
+  const sourceName = (source: string) => (source === 'web' ? t.partnerWeb : t.partnerPlay);
+
+  // Earnings and the per-package breakdown, for one link or (code null) for all of them.
+  const money = (code: string | null) => {
+    const mine = sales.filter((x) => code === null || x.code === code);
+    const amounts = (k: 'revenue' | 'earned' | 'revenue_month' | 'earned_month') => mine.map((x) => ({ currency: x.currency, value: x[k] }));
+    // One line per package and source, the links added together.
+    const lines = new Map<string, { product: string; source: string; sold: number; revenue: { currency: string; value: number }[]; earned: { currency: string; value: number }[] }>();
+    for (const x of mine) {
+      const key = `${planOfProduct(x.product) ?? x.product}|${x.source}`;
+      const line = lines.get(key) ?? { product: x.product, source: x.source, sold: 0, revenue: [], earned: [] };
+      line.sold += x.sold;
+      line.revenue.push({ currency: x.currency, value: x.revenue });
+      line.earned.push({ currency: x.currency, value: x.earned });
+      lines.set(key, line);
+    }
+    const order = (p: string) => ['year', 'month', 'lifetime'].indexOf(planOfProduct(p) ?? '');
+    const sorted = [...lines.values()].sort((a, b) => order(a.product) - order(b.product) || a.source.localeCompare(b.source));
+    return (
+      <View style={{ gap: 10 }}>
+        <View style={[s.earn, { backgroundColor: c.surface, borderColor: c.good }]}>
+          <Text style={[s.metricLabel, { color: c.muted }]}>{t.partnerEarned}</Text>
+          <View style={s.pair}>
+            <View style={{ flexShrink: 1 }}>
+              <Text style={[s.earnValue, { color: c.ink }]}>{moneyTotal(amounts('earned_month'))}</Text>
+              <Text style={[s.metricSub, { color: c.muted }]}>{t.partnerMonth}</Text>
+            </View>
+            <View style={{ flexShrink: 1, alignItems: 'flex-end' }}>
+              <Text style={[s.earnValue, { color: c.good }]}>{moneyTotal(amounts('earned'))}</Text>
+              <Text style={[s.metricSub, { color: c.muted }]}>{t.partnerAll}</Text>
+            </View>
+          </View>
+          <Text style={[s.metricSub, { color: c.muted }]}>
+            {t.partnerRevenue}: {moneyTotal(amounts('revenue_month'))} {t.partnerMonth} · {moneyTotal(amounts('revenue'))} {t.partnerAll}
+          </Text>
+        </View>
+        {sorted.length > 0 && (
+          <View style={[s.table, { backgroundColor: c.surface, borderColor: c.line }]}>
+            <Text style={[s.metricLabel, { color: c.muted }]}>{t.partnerByPlan}</Text>
+            {sorted.map((l) => (
+              <View key={`${l.product}|${l.source}`} style={s.tableRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={[s.rowTitle, { color: c.ink }]}>{planName(l.product)}</Text>
+                  <Text style={[s.metricSub, { color: c.muted }]}>{sourceName(l.source)}</Text>
+                </View>
+                <View style={{ alignItems: 'flex-end' }}>
+                  <Text style={[s.rowTitle, { color: c.ink }]}>
+                    {l.sold} {t.partnerPcs} · {moneyTotal(l.revenue)}
+                  </Text>
+                  <Text style={[s.metricSub, { color: c.good }]}>
+                    {t.partnerYou} {moneyTotal(l.earned)}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  const date = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' });
+
   return (
     <ScrollView
       style={{ backgroundColor: c.bg }}
@@ -85,6 +167,7 @@ export default function PartnerScreen() {
         {rows.length > 1 && (
           <View style={{ gap: 12 }}>
             <Text style={[s.section, { color: c.ochre }]}>{t.partnerTotal}</Text>
+            {money(null)}
             {grid((k) => [sum(k), sum(`${k}_30` as const)])}
           </View>
         )}
@@ -104,6 +187,7 @@ export default function PartnerScreen() {
                   {copied === link ? t.partnerCopied : Platform.OS === 'web' ? t.partnerCopy : t.partnerShare}
                 </Button>
               </View>
+              {money(r.code)}
               {grid((k) => [r[k], r[`${k}_30` as const]])}
             </View>
           );
@@ -112,7 +196,40 @@ export default function PartnerScreen() {
       )}
 
       {session && rows && rows.length > 0 && (
+        <View style={{ gap: 10 }}>
+          <Text style={[s.section, { color: c.ochre }]}>{t.partnerRecent}</Text>
+          {purchases.length === 0 ? (
+            <Text style={[s.note, { color: c.muted }]}>{t.partnerNoSales}</Text>
+          ) : (
+            <View style={[s.table, { backgroundColor: c.surface, borderColor: c.line }]}>
+              {purchases.map((p, i) => (
+                <View key={`${p.created_at}-${i}`} style={s.tableRow}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[s.rowTitle, { color: c.ink }]}>
+                      {planName(p.product)} · {sourceName(p.source)}
+                    </Text>
+                    <Text style={[s.metricSub, { color: c.muted }]} selectable>
+                      {date(p.created_at)}
+                      {rows.length > 1 ? ` · ${p.code}` : ''}
+                      {p.order_ref ? ` · ${t.partnerOrder} ${p.order_ref}` : ''}
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <Text style={[s.rowTitle, { color: c.ink }]}>{moneyTotal([{ currency: p.currency, value: p.amount }])}</Text>
+                    <Text style={[s.metricSub, { color: c.good }]}>
+                      {t.partnerYou} {moneyTotal([{ currency: p.currency, value: p.earned }])}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      )}
+
+      {session && rows && rows.length > 0 && (
         <>
+          <Text style={[s.small, { color: c.muted }]}>{t.partnerMoneyHow}</Text>
           <Text style={[s.small, { color: c.muted }]}>{t.partnerHow}</Text>
           <Pressable onPress={reload} style={s.ghostBtn} accessibilityRole="button">
             <Text style={[s.ghost, { color: c.muted }]}>{t.partnerRefresh}</Text>
@@ -139,6 +256,11 @@ const s = StyleSheet.create({
   metricSub: { fontSize: 12 },
   metricValue30: { fontSize: 22, fontWeight: '800', fontVariant: ['tabular-nums'] },
   pair: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 8 },
+  earn: { borderWidth: 2, borderRadius: 16, padding: 14, gap: 6 },
+  earnValue: { fontSize: 24, fontWeight: '800', fontVariant: ['tabular-nums'] },
+  table: { borderWidth: 2, borderRadius: 16, padding: 14, gap: 12 },
+  tableRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  rowTitle: { fontSize: 15, fontWeight: '700' },
   section: { fontSize: 13, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
   small: { fontSize: 13, lineHeight: 18 },
   ghostBtn: { alignSelf: 'center', paddingVertical: 10, paddingHorizontal: 8 },

@@ -126,7 +126,18 @@ export async function POST(request: Request): Promise<Response> {
     await db
       .from('ref_events')
       .upsert(
-        { code, kind: 'purchase', device: `web:${row.id}`, user_id: row.user_id, product: `web_${plan.id}` },
+        {
+          code,
+          kind: 'purchase',
+          device: `web:${row.id}`,
+          user_id: row.user_id,
+          product: `web_${plan.id}`,
+          source: 'web',
+          // The extra's own price (the payload's amount fields differ between event kinds);
+          // the database works out the partner's share.
+          amount: plan.usd,
+          currency: 'USD',
+        },
         { onConflict: 'code,kind,device', ignoreDuplicates: true },
       );
   }
