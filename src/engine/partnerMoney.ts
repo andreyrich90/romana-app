@@ -29,6 +29,12 @@ export function moneyTotal(items: Amount[]): string {
   return sums.length ? sums.map(moneyLabel).join(' + ') : '0';
 }
 
+/** Like moneyTotal, but a zero keeps its currency: "€0.00". */
+export function moneyAll(items: Amount[]): string {
+  const sums = sumByCurrency(items);
+  return sums.length ? sums.map(moneyLabel).join(' + ') : '0';
+}
+
 export type PlanKind = 'month' | 'year' | 'lifetime';
 
 /** Google Play's product ids and the site's web_<plan> both name one of three packages. */

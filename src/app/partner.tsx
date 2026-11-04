@@ -4,7 +4,7 @@ import { ActivityIndicator, Platform, Pressable, ScrollView, Share, StyleSheet, 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '../components/ui';
-import { moneyTotal, planOfProduct } from '../engine/partnerMoney';
+import { moneyAll, moneyTotal, planOfProduct } from '../engine/partnerMoney';
 import {
   myPartnerPurchases,
   myPartnerSales,
@@ -90,17 +90,30 @@ export default function PartnerScreen() {
     const mine = sales.filter((x) => code === null || x.code === code);
     const amounts = (k: 'revenue' | 'earned' | 'revenue_month' | 'earned_month') => mine.map((x) => ({ currency: x.currency, value: x[k] }));
     // One line per package and source, the links added together.
-    const lines = new Map<string, { product: string; source: string; sold: number; revenue: { currency: string; value: number }[]; earned: { currency: string; value: number }[] }>();
+    type Line = { product: string; source: string; sold: number; soldMonth: number; revenue: { currency: string; value: number }[]; earned: { currency: string; value: number }[] };
+    const lines = new Map<string, Line>();
+    // Every package from both places is listed, at zero until something is bought.
+    for (const [product, source, currency] of [
+      ['premium_yearly', 'play', 'EUR'],
+      ['premium_monthly', 'play', 'EUR'],
+      ['premium_lifetime', 'play', 'EUR'],
+      ['web_year', 'web', 'USD'],
+      ['web_month', 'web', 'USD'],
+      ['web_lifetime', 'web', 'USD'],
+    ] as const) {
+      lines.set(`${planOfProduct(product)}|${source}`, { product, source, sold: 0, soldMonth: 0, revenue: [{ currency, value: 0 }], earned: [{ currency, value: 0 }] });
+    }
     for (const x of mine) {
       const key = `${planOfProduct(x.product) ?? x.product}|${x.source}`;
-      const line = lines.get(key) ?? { product: x.product, source: x.source, sold: 0, revenue: [], earned: [] };
+      const line = lines.get(key) ?? { product: x.product, source: x.source, sold: 0, soldMonth: 0, revenue: [], earned: [] };
       line.sold += x.sold;
+      line.soldMonth += x.sold_month;
       line.revenue.push({ currency: x.currency, value: x.revenue });
       line.earned.push({ currency: x.currency, value: x.earned });
       lines.set(key, line);
     }
     const order = (p: string) => ['year', 'month', 'lifetime'].indexOf(planOfProduct(p) ?? '');
-    const sorted = [...lines.values()].sort((a, b) => order(a.product) - order(b.product) || a.source.localeCompare(b.source));
+    const sorted = [...lines.values()].sort((a, b) => a.source.localeCompare(b.source) || order(a.product) - order(b.product));
     return (
       <View style={{ gap: 10 }}>
         <View style={[s.earn, { backgroundColor: c.surface, borderColor: c.good }]}>
@@ -119,27 +132,28 @@ export default function PartnerScreen() {
             {t.partnerRevenue}: {moneyTotal(amounts('revenue_month'))} {t.partnerMonth} · {moneyTotal(amounts('revenue'))} {t.partnerAll}
           </Text>
         </View>
-        {sorted.length > 0 && (
-          <View style={[s.table, { backgroundColor: c.surface, borderColor: c.line }]}>
-            <Text style={[s.metricLabel, { color: c.muted }]}>{t.partnerByPlan}</Text>
-            {sorted.map((l) => (
-              <View key={`${l.product}|${l.source}`} style={s.tableRow}>
-                <View style={{ flex: 1 }}>
-                  <Text style={[s.rowTitle, { color: c.ink }]}>{planName(l.product)}</Text>
-                  <Text style={[s.metricSub, { color: c.muted }]}>{sourceName(l.source)}</Text>
-                </View>
-                <View style={{ alignItems: 'flex-end' }}>
-                  <Text style={[s.rowTitle, { color: c.ink }]}>
-                    {l.sold} {t.partnerPcs} · {moneyTotal(l.revenue)}
-                  </Text>
-                  <Text style={[s.metricSub, { color: c.good }]}>
-                    {t.partnerYou} {moneyTotal(l.earned)}
-                  </Text>
-                </View>
+        <View style={[s.table, { backgroundColor: c.surface, borderColor: c.line }]}>
+          <Text style={[s.metricLabel, { color: c.muted }]}>{t.partnerByPlan}</Text>
+          {sorted.map((l) => (
+            <View key={`${l.product}|${l.source}`} style={s.tableRow}>
+              <View style={{ flex: 1 }}>
+                <Text style={[s.rowTitle, { color: c.ink }]}>{planName(l.product)}</Text>
+                <Text style={[s.metricSub, { color: c.muted }]}>
+                  {sourceName(l.source)}
+                  {l.soldMonth > 0 ? ` · ${l.soldMonth} ${t.partnerPcs} ${t.partnerMonth}` : ''}
+                </Text>
               </View>
-            ))}
-          </View>
-        )}
+              <View style={{ alignItems: 'flex-end' }}>
+                <Text style={[s.rowTitle, { color: c.ink }]}>
+                  {l.sold} {t.partnerPcs} · {moneyAll(l.revenue)}
+                </Text>
+                <Text style={[s.metricSub, { color: c.good }]}>
+                  {t.partnerYou} {moneyAll(l.earned)}
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
       </View>
     );
   };
