@@ -10,6 +10,7 @@ import {
   myPartnerSales,
   myPartnerStats,
   partnerLink,
+  playLinkFor,
   type PartnerPurchase,
   type PartnerSale,
   type PartnerStats,
@@ -195,6 +196,7 @@ export default function PartnerScreen() {
         )}
         {rows.map((r) => {
           const link = partnerLink(r.code);
+          const play = playLinkFor(r.code);
           return (
             <View key={r.code} style={{ gap: 12 }}>
               <View style={[s.linkBox, { backgroundColor: c.blueSoft, borderColor: c.blueEdge }]}>
@@ -208,6 +210,14 @@ export default function PartnerScreen() {
                 <Button tone="primary" onPress={() => share(link)}>
                   {copied === link ? t.partnerCopied : Platform.OS === 'web' ? t.partnerCopy : t.partnerShare}
                 </Button>
+                <Text style={[s.linkLabel, { color: c.muted, marginTop: 6 }]}>{t.partnerPlayLink}</Text>
+                <Text style={[s.linkSmall, { color: c.ink }]} selectable>
+                  {play}
+                </Text>
+                <Button tone="plain" onPress={() => share(play)}>
+                  {copied === play ? t.partnerCopied : Platform.OS === 'web' ? t.partnerCopy : t.partnerShare}
+                </Button>
+                <Text style={[s.small, { color: c.muted }]}>{t.partnerPlayNote}</Text>
               </View>
               {money(r.code)}
               {grid((k) => [r[k], r[`${k}_30` as const]])}
@@ -270,6 +280,7 @@ const s = StyleSheet.create({
   note: { fontSize: 15, lineHeight: 21 },
   linkBox: { borderWidth: 2, borderRadius: 18, padding: 16, gap: 10 },
   linkLabel: { fontSize: 12, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
+  linkSmall: { fontSize: 13, fontWeight: '600' },
   link: { fontSize: 16, fontWeight: '700' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   metric: { flexGrow: 1, flexBasis: '45%', borderWidth: 2, borderRadius: 16, padding: 14, gap: 2 },
