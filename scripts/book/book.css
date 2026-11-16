@@ -1,0 +1,75 @@
+/* 6.69×9.61 in (17×24.4 cm), a KDP trim size; also a common print-shop format. Reads well in black and white: colour only marks, never carries meaning. */
+@page { size: 6.69in 9.61in; margin: 16mm 15mm 18mm 18mm; }
+@page :left { margin: 16mm 18mm 18mm 15mm; }
+:root { --ink: #16204a; --blue: #2a46b8; --soft: #eef1fb; --line: #c9cfe4; --ochre: #e0a419; --muted: #5a6385; }
+* { box-sizing: border-box; }
+html { font-family: 'PT Serif', Georgia, serif; font-size: 10.5pt; color: var(--ink); line-height: 1.42; }
+body { margin: 0; }
+h1, h2, h3, .lnum, .ukicker, .tipT, .exT, .num, .tocU, .tocL, .series, .big, .sub, .part, .who, .lhead, .key b { font-family: 'Nunito', sans-serif; }
+h1 { font-size: 22pt; font-weight: 900; margin: 0 0 6mm; }
+h2 { font-size: 17pt; font-weight: 900; margin: 0; }
+h3 { font-size: 11pt; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--blue); margin: 5mm 0 2mm; border-bottom: 1.5pt solid var(--line); padding-bottom: 1mm; }
+p { margin: 0 0 2mm; }
+b { font-weight: 700; }
+.ro { font-family: 'Nunito', sans-serif; font-weight: 800; }
+.small { font-size: 9pt; color: var(--muted); }
+table { border-collapse: collapse; width: 100%; }
+td { padding: 1.2mm 1.5mm; vertical-align: top; border-bottom: .5pt solid var(--line); }
+
+/* Title page and front matter */
+.titlepage { height: 208mm; display: flex; flex-direction: column; justify-content: center; text-align: center; break-after: page; }
+.series { font-size: 10pt; font-weight: 700; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.big { font-size: 46pt; font-weight: 900; margin: 6mm 0 2mm; }
+.sub { font-size: 16pt; font-weight: 700; }
+.part { margin-top: 6mm; font-size: 11pt; font-weight: 800; color: var(--blue); }
+.logo { margin: 14mm auto 0; width: 26mm; height: 26mm; border-radius: 6mm; background: var(--blue); color: #fff; font: 900 40pt/26mm 'Nunito', sans-serif; }
+.front { break-before: page; }
+.toc { font-size: 10pt; }
+.tocU { font-weight: 900; margin: 3.5mm 0 1mm; display: flex; }
+.tocL { display: flex; gap: 2mm; margin-left: 4mm; }
+.dots { flex: 1; border-bottom: 1pt dotted var(--line); margin: 0 1mm 1.4mm; }
+.pg { min-width: 7mm; text-align: right; }
+
+/* Units */
+.unit { break-before: page; break-after: page; padding-top: 40mm; }
+.ukicker { font-weight: 900; font-size: 12pt; color: var(--blue); text-transform: uppercase; letter-spacing: .1em; }
+.unit h1 { font-size: 34pt; margin: 3mm 0 1mm; }
+.uro { font-family: 'Nunito', sans-serif; font-size: 15pt; font-weight: 700; color: var(--muted); }
+.ulist { margin-top: 12mm; font-size: 12pt; line-height: 1.9; font-family: 'Nunito', sans-serif; font-weight: 700; }
+
+/* Lessons */
+.lesson { margin-top: 9mm; padding-top: 5mm; border-top: 1.5pt solid var(--line); }
+.unit + .lesson { margin-top: 0; padding-top: 0; border-top: 0; }
+.lhead, h3, .exT, .tipT { break-after: avoid; }
+.line { display: block; border-bottom: .8pt solid var(--line); height: 6mm; margin-bottom: 1mm; }
+.lhead { border-left: 3mm solid var(--ochre); padding: 1mm 0 1mm 4mm; margin-bottom: 4mm; }
+.lnum { font-size: 9.5pt; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: .1em; }
+.words td.ro { width: 38%; }
+.words td.say { width: 24%; color: var(--muted); font-style: italic; }
+.notes p { padding-left: 3mm; border-left: 1pt solid var(--line); }
+.tip, .dialog { background: var(--soft); border: 1pt solid var(--line); border-radius: 3mm; padding: 3mm 4mm; margin: 4mm 0; break-inside: avoid; }
+.tipT { font-weight: 900; font-size: 10.5pt; margin-bottom: 2mm; }
+.rows td, .dialog td { border-bottom-color: #dde2f2; }
+.rows td.ro { width: 45%; }
+.dialog .who { width: 18%; font-weight: 800; color: var(--muted); font-size: 9pt; }
+.dialog .tr { color: var(--muted); width: 40%; }
+.ex { margin: 3mm 0 4mm; break-inside: avoid; }
+.exT { font-weight: 800; margin-bottom: 1.5mm; }
+.num { display: inline-block; min-width: 5.5mm; height: 5.5mm; border-radius: 1.5mm; background: var(--ink); color: #fff; text-align: center; font-size: 8.5pt; font-weight: 900; line-height: 5.5mm; margin-right: 2mm; }
+.num.s { min-width: 4.5mm; height: 4.5mm; line-height: 4.5mm; font-size: 7.5pt; }
+.ex ol { margin: 0; padding-left: 6mm; }
+.ex li { margin-bottom: 1.6mm; }
+.opt { display: inline-block; margin-right: 3mm; white-space: nowrap; }
+.tile { display: inline-block; border: 1pt solid var(--line); border-radius: 1.5mm; padding: 0 1.5mm; margin: 0 .6mm .8mm 0; }
+.q { color: var(--muted); font-size: 9pt; }
+.match td { width: 50%; }
+
+/* Back matter */
+.keys, .dict { break-before: page; }
+.keys .cols { column-count: 2; column-gap: 6mm; }
+.key { font-size: 8.5pt; margin-bottom: 3mm; break-inside: avoid; }
+.key > div { margin: .6mm 0 0 2mm; }
+.dict .cols { column-count: 2; column-gap: 7mm; font-size: 9pt; }
+.dict .cols p { margin: 0 0 1mm; break-inside: avoid; }
+.end { margin-top: 8mm; font-family: 'Nunito', sans-serif; font-weight: 800; text-align: center; }
+.mark { position: absolute; font-size: 1pt; color: #fff; }
