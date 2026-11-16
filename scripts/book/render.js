@@ -1,11 +1,11 @@
 // Prints book/book-<lang>.html to book/book-<lang>.pdf, then finds each lesson's page for the contents.
-//   node scripts/book/render.js ru   (run build.ts first; run both twice for page numbers)
+//   node scripts/book/render.js ru-1   (run build.ts first; run both twice for page numbers)
 const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
 const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 (async () => {
-  const lang = process.argv[2] || 'ru';
+  const lang = process.argv[2] || 'ru-1';
   const html = path.resolve(`book/book-${lang}.html`);
   const pdf = path.resolve(`book/book-${lang}.pdf`);
   const b = await chromium.launch();

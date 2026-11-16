@@ -1,19 +1,20 @@
 // Covers for the textbook: the full print wrap (back, spine, front, 0.125 in bleed) sized for
 // KDP's white paper, and the front alone as a PNG for the e-book.
-//   node scripts/book/cover.js ru   (after render.js: the spine follows book/book-<lang>.pdf's page count)
+//   node scripts/book/cover.js ru-1   (after render.js: the spine follows book/book-<lang>-<part>.pdf's page count)
 const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
 const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const lang = process.argv[2] || 'ru';
+const stem = process.argv[2] || 'ru-1';
+const [lang, part] = stem.split('-');
 const TX = {
   ru: {
     title: 'Румынский',
     sub: 'с нуля до уровня A2',
     kicker: 'Самоучитель для русскоговорящих',
     part: 'Часть 1',
-    badges: ['Алфавит и чтение', '71 урок', 'Ответы', 'Словарь'],
+    badges: ['Алфавит и чтение', '71 урок', 'Ответы', 'Словарь 1000+'],
     backTitle: 'Заговорите по-румынски с первого урока',
     back: [
       'Самоучитель для тех, кто начинает с нуля: от алфавита и правил чтения до уверенного уровня A2.',
@@ -28,7 +29,7 @@ const TX = {
     sub: 'з нуля до рівня A2',
     kicker: 'Самовчитель для україномовних',
     part: 'Частина 1',
-    badges: ['Абетка й читання', '71 урок', 'Відповіді', 'Словник'],
+    badges: ['Абетка й читання', '71 урок', 'Відповіді', 'Словник 1000+'],
     backTitle: 'Заговоріть румунською з першого уроку',
     back: [
       'Самовчитель для тих, хто починає з нуля: від абетки й правил читання до впевненого рівня A2.',
@@ -39,17 +40,59 @@ const TX = {
     spine: 'РУМУНСЬКА · з нуля до A2 · Частина 1',
   },
 }[lang];
+const lessons = (fs.readFileSync(`book/book-${stem}.html`, 'utf8').match(/class="lesson"/g) || []).length;
+TX.badges[1] = TX.badges[1].replace(/\d+/, String(lessons));
+if (part === '2') {
+  Object.assign(
+    TX,
+    lang === 'ru'
+      ? {
+          sub: 'уровни B1 и B2',
+          part: 'Часть 2',
+          badges: ['B1 и B2', `${lessons} уроков`, 'Ответы', 'Словарь 1000+'],
+          backTitle: 'От уверенного A2 — к свободному B2',
+          back: [
+            'Вторая часть самоучителя: для тех, кто уже читает, понимает простые фразы и хочет говорить о работе, документах, новостях и своём мнении.',
+            'Все времена и наклонения, косвенная речь, сложные предложения — простым языком и в сравнении с русским. Слова с подсказкой произношения, упражнения, ответы и словарь на 1000+ слов.',
+          ],
+          list: ['Прошедшие времена и «если бы»', 'Работа, собеседование, документы', 'Мнение, споры, косвенная речь', 'Новости, экономика, культура Румынии'],
+          spine: 'РУМЫНСКИЙ · уровни B1–B2 · Часть 2',
+        }
+      : {
+          sub: 'рівні B1 і B2',
+          part: 'Частина 2',
+          badges: ['B1 і B2', `${lessons} уроків`, 'Відповіді', 'Словник 1000+'],
+          backTitle: 'Від упевненого A2 — до вільного B2',
+          back: [
+            'Друга частина самовчителя: для тих, хто вже читає, розуміє прості фрази й хоче говорити про роботу, документи, новини та свою думку.',
+            'Усі часи й способи, непряма мова, складні речення — простою мовою й у порівнянні з українською. Слова з підказкою вимови, вправи, відповіді й словник на 1000+ слів.',
+          ],
+          list: ['Минулі часи й «якби»', 'Робота, співбесіда, документи', 'Думка, суперечки, непряма мова', 'Новини, економіка, культура Румунії'],
+          spine: 'РУМУНСЬКА · рівні B1–B2 · Частина 2',
+        },
+  );
+}
 
-const CHIPS = [
-  ['Bună ziua!', -6, 8, 30],
-  ['Mulțumesc', 5, 58, 24],
-  ['Ce faci?', 4, 14, 52],
-  ['acasă', -4, 66, 50],
-  ['Te iubesc', -3, 40, 70],
-  ['dor', 7, 9, 77],
-];
+const CHIPS =
+  part === '2'
+    ? [
+        ['Dacă aș putea…', -6, 4, 30],
+        ['Sunt de acord', 5, 52, 22],
+        ['Mi-ar plăcea', 4, 10, 52],
+        ['Din păcate', -4, 60, 48],
+        ['Mi-e dor de tine', -3, 30, 70],
+        ['Bravo!', 7, 4, 80],
+      ]
+    : [
+        ['Bună ziua!', -6, 8, 30],
+        ['Mulțumesc', 5, 58, 24],
+        ['Ce faci?', 4, 14, 52],
+        ['acasă', -4, 66, 50],
+        ['Te iubesc', -3, 40, 70],
+        ['dor', 7, 9, 77],
+      ];
 
-const pdfPath = path.resolve(`book/book-${lang}.pdf`);
+const pdfPath = path.resolve(`book/book-${stem}.pdf`);
 const pages = Number(/Pages:\s+(\d+)/.exec(execFileSync('pdfinfo', [pdfPath]).toString())[1]);
 const TRIM_W = 6.69;
 const TRIM_H = 9.61;
@@ -58,10 +101,14 @@ const SPINE = +(pages * 0.002252).toFixed(4); // KDP, black and white on white p
 const W = BLEED * 2 + TRIM_W * 2 + SPINE;
 const H = TRIM_H + BLEED * 2;
 
+const BG =
+  part === '2'
+    ? 'radial-gradient(120% 80% at 70% 10%, #e0484f 0%, #b8242d 45%, #6e1219 100%)'
+    : 'radial-gradient(120% 80% at 70% 10%, #3557d6 0%, #1f3aa8 45%, #13246e 100%)';
 const css = `
 * { box-sizing: border-box; margin: 0; }
 body { font-family: 'Nunito', sans-serif; }
-.bg { background: radial-gradient(120% 80% at 70% 10%, #3557d6 0%, #1f3aa8 45%, #13246e 100%); color: #fff; position: relative; overflow: hidden; }
+.bg { background: ${BG}; color: #fff; position: relative; overflow: hidden; }
 .flag { position: absolute; top: 0; left: 0; right: 0; height: 0.16in; display: flex; }
 .flag i { flex: 1; } .flag i:nth-child(1){background:#2b4fd8} .flag i:nth-child(2){background:#f2c230} .flag i:nth-child(3){background:#d8313a}
 .chip { position: absolute; background: #fff; color: #16204a; font-weight: 900; border-radius: 0.14in; padding: 0.08in 0.16in; box-shadow: 0 0.04in 0.1in rgba(0,0,0,.25); white-space: nowrap; }
@@ -126,17 +173,17 @@ body { width: ${TRIM_W}in; height: ${TRIM_H}in; }</style></head><body>
 <div class="bg" style="width:${TRIM_W}in;height:${TRIM_H}in"><div class="flag"><i></i><i></i><i></i></div>${front(0, 0)}</div></body></html>`;
 
 (async () => {
-  fs.writeFileSync(`book/cover-${lang}.html`, wrapHtml);
-  fs.writeFileSync(`book/cover-front-${lang}.html`, frontHtml);
+  fs.writeFileSync(`book/cover-${stem}.html`, wrapHtml);
+  fs.writeFileSync(`book/cover-front-${stem}.html`, frontHtml);
   const b = await chromium.launch();
   const p = await b.newPage();
-  await p.goto('file://' + path.resolve(`book/cover-${lang}.html`), { waitUntil: 'networkidle' });
+  await p.goto('file://' + path.resolve(`book/cover-${stem}.html`), { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
-  await p.pdf({ path: `book/cover-${lang}.pdf`, preferCSSPageSize: true, printBackground: true });
+  await p.pdf({ path: `book/cover-${stem}.pdf`, preferCSSPageSize: true, printBackground: true });
   const q = await b.newPage({ viewport: { width: Math.round(TRIM_W * 96), height: Math.round(TRIM_H * 96) }, deviceScaleFactor: 2.5 });
-  await q.goto('file://' + path.resolve(`book/cover-front-${lang}.html`), { waitUntil: 'networkidle' });
+  await q.goto('file://' + path.resolve(`book/cover-front-${stem}.html`), { waitUntil: 'networkidle' });
   await q.evaluate(() => document.fonts.ready);
-  await q.screenshot({ path: `book/cover-front-${lang}.png` });
+  await q.screenshot({ path: `book/cover-front-${stem}.png` });
   await b.close();
-  console.log(`cover-${lang}: ${pages} pages, spine ${SPINE} in, wrap ${W.toFixed(3)}×${H.toFixed(3)} in`);
+  console.log(`cover-${stem}: ${pages} pages, spine ${SPINE} in, wrap ${W.toFixed(3)}×${H.toFixed(3)} in`);
 })();

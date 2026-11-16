@@ -1,6 +1,6 @@
 /**
- * The printable textbook, built from the course itself: alphabet + A1 + A2 (Part 1).
- *   npx tsx scripts/book/build.ts ru|ua [pages.json]  → book/book-<lang>.html
+ * The printable textbook, built from the course itself: Part 1 (alphabet, A1, A2) and Part 2 (B1, B2).
+ *   npx tsx scripts/book/build.ts ru|ua 1|2 [pages.json]  → book/book-<lang>-<part>.html
  * scripts/book/render.js turns the HTML into a print-ready PDF (6.69×9.61 in, a KDP trim size).
  * pages.json (written by render.js) carries each lesson's page number for the contents.
  */
@@ -11,11 +11,12 @@ import { COURSE } from '../../src/content/course';
 import { GLOSSARY } from '../../src/content/glossary';
 import type { Exercise, Lang, Lesson, Word } from '../../src/content/types';
 import { reading } from '../../src/engine/phrases';
-import { wordsIn } from '../../src/engine/phrases';
+import { EXTRA_DICT } from './dictionary';
 
 const lang = (process.argv[2] ?? 'ru') as Lang;
-const pages: Record<string, number> = process.argv[3] && fs.existsSync(process.argv[3]) ? JSON.parse(fs.readFileSync(process.argv[3], 'utf8')) : {};
-const LEVELS = ['A0', 'A1', 'A2'];
+const part = process.argv[3] === '2' ? 2 : 1;
+const pages: Record<string, number> = process.argv[4] && fs.existsSync(process.argv[4]) ? JSON.parse(fs.readFileSync(process.argv[4], 'utf8')) : {};
+const LEVELS = part === 1 ? ['A0', 'A1', 'A2'] : ['B1', 'B2'];
 
 const T = {
   ru: {
@@ -91,6 +92,34 @@ const T = {
     app: 'Слухайте вимову й повторюйте слова в застосунку Română',
   },
 }[lang];
+if (part === 2) {
+  Object.assign(
+    T,
+    lang === 'ru'
+      ? {
+          subtitle: 'уровни B1 и B2',
+          part: 'Часть 2 · B1, B2',
+          how: [
+            'Вторая часть продолжает первую: уровни **B1** и **B2**. Здесь — прошедшее время во всех формах, условное и сослагательное наклонения, косвенная речь, сложные предложения, работа, документы, новости и культура.',
+            'Каждый урок открывают **слова** с подсказкой чтения, дальше — **«Запомните»**, **грамматика** и **упражнения**. Ответы — в разделе **«Ключи»** в конце книги.',
+            'В конце книги — **словарь** на 1000+ слов, общий для обеих частей.',
+            'Слушать произношение и проходить уроки как игру можно в приложении **Română** — в Google Play и на сайте romana-app-seven.vercel.app.',
+          ],
+          end: 'Поздравляем: вы прошли курс до уровня B2!',
+        }
+      : {
+          subtitle: 'рівні B1 і B2',
+          part: 'Частина 2 · B1, B2',
+          how: [
+            'Друга частина продовжує першу: рівні **B1** і **B2**. Тут — минулий час у всіх формах, умовний і умовно-бажальний способи, непряма мова, складні речення, робота, документи, новини й культура.',
+            'Кожен урок відкривають **слова** з підказкою читання, далі — **«Запам’ятайте»**, **граматика** й **вправи**. Відповіді — у розділі **«Ключі»** наприкінці книжки.',
+            'Наприкінці книжки — **словник** на 1000+ слів, спільний для обох частин.',
+            'Слухати вимову й проходити уроки як гру можна в застосунку **Română** — у Google Play і на сайті romana-app-seven.vercel.app.',
+          ],
+          end: 'Вітаємо: ви пройшли курс до рівня B2!',
+        },
+  );
+}
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const rich = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
@@ -240,10 +269,9 @@ const body: string[] = [];
 const toc: string[] = [];
 const allKeys: { lesson: string; title: string; keys: Key[] }[] = [];
 let lessonNo = 0;
-let a1 = 0;
-let a2 = 0;
+const perLevel: Record<string, number> = {};
 for (const u of units) {
-  const unitNo = u.level === 'A1' ? ++a1 : u.level === 'A2' ? ++a2 : 0;
+  const unitNo = u.level === 'A0' ? 0 : (perLevel[u.level] = (perLevel[u.level] ?? 0) + 1);
   const kicker = u.level === 'A0' ? T.start : `${u.level} · ${T.unit} ${unitNo}`;
   body.push(`<section class="unit" id="unit-${u.id}"><div class="ukicker">${esc(kicker)}</div><h1>${esc(u.title[lang])}</h1><div class="uro">${esc(u.ro)}</div><ol class="ulist">${u.lessons
     .filter((l) => l.lesson)
@@ -268,43 +296,16 @@ const keysHtml = `<section class="keys" id="keys"><span class="mark">§keys§</s
   .map((k) => `<div class="key"><b>${esc(k.lesson)}. ${esc(k.title)}</b>${k.keys.map((x) => `<div><span class="num s">${x.n}</span>${x.text}</div>`).join('')}</div>`)
   .join('')}</div></section>`;
 
-// Dictionary: every word form used in these lessons, by its dictionary form.
+// Dictionary, the same in both parts: every dictionary form in the glossary, plus the
+// infinitives and everyday words in ./dictionary.ts (which win where both have a word).
 const seen = new Map<string, [string, string]>();
-const phrasesOf = (ex: Exercise): string[] => {
-  switch (ex.kind) {
-    case 'intro':
-    case 'listen':
-      return [ex.ro];
-    case 'tip':
-      return ex.rows.map((r) => r.ro);
-    case 'pickNative':
-      return [ex.q];
-    case 'pickRo':
-      return [ex.correct];
-    case 'tiles':
-    case 'type':
-      return [ex.shown];
-    case 'match':
-      return ex.pairs.map((p) => p.ro);
-    case 'dialog':
-      return ex.lines.map((l) => l.ro);
-  }
-};
-for (const u of units)
-  for (const m of u.lessons)
-    for (const ex of m.lesson?.exercises ?? [])
-      for (const ph of phrasesOf(ex))
-        for (const w of wordsIn(ph)) {
-          const g = GLOSSARY[w.toLowerCase()];
-          if (!g || g[1] === 'name' || g[1] === 'syl') continue;
-          const base = g[0] || w.toLowerCase();
-          if (seen.has(base)) continue;
-          const own = GLOSSARY[base];
-          const ru = own ? own[2] : g[2];
-          const ua = own ? own[3] : g[3];
-          seen.set(base, [ru, ua]);
-        }
-const dictRows = [...seen.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ro'));
+for (const [k, g] of Object.entries(GLOSSARY)) {
+  if (g[0] !== '' || g[1] === 'name' || g[1] === 'syl' || k.includes(' + ')) continue;
+  seen.set(k, [g[2], g[3]]);
+}
+for (const [ro, ru, ua] of EXTRA_DICT) seen.set(ro, [ru, ua]);
+const sortKey = (w: string) => w.replace(/^a (se |-și )?/, '').replace(/^a-și /, '');
+const dictRows = [...seen.entries()].sort((a, b) => sortKey(a[0]).localeCompare(sortKey(b[0]), 'ro'));
 const dictHtml = `<section class="dict" id="dict"><span class="mark">§dict§</span><h1>${T.dict}</h1><p class="small">${T.dictNote}</p><div class="cols">${dictRows
   .map(([ro, tr]) => `<p><b class="ro">${esc(ro)}</b> — ${esc(lang === 'ru' ? tr[0] : tr[1])}</p>`)
   .join('')}</div><p class="end">${T.end}</p></section>`;
@@ -321,5 +322,5 @@ ${dictHtml}
 </body></html>`;
 
 fs.mkdirSync('book', { recursive: true });
-fs.writeFileSync(`book/book-${lang}.html`, html);
-console.log(`book/book-${lang}.html`, lessonNo, 'lessons,', dictRows.length, 'dictionary entries');
+fs.writeFileSync(`book/book-${lang}-${part}.html`, html);
+console.log(`book/book-${lang}-${part}.html`, lessonNo, 'lessons,', dictRows.length, 'dictionary entries');
