@@ -1,16 +1,19 @@
 import { Stack } from 'expo-router';
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { PhraseProvider } from '../components/PhraseSheet';
 import { RefTracker } from '../components/RefTracker';
 import { usePalette } from '../lib/theme';
+import { startWebAnalytics } from '../lib/webAnalytics';
 import { AuthProvider } from '../state/auth';
 import { PremiumProvider } from '../state/premium';
 import { ProgressProvider } from '../state/progress';
 
 export default function RootLayout() {
   const c = usePalette();
+  useEffect(startWebAnalytics, []);
   return (
     <SafeAreaProvider>
       <AuthProvider>

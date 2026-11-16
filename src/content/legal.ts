@@ -44,7 +44,7 @@ const ru: Legal = {
       {
         h: 'Чего мы не делаем',
         p: [
-          'Нет рекламы, нет рекламных трекеров и сторонней аналитики. Мы не продаём и не передаём ваши данные третьим лицам для маркетинга.',
+          'Нет рекламы и рекламных трекеров. Сайт считает посещения через Vercel Web Analytics — анонимно, без cookies и без личных данных: только адрес страницы, страна, тип устройства и откуда пришёл посетитель. В приложении такого счётчика нет. Мы не продаём и не передаём ваши данные третьим лицам для маркетинга.',
           'Озвучка румынских слов работает через синтезатор речи вашего устройства: текст не отправляется на наши серверы. Приложение не использует микрофон, камеру и геолокацию.',
         ],
       },
@@ -116,7 +116,7 @@ const ua: Legal = {
       {
         h: 'Чого ми не робимо',
         p: [
-          'Немає реклами, рекламних трекерів і сторонньої аналітики. Ми не продаємо й не передаємо ваші дані третім особам для маркетингу.',
+          'Немає реклами й рекламних трекерів. Сайт рахує відвідування через Vercel Web Analytics — анонімно, без cookies і без особистих даних: лише адреса сторінки, країна, тип пристрою і звідки прийшов відвідувач. У застосунку такого лічильника немає. Ми не продаємо й не передаємо ваші дані третім особам для маркетингу.',
           'Озвучення румунських слів працює через синтезатор мовлення вашого пристрою: текст не надсилається на наші сервери. Застосунок не використовує мікрофон, камеру й геолокацію.',
         ],
       },
@@ -189,7 +189,7 @@ const en: Legal = {
       {
         h: 'What we do not do',
         p: [
-          'No ads, no advertising trackers, no third-party analytics. We do not sell your data or share it with third parties for marketing.',
+          'No ads and no advertising trackers. The website counts visits with Vercel Web Analytics — anonymously, without cookies or personal data: only the page address, country, device type and where the visitor came from. The app has no such counter. We do not sell your data or share it with third parties for marketing.',
           'Romanian pronunciation uses your device’s own text-to-speech; the text is not sent to our servers. The app does not use the microphone, camera or location.',
         ],
       },
