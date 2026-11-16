@@ -3,6 +3,7 @@ import { u0l2 } from './lessons/u0l2';
 import { u0l3 } from './lessons/u0l3';
 import { u0l4 } from './lessons/u0l4';
 import { u0l5 } from './lessons/u0l5';
+import { u0l6 } from './lessons/u0l6';
 import { u1l1 } from './lessons/u1l1';
 import { u1l2 } from './lessons/u1l2';
 import { u1l3 } from './lessons/u1l3';
@@ -13,6 +14,7 @@ import { u2l2 } from './lessons/u2l2';
 import { u2l3 } from './lessons/u2l3';
 import { u2l4 } from './lessons/u2l4';
 import { u2l5 } from './lessons/u2l5';
+import { u2l6 } from './lessons/u2l6';
 import { u3l1 } from './lessons/u3l1';
 import { u3l2 } from './lessons/u3l2';
 import { u3l3 } from './lessons/u3l3';
@@ -28,11 +30,13 @@ import { u5l2 } from './lessons/u5l2';
 import { u5l3 } from './lessons/u5l3';
 import { u5l4 } from './lessons/u5l4';
 import { u5l5 } from './lessons/u5l5';
+import { u5l6 } from './lessons/u5l6';
 import { u6l1 } from './lessons/u6l1';
 import { u6l2 } from './lessons/u6l2';
 import { u6l3 } from './lessons/u6l3';
 import { u6l4 } from './lessons/u6l4';
 import { u6l5 } from './lessons/u6l5';
+import { u6l6 } from './lessons/u6l6';
 import { u7l1 } from './lessons/u7l1';
 import { u7l2 } from './lessons/u7l2';
 import { u7l3 } from './lessons/u7l3';
@@ -48,11 +52,13 @@ import { u9l2 } from './lessons/u9l2';
 import { u9l3 } from './lessons/u9l3';
 import { u9l4 } from './lessons/u9l4';
 import { u9l5 } from './lessons/u9l5';
+import { u9l6 } from './lessons/u9l6';
 import { u10l1 } from './lessons/u10l1';
 import { u10l2 } from './lessons/u10l2';
 import { u10l3 } from './lessons/u10l3';
 import { u10l4 } from './lessons/u10l4';
 import { u10l5 } from './lessons/u10l5';
+import { u10l6 } from './lessons/u10l6';
 import { u11l1 } from './lessons/u11l1';
 import { u11l2 } from './lessons/u11l2';
 import { u11l3 } from './lessons/u11l3';
@@ -142,6 +148,7 @@ export const COURSE: Unit[] = [
       { id: 'u0l3', title: u0l3.title, lesson: u0l3 },
       { id: 'u0l4', title: u0l4.title, lesson: u0l4 },
       { id: 'u0l5', title: u0l5.title, lesson: u0l5 },
+      { id: 'u0l6', title: u0l6.title, lesson: u0l6 },
     ],
   },
   {
@@ -168,6 +175,7 @@ export const COURSE: Unit[] = [
       { id: 'u2l3', title: u2l3.title, lesson: u2l3 },
       { id: 'u2l4', title: u2l4.title, lesson: u2l4 },
       { id: 'u2l5', title: u2l5.title, lesson: u2l5 },
+      { id: 'u2l6', title: u2l6.title, lesson: u2l6 },
     ],
   },
   {
@@ -207,6 +215,7 @@ export const COURSE: Unit[] = [
       { id: 'u5l3', title: u5l3.title, lesson: u5l3 },
       { id: 'u5l4', title: u5l4.title, lesson: u5l4 },
       { id: 'u5l5', title: u5l5.title, lesson: u5l5 },
+      { id: 'u5l6', title: u5l6.title, lesson: u5l6 },
     ],
   },
   {
@@ -220,6 +229,7 @@ export const COURSE: Unit[] = [
       { id: 'u6l3', title: u6l3.title, lesson: u6l3 },
       { id: 'u6l4', title: u6l4.title, lesson: u6l4 },
       { id: 'u6l5', title: u6l5.title, lesson: u6l5 },
+      { id: 'u6l6', title: u6l6.title, lesson: u6l6 },
     ],
   },
   {
@@ -259,6 +269,7 @@ export const COURSE: Unit[] = [
       { id: 'u9l3', title: u9l3.title, lesson: u9l3 },
       { id: 'u9l4', title: u9l4.title, lesson: u9l4 },
       { id: 'u9l5', title: u9l5.title, lesson: u9l5 },
+      { id: 'u9l6', title: u9l6.title, lesson: u9l6 },
     ],
   },
   {
@@ -272,6 +283,7 @@ export const COURSE: Unit[] = [
       { id: 'u10l3', title: u10l3.title, lesson: u10l3 },
       { id: 'u10l4', title: u10l4.title, lesson: u10l4 },
       { id: 'u10l5', title: u10l5.title, lesson: u10l5 },
+      { id: 'u10l6', title: u10l6.title, lesson: u10l6 },
     ],
   },
   {
