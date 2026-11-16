@@ -25,7 +25,15 @@ export type Exercise =
   /** Match Romanian words with their translations. */
   | { kind: 'match'; pairs: Word[] }
   /** Type the Romanian translation. Any of `answers` is accepted. */
-  | { kind: 'type'; q: Bi; answers: string[]; shown: string };
+  | { kind: 'type'; q: Bi; answers: string[]; shown: string }
+  /**
+   * A short dialogue to read: each line can be heard and its translation shown on tap.
+   * Not graded; the questions about it follow as ordinary exercises.
+   */
+  | { kind: 'dialog'; title: Bi; lines: DialogLine[] };
+
+/** One line of a dialogue; `who` is a short name or role, the same in both languages. */
+export type DialogLine = { who: string; ro: string; tr: Bi };
 
 export type Lesson = {
   id: string;

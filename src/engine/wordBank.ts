@@ -29,6 +29,8 @@ function romanianPhrases(ex: Exercise): string[] {
       return ex.pairs.map((p) => p.ro);
     case 'type':
       return [ex.shown];
+    case 'dialog':
+      return ex.lines.map((l) => l.ro);
   }
 }
 

@@ -112,6 +112,22 @@ export const u5l6: Lesson = {
       ],
     },
     {
+      kind: 'dialog',
+      title: { ru: 'Какой сегодня день?', ua: 'Який сьогодні день?' },
+      lines: [
+        { who: 'Ion', ro: 'Ce dată e azi?', tr: { ru: 'Какое сегодня число?', ua: 'Яке сьогодні число?' } },
+        { who: 'Maria', ro: 'Azi e opt martie.', tr: { ru: 'Сегодня восьмое марта.', ua: 'Сьогодні восьме березня.' } },
+        { who: 'Ion', ro: 'Opt martie? La mulți ani!', tr: { ru: 'Восьмое марта? С праздником!', ua: 'Восьме березня? Зі святом!' } },
+        { who: 'Maria', ro: 'Mulțumesc!', tr: { ru: 'Спасибо!', ua: 'Дякую!' } },
+      ],
+    },
+    {
+      kind: 'pickRo',
+      q: { ru: 'Какое число в диалоге?', ua: 'Яке число в діалозі?' },
+      correct: 'opt martie',
+      wrong: ['opt mai', 'întâi martie', 'zece martie'],
+    },
+    {
       kind: 'tiles',
       q: { ru: 'Мой день рождения — восьмого марта.', ua: 'Мій день народження — восьмого березня.' },
       words: ['Ziua', 'mea', 'de', 'naștere', 'e', 'pe', 'opt', 'martie'],

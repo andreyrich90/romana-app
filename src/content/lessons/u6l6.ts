@@ -115,6 +115,22 @@ export const u6l6: Lesson = {
       shown: 'Telefonul meu este negru.',
     },
     {
+      kind: 'dialog',
+      title: { ru: 'В магазине', ua: 'У магазині' },
+      lines: [
+        { who: 'Vânzătoarea', ro: 'Bună ziua! Ce doriți?', tr: { ru: 'Здравствуйте! Что желаете?', ua: 'Добрий день! Що бажаєте?' } },
+        { who: 'Andrei', ro: 'O geantă, vă rog.', tr: { ru: 'Сумку, пожалуйста.', ua: 'Сумку, будь ласка.' } },
+        { who: 'Vânzătoarea', ro: 'Ce culoare?', tr: { ru: 'Какого цвета?', ua: 'Якого кольору?' } },
+        { who: 'Andrei', ro: 'Neagră sau maro.', tr: { ru: 'Чёрную или коричневую.', ua: 'Чорну або коричневу.' } },
+      ],
+    },
+    {
+      kind: 'pickRo',
+      q: { ru: 'Какую сумку хочет Андрей?', ua: 'Яку сумку хоче Андрій?' },
+      correct: 'neagră sau maro',
+      wrong: ['albă sau gri', 'roșie', 'verde sau galbenă'],
+    },
+    {
       kind: 'type',
       q: { ru: 'Какого цвета?', ua: 'Якого кольору?' },
       answers: ['Ce culoare are?'],

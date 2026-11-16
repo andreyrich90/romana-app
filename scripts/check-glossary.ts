@@ -26,6 +26,8 @@ function tappable(ex: Exercise): string[] {
       return [ex.shown];
     case 'match':
       return [];
+    case 'dialog':
+      return ex.lines.map((l) => l.ro);
   }
 }
 

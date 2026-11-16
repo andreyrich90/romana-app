@@ -114,6 +114,26 @@ export const u0l6: Lesson = {
       wrong: ['iarnă', 'seară', 'bani'],
     },
     {
+      kind: 'dialog',
+      title: { ru: 'Вечером на улице', ua: 'Увечері на вулиці' },
+      lines: [
+        { who: 'Ana', ro: 'Bună seara!', tr: { ru: 'Добрый вечер!', ua: 'Добрий вечір!' } },
+        { who: 'Ion', ro: 'Bună seara! Unde e școala?', tr: { ru: 'Добрый вечер! Где школа?', ua: 'Добрий вечір! Де школа?' } },
+        { who: 'Ana', ro: 'Școala e acolo.', tr: { ru: 'Школа там.', ua: 'Школа там.' } },
+        { who: 'Ion', ro: 'Mulțumesc!', tr: { ru: 'Спасибо!', ua: 'Дякую!' } },
+      ],
+    },
+    {
+      kind: 'pickNative',
+      q: 'Școala e acolo.',
+      correct: { ru: 'Школа там.', ua: 'Школа там.' },
+      wrong: [
+        { ru: 'Школа здесь.', ua: 'Школа тут.' },
+        { ru: 'Где школа?', ua: 'Де школа?' },
+        { ru: 'Школа закрыта.', ua: 'Школа зачинена.' },
+      ],
+    },
+    {
       kind: 'tiles',
       q: { ru: 'Вчера вечером в школе.', ua: 'Учора ввечері в школі.' },
       words: ['Ieri', 'seară', 'la', 'școală'],

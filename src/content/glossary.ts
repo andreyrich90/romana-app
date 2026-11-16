@@ -2065,6 +2065,7 @@ export const GLOSSARY: Record<string, GlossEntry> = {
   'inima': ['inimă', 'n', 'сердце', 'серце'],
   'pielea': ['piele', 'n', 'кожа', 'шкіра'],
   'dureri': ['durere', 'n', 'боли', 'болі'],
+  'întâmplat': ['a se întâmpla', 'v', 'случилось (s-a întâmplat)', 'сталося (s-a întâmplat)'],
 };
 
 // A key named like an Object.prototype member cannot sit in the literal; set it here.

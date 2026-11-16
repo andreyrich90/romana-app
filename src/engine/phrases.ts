@@ -49,6 +49,9 @@ function build(): Map<string, PhraseInfo> {
         case 'match':
           for (const p of ex.pairs) add(p.ro, p.tr);
           break;
+        case 'dialog':
+          for (const l of ex.lines) add(l.ro, l.tr);
+          break;
         case 'tip':
           for (const r of ex.rows) {
             const ru = r.tr.ru.match(SAY);

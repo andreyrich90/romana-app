@@ -117,6 +117,22 @@ export const u10l6: Lesson = {
       wrong: ['M-am tăiat la genunchi.', 'M-am lovit la umăr.', 'Mă doare genunchiul.'],
     },
     {
+      kind: 'dialog',
+      title: { ru: 'У врача', ua: 'У лікаря' },
+      lines: [
+        { who: 'Doctorul', ro: 'Ce s-a întâmplat?', tr: { ru: 'Что случилось?', ua: 'Що сталося?' } },
+        { who: 'Pacientul', ro: 'M-am lovit la genunchi.', tr: { ru: 'Я ударился коленом.', ua: 'Я вдарився коліном.' } },
+        { who: 'Doctorul', ro: 'Vă doare?', tr: { ru: 'Вам больно?', ua: 'Вам болить?' } },
+        { who: 'Pacientul', ro: 'Da, mă doare foarte tare.', tr: { ru: 'Да, очень сильно болит.', ua: 'Так, дуже сильно болить.' } },
+      ],
+    },
+    {
+      kind: 'pickRo',
+      q: { ru: 'Что болит у пациента?', ua: 'Що болить у пацієнта?' },
+      correct: 'genunchiul',
+      wrong: ['umărul', 'degetul', 'capul'],
+    },
+    {
       kind: 'tiles',
       q: { ru: 'У меня болят пальцы.', ua: 'У мене болять пальці.' },
       words: ['Mă', 'dor', 'degetele'],

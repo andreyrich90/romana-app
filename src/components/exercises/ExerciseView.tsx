@@ -59,7 +59,50 @@ export function ExerciseView(props: Props) {
       return <Match {...props} ex={props.ex} />;
     case 'type':
       return <Typed {...props} ex={props.ex} />;
+    case 'dialog':
+      return <Dialog {...props} ex={props.ex} />;
   }
+}
+
+/** A dialogue to read: tap a line for its translation, the speaker button reads it aloud. */
+function Dialog({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'dialog' }> }) {
+  const c = usePalette();
+  const [shown, setShown] = useState(false);
+  const who = useMemo(() => [...new Set(ex.lines.map((l) => l.who))], [ex.lines]);
+  return (
+    <View style={s.gap}>
+      <Label>{t.dialog}</Label>
+      <Title>{ex.title[lang]}</Title>
+      <Text style={[s.note, { color: c.muted }]}>{t.dialogHint}</Text>
+      <View style={{ gap: 10 }}>
+        {ex.lines.map((l, i) => {
+          const second = who.indexOf(l.who) % 2 === 1;
+          return (
+            <View
+              key={i}
+              style={[
+                s.line,
+                second ? s.bubbleRight : s.bubbleLeft,
+                { backgroundColor: second ? c.blueSoft : c.surface, borderColor: second ? c.blue : c.line },
+              ]}
+            >
+              <Text style={[s.who, { color: c.muted }]}>{l.who}</Text>
+              <View style={s.bubbleRow}>
+                <SpeakButton text={l.ro} size={36} />
+                <TapText style={[s.bubbleRo, { color: c.ink }]} tr={l.tr}>
+                  {l.ro}
+                </TapText>
+              </View>
+              {shown && <Text style={[s.bubbleTr, { color: c.muted }]}>{l.tr[lang]}</Text>}
+            </View>
+          );
+        })}
+      </View>
+      <Pressable onPress={() => setShown((v) => !v)} hitSlop={8} style={{ alignSelf: 'center' }}>
+        <Text style={[s.ghost, { color: c.muted }]}>{shown ? t.dialogHide : t.dialogShow}</Text>
+      </Pressable>
+    </View>
+  );
 }
 
 function Intro({ ex, lang, t }: Props & { ex: Extract<Exercise, { kind: 'intro' }> }) {
@@ -418,6 +461,13 @@ const s = StyleSheet.create({
   listen: { flexDirection: 'row', alignItems: 'flex-end', gap: 14 },
   ghost: { fontSize: 13, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
   options: { gap: 10 },
+  line: { borderWidth: 2, borderRadius: 16, padding: 12, gap: 6, maxWidth: '92%' },
+  bubbleLeft: { alignSelf: 'flex-start' },
+  bubbleRight: { alignSelf: 'flex-end' },
+  bubbleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  bubbleRo: { fontSize: 18, fontWeight: '700', flexShrink: 1 },
+  bubbleTr: { fontSize: 15, lineHeight: 21 },
+  who: { fontSize: 12, fontWeight: '800', letterSpacing: 0.6, textTransform: 'uppercase' },
   option: { alignItems: 'stretch' },
   optionInner: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   num: { borderWidth: 2, borderRadius: 7, width: 28, height: 28, textAlign: 'center', lineHeight: 24, fontSize: 12, fontWeight: '700' },

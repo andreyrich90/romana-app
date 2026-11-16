@@ -113,6 +113,26 @@ export const u9l6: Lesson = {
       wrong: ['Și eu.', 'Nici tu.', 'Nici el.'],
     },
     {
+      kind: 'dialog',
+      title: { ru: 'Дома вечером', ua: 'Удома ввечері' },
+      lines: [
+        { who: 'Mama', ro: 'Cine a sunat?', tr: { ru: 'Кто звонил?', ua: 'Хто дзвонив?' } },
+        { who: 'Andrei', ro: 'Nimeni.', tr: { ru: 'Никто.', ua: 'Ніхто.' } },
+        { who: 'Mama', ro: 'Și ce faci?', tr: { ru: 'А что ты делаешь?', ua: 'А що ти робиш?' } },
+        { who: 'Andrei', ro: 'Nimic. Nu fac nimic.', tr: { ru: 'Ничего. Я ничего не делаю.', ua: 'Нічого. Я нічого не роблю.' } },
+      ],
+    },
+    {
+      kind: 'pickNative',
+      q: 'Nu fac nimic.',
+      correct: { ru: 'Я ничего не делаю.', ua: 'Я нічого не роблю.' },
+      wrong: [
+        { ru: 'Я никого не вижу.', ua: 'Я нікого не бачу.' },
+        { ru: 'Я никогда не делаю.', ua: 'Я ніколи не роблю.' },
+        { ru: 'Я делаю всё.', ua: 'Я роблю все.' },
+      ],
+    },
+    {
       kind: 'tiles',
       q: { ru: 'Я никогда не опаздываю.', ua: 'Я ніколи не запізнююся.' },
       words: ['Nu', 'întârzii', 'niciodată'],

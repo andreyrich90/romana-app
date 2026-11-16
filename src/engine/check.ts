@@ -77,7 +77,7 @@ export function check(ex: Exercise, answer: Answer, lang: Lang): Verdict {
     case 'type':
       return { ...checkTyped(String(answer), ex.answers), answer: ex.shown, say: ex.shown };
     default:
-      // intro, tip and match are not checked against an answer.
+      // intro, tip, dialog and match are not checked against an answer.
       return { ok: true, answer: '' };
   }
 }
@@ -88,5 +88,5 @@ export function reveal(ex: Exercise, lang: Lang): Verdict {
 }
 
 export function isGraded(ex: Exercise): boolean {
-  return ex.kind !== 'intro' && ex.kind !== 'tip';
+  return ex.kind !== 'intro' && ex.kind !== 'tip' && ex.kind !== 'dialog';
 }

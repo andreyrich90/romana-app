@@ -114,6 +114,22 @@ export const u2l6: Lesson = {
       wrong: ['părinții', 'copiii', 'prietenii'],
     },
     {
+      kind: 'dialog',
+      title: { ru: 'Кто это?', ua: 'Хто це?' },
+      lines: [
+        { who: 'Ana', ro: 'El este soțul tău?', tr: { ru: 'Это твой муж?', ua: 'Це твій чоловік?' } },
+        { who: 'Elena', ro: 'Nu, el este vărul meu, Mihai.', tr: { ru: 'Нет, это мой двоюродный брат Михай.', ua: 'Ні, це мій двоюрідний брат Міхай.' } },
+        { who: 'Ana', ro: 'Și ea cine este?', tr: { ru: 'А она кто?', ua: 'А вона хто?' } },
+        { who: 'Elena', ro: 'Ea este mătușa mea.', tr: { ru: 'Это моя тётя.', ua: 'Це моя тітка.' } },
+      ],
+    },
+    {
+      kind: 'pickRo',
+      q: { ru: 'Кто Михай для Елены?', ua: 'Хто Міхай для Олени?' },
+      correct: 'vărul ei',
+      wrong: ['soțul ei', 'unchiul ei', 'fratele ei'],
+    },
+    {
       kind: 'type',
       q: { ru: 'мой муж', ua: 'мій чоловік' },
       answers: ['soțul meu'],
