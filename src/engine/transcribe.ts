@@ -69,8 +69,14 @@ function word(w: string, lang: Lang): string {
       }
       if (next === 'e' || next === 'i') {
         out += soft;
-        // cea, cia, ciu, geo…: the e / i only softens and is not heard.
+        // cea, cia, ciu, geo…: the e / i only softens and is not heard —
+        // except a word-final -cia / -gia, where the i is a syllable: farmacia «фармачия».
         const after = w[i + 2];
+        if (next === 'i' && after === 'a' && i + 3 === w.length) {
+          out += `${I}я`;
+          i += 2;
+          continue;
+        }
         if (after && 'aou'.includes(after)) i += 1;
         else if (next === 'i' && i + 2 === w.length && vowelCount > 1) {
           out += 'ь';
@@ -121,7 +127,10 @@ function word(w: string, lang: Lang): string {
         continue;
       }
       if (next === 'a') {
-        out += `${I}я`;
+        // Inside a word ia after a consonant is one syllable (piață «пяцэ», viață «вяцэ»);
+        // at the end it is two (familia «фамилия», România).
+        if (i + 2 < w.length) out += ua && 'bpvfm'.includes(prev ?? '') ? '’я' : 'я';
+        else out += `${I}я`;
         i += 1;
         continue;
       }

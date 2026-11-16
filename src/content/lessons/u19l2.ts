@@ -26,7 +26,7 @@ export const u19l2: Lesson = {
       tr: { ru: 'Мы уже сделали покупки.', ua: 'Ми вже зробили покупки.' },
       note: {
         ru: 'făcut → făcuserăm. cumpărăturile ≈ «кумпэрэтуриле» — покупки.',
-        ua: 'făcut → făcuserăm. cumpărăturile ≈ «кумпэретуріле» — покупки.',
+        ua: 'făcut → făcuserăm. cumpărăturile ≈ «кумперетуріле» — покупки.',
       },
     },
     {
